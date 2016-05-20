@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using System.Data.Entity;
 
 namespace EDCWebApp.Models
 {
@@ -24,7 +25,10 @@ namespace EDCWebApp.Models
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
-        
+        static ApplicationDbContext()
+        {
+            Database.SetInitializer<ApplicationDbContext>(new ApplicationDbInitializer());
+        }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

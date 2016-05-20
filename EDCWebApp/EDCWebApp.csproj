@@ -216,14 +216,34 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HtmlActionResult.cs" />
+    <Compile Include="DAL\EDCLoginUserContext.cs" />
+    <Compile Include="DAL\IEDCLoginUserContext.cs" />
     <Compile Include="Extensions\EDCOwinContextExtension.cs" />
     <Compile Include="Filters\RequireHttpsAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605202033588_Initial.cs" />
+    <Compile Include="Migrations\201605202033588_Initial.Designer.cs">
+      <DependentUpon>201605202033588_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605202308166_AddTeacherEntity.cs" />
+    <Compile Include="Migrations\201605202308166_AddTeacherEntity.Designer.cs">
+      <DependentUpon>201605202308166_AddTeacherEntity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\EDCLearnRequest.cs" />
+    <Compile Include="Models\EDCScenarioContent.cs" />
+    <Compile Include="Models\EDCScenarioImage.cs" />
+    <Compile Include="Models\EDCStudent.cs" />
+    <Compile Include="Models\EDCTeacher.cs" />
+    <Compile Include="Models\EDCWord.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\EDCPhrase.cs" />
+    <Compile Include="Models\EDCQuote.cs" />
+    <Compile Include="Models\EDCPhraseExample.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
@@ -296,6 +316,14 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201605202033588_Initial.resx">
+      <DependentUpon>201605202033588_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605202308166_AddTeacherEntity.resx">
+      <DependentUpon>201605202308166_AddTeacherEntity.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
