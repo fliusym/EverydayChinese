@@ -16,6 +16,7 @@ using Microsoft.Owin.Security.OAuth;
 using EDCWebApp.Models;
 using EDCWebApp.Providers;
 using EDCWebApp.Results;
+using EDCWebApp.Extensions;
 
 namespace EDCWebApp.Controllers
 {
@@ -331,6 +332,115 @@ namespace EDCWebApp.Controllers
             var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+            //add emai confirmation
+            //add email confirmation
+            string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+            code = HttpUtility.UrlEncode(code);
+            var callbackUrl = this.Url.Link("DefaultApi", new { Controller = "Account/ConfirmEmail", userId = user.Id, code = code });
+            await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+            return Ok(new
+            {
+                email = model.Email,
+                UserId = user.Id,
+                Code = code
+            });
+           
+        }
+        [AllowAnonymous]
+        [Route("ConfirmEmail")]
+        [HttpGet]
+        public async Task<IHttpActionResult> ConfirmEmail(string userId, string code)
+        {
+            if (userId == null || code == null)
+            {
+                return BadRequest("The User ID is not correct");
+            }
+            code = HttpUtility.UrlDecode(code);
+            var result = await UserManager.ConfirmEmailAsync(userId, code);
+            if (result.Succeeded)
+            {
+                //add role student
+                HttpContext.Current.GetOwinContext().AddUserRole(userId, "Student");
+                var baseUrl = Request.RequestUri.GetLeftPart(UriPartial.Authority);
+                var loginUrl = baseUrl + "/#/login";
+                string viewPath = HttpContext.Current.Server.MapPath(@"~/Views/Home/EmailConfirmed.cshtml");
+                var model = new { LoginUrl = loginUrl };
+                return new HtmlActionResult(viewPath, model);
+            }
+            else
+            {
+                return GetErrorResult(result);
+            }
+        }
+        [AllowAnonymous]
+        [Route("ForgotPassword")]
+        [HttpPost]
+        public async Task<IHttpActionResult> ForgotPassword(ForgotPasswordBindingModel model)
+        {
+            var user = await UserManager.FindByNameAsync(model.UserEmail);
+            if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+            {
+                return BadRequest("The user doesn't exist");
+            }
+            string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+            code = HttpUtility.UrlEncode(code);
+            var callbackUrl = this.Url.Link("DefaultApi", new { Controller = "Account/ResetPasswordPre", userEmail = model.UserEmail, code = code });
+            await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+            return Ok(new
+            {
+                UserEmail = model.UserEmail,
+                UserId = user.Id,
+                Code = code
+            });
+        }
+
+        [AllowAnonymous]
+        [Route("ResetPasswordPre")]
+        [HttpGet]
+        public async Task<IHttpActionResult> ResetPasswordPre(string userEmail, string code)
+        {
+            if (userEmail == null || code == null)
+            {
+                return BadRequest("The User is not correct");
+            }
+            var user = await UserManager.FindByNameAsync(userEmail);
+
+            if (user != null)
+            {
+                //code = HttpUtility.UrlDecode(code);
+                var baseUrl = Request.RequestUri.GetLeftPart(UriPartial.Authority);
+                var resetUrl = baseUrl + "/#/resetpassword" + "?userEmail=" + userEmail + "&code=" + code;
+                string viewPath = HttpContext.Current.Server.MapPath(@"~/Views/Home/ResetPassword.cshtml");
+                var model = new { ResetUrl = resetUrl };
+                return new HtmlActionResult(viewPath, model);
+            }
+            else
+            {
+                return BadRequest("The User is not existed");
+            }
+        }
+
+        [AllowAnonymous]
+        [Route("ResetPassword")]
+        [HttpPost]
+        public async Task<IHttpActionResult> ResetPassword(ResetPasswordBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var user = await UserManager.FindByNameAsync(model.Email);
+            if (user == null)
+            {
+                return BadRequest("User is not found.");
+            }
+
+            IdentityResult result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.NewPassword);
 
             if (!result.Succeeded)
             {

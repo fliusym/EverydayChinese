@@ -25,6 +25,7 @@ namespace EDCWebApp
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+            config.Filters.Add(new EDCWebApp.Filters.RequireHttpsAttribute());
         }
     }
 }
