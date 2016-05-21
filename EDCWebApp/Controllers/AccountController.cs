@@ -52,6 +52,20 @@ namespace EDCWebApp.Controllers
 
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
 
+        //GET api/Account/IsTeacher
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("IsTeacher")]
+        public object IsTeacher()
+        {
+            var principal = RequestContext.Principal;
+            if (principal != null && principal.IsInRole("Teacher"))
+            {
+                return new { result = true };
+            }
+            return new { result = false };
+        }
+
         // GET api/Account/UserInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]
@@ -326,7 +340,10 @@ namespace EDCWebApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                var message = "There is something wrong with the input";
+                var exception = EDCWebApp.Exceptions.ExceptionFactory.CreateEDCWebServiceException(message, EDCWebApp.Exceptions.EDCWebServiceErrorType.Error);
+                throw exception;
+            //    return BadRequest(ModelState);
             }
 
             var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };

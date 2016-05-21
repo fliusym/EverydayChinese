@@ -1,0 +1,1 @@
+﻿angular.module('learnChineseApp.service', ['ngResource', 'ngAnimate', 'ui.bootstrap']);

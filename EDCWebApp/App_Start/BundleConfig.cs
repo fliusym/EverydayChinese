@@ -23,6 +23,18 @@ namespace EDCWebApp
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/angularjs").Include(
+                     "~/Scripts/angular.js",
+                     "~/Scripts/angular-sanitize.js",
+                     "~/Scripts/angular-route.js",
+                     "~/Scripts/angular-resource.js",
+                     "~/Scripts/angular-messages.js",
+                     "~/Scripts/angular-animate.js",
+                     "~/Scripts/angular-touch.js",
+                     "~/Scripts/angular-ui/ui-bootstrap.min.js",
+                     "~/Scripts/angular-ui/ui-bootstrap-tpls.min.js"));
+
         }
     }
 }

@@ -1,6 +1,11 @@
-﻿body {
+﻿html{
+    position:relative;
+    min-height:100%;
+}
+body {
     padding-top: 50px;
-    padding-bottom: 20px;
+    /*padding-bottom: 20px;*/
+    margin-bottom:70px;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -14,4 +19,157 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+.footer{
+    position:absolute;
+    bottom: 0;
+    width:100%;
+    height: 60px;
+    background-color:#f5f5f5;
+}
+.footer > .container{
+    padding-right:15px;
+    padding-left:15px;
+}
+svg{
+    border-style:solid;
+    border-width:2px
+}
+.top_buffer{
+    margin-top:10px;
+}
+.span-fixed-160{
+    float:left;
+    width:160px;
+}
+
+cite{
+    font-style:italic;
+    color:#999999;
+}
+/*img{
+
+}*/
+.img-border{
+   padding:1px;
+   border:1px solid #021a40;
+}
+.clitem{
+    border:1px solid;
+    border-color:rgba(0,0,0,0.1);
+    background-color:#fefbfa;
+    margin-left:8px;
+    margin-right:8px;
+    padding-top:6px;
+    padding-bottom:6px;
+    position:relative;
+}
+.hoverrow{
+    display:none;
+    position:absolute;
+}
+
+.clitem:hover .hoverrow{
+    display:block;
+    position:absolute;
+}
+#everyday:hover .hoverrow{
+    display:block;
+    position:absolute;
+}
+#everyday:active .hoverrow{
+    display:none;
+    position:absolute;
+}
+.btn-circle{
+    width:30px;
+    height:30px;
+    text-align:center;
+    padding:6px 0;
+    font-size:12px;
+    line-height:1.428571429;
+    border-radius:50%;
+    background-color:lightgray;
+}
+.word-basic-dt{
+    font-size:20px;
+}
+.english-small{
+    color:rgba(0,0,0,0.3);
+    font-size:60%;
+}
+.word-basic-dd{
+    margin-top:5px;
+}
+.word-basic-row{
+    margin-left:5px;
+}
+.small-transparent{
+    color:rgba(0,0,0,0.3);
+}
+.item-center{
+    width:50%;
+    margin:0 auto;
+}
+.learnRequest-canvas{
+    border-style:solid;
+    border-width:4px;
+    border-color:black;
+    /*width:500px;
+    height:300px;*/
+}
+.learnRequest-teacher-not-logged{
+    position:absolute;
+    top:50%;
+    left:50%;
+    margin-top:-50px;
+    margin-left:-50px;
+    width:100px;
+    height:100px;
+}
+.panel-heading .accordion-toggle:after {
+    /* symbol for "opening" panels */
+    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+    content: "\e114";    /* adjust as needed, taken from bootstrap.css */
+    float: right;        /* adjust as needed */
+    color: grey;         /* adjust as needed */
+}
+.panel-heading .accordion-toggle.collapsed:after {
+    /* symbol for "collapsed" panels */
+    content: "\e080";    /* adjust as needed, taken from bootstrap.css */
+}
+.line-seperator{
+    height:1px;
+    background:#717171;
+    border-bottom:1px solid #313030;
+}
+.addLearnRequest-border{
+    border:2px solid #73AD21;
+    background:url(addLearnRequestBg.gif);
+    background-position:left top;
+    background-repeat:repeat;
+    width:250px;
+    height:300px;
+    margin:5px 5px 5px 5px;
+}
+.addLearnRequest-margin{
+    margin-left:30px;
+}
+.addLearnRequest-p-font{
+    font-size:16px;
+    color:#538b01;
+    font-weight:bold;
+}
+.btn-xlarge {
+    padding: 18px 88px;
+    font-size: 22px;
+    line-height: normal;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    margin-bottom:66px;
+}
+#addCharacter .ng-hide{
+    display:block!important;
+    visibility:hidden;
 }
