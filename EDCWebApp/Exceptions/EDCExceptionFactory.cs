@@ -7,7 +7,7 @@ using System.Web.Http;
 
 namespace EDCWebApp.Exceptions
 {
-    public static class ExceptionFactory
+    public static class EDCExceptionFactory
     {
 
         public static EDCWebServiceException CreateEDCWebServiceException(string message, EDCWebServiceErrorType type)

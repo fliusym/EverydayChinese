@@ -18,8 +18,9 @@
             return str.join("&");
         }
     }
-}]).factory('convertTimeFactory', [function () {
+}]).factory('timeFactory', [function () {
     'use strict';
+    var curDate;
     return {
         //convert: function (timeString) {
         //    var time = new Date();
@@ -53,6 +54,12 @@
                 var splits = str.split('-');
                 return splits[0].slice(0, -1);
             }
+        },
+        setCurrentDate: function (date) {
+            curDate = date;
+        },
+        getCurrentDate: function () {
+            return curDate;
         }
     }
 }]);
