@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using EDCWebApp.Models;
 using EDCWebApp.DAL;
+using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace EDCWebApp.Extensions
 {
@@ -110,6 +112,18 @@ namespace EDCWebApp.Extensions
             {
                 Images = images
             };
+        }
+
+        public static async Task AssignTeacherToLearnRequest(this IEDCLoginUserContext context, EDCLearnRequest learnRequest, string teacherName)
+        {
+            if (context != null && learnRequest != null)
+            {
+                var teacher = await context.Teachers.Where(p => p.TeacherName == teacherName).SingleOrDefaultAsync();
+                if (teacher != null)
+                {
+                    teacher.LearnRequests.Add(learnRequest);
+                }
+            }
         }
     }
 }

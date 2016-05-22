@@ -11,6 +11,7 @@ using EDCWebApp.Exceptions;
 using System.Data.Entity;
 using EDCWebApp.Models;
 using EDCWebApp.Extensions;
+using EDCWebApp.Utilities;
 
 namespace EDCWebApp.Controllers
 {
@@ -34,14 +35,15 @@ namespace EDCWebApp.Controllers
                 var exception = EDCExceptionFactory.CreateEDCWebServiceException(msg, EDCWebServiceErrorType.Error, HttpStatusCode.BadRequest);
                 throw exception;
             }
-            var dateObj = DateTime.Parse(date);
-            if (dateObj == null)
+            string d;
+            TimeConversionUtils.GetDate(date, out d);
+            if (d == null)
             {
-                var msg = "The input date is empty.";
+                var msg = "The input date is not valid.";
                 var exception = EDCExceptionFactory.CreateEDCWebServiceException(msg, EDCWebServiceErrorType.Error, HttpStatusCode.BadRequest);
                 throw exception;
             }
-            var d = dateObj.ToShortDateString();
+            
 
             var word = await db.Words
                 .Include(p => p.Phrases.Select(x => x.Examples))

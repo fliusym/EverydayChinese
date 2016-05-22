@@ -217,6 +217,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HtmlActionResult.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
+    <Compile Include="Controllers\TeachersController.cs" />
     <Compile Include="Controllers\WordsController.cs" />
     <Compile Include="DAL\EDCLoginUserContext.cs" />
     <Compile Include="DAL\IEDCLoginUserContext.cs" />
@@ -240,6 +241,8 @@
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\EDCLearnRequest.cs" />
+    <Compile Include="Models\EDCLearnRequestBinderProvider.cs" />
+    <Compile Include="Models\EDCLearnRequestBindingModels.cs" />
     <Compile Include="Models\EDCLearnRequestDTO.cs" />
     <Compile Include="Models\EDCScenarioContent.cs" />
     <Compile Include="Models\EDCScenarioContentDTO.cs" />
@@ -247,6 +250,7 @@
     <Compile Include="Models\EDCStudent.cs" />
     <Compile Include="Models\EDCStudentDTO.cs" />
     <Compile Include="Models\EDCTeacher.cs" />
+    <Compile Include="Models\EDCTeacherDTO.cs" />
     <Compile Include="Models\EDCWord.cs" />
     <Compile Include="Models\EDCWordDTO.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -257,6 +261,7 @@
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utilities\TimeConversionUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
