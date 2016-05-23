@@ -38,8 +38,9 @@ namespace EDCWebApp.Controllers
             if (student == null)
             {
                 var msg = "Couldn't find the student.";
-                var exception = EDCExceptionFactory.CreateEDCWebServiceException(msg, EDCWebServiceErrorType.Error, HttpStatusCode.NotFound);
-                throw exception;
+                var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
+                var response = Request.CreateErrorResponse(HttpStatusCode.BadRequest, modelError);
+                throw new HttpResponseException(response);
             }
             var learnRequests = new List<EDCLearnRequestDTO>();
             foreach (var l in student.LearnRequests)
@@ -80,8 +81,9 @@ namespace EDCWebApp.Controllers
             if (user == null)
             {
                 var msg = "The user can't be found.";
-                var exception = EDCExceptionFactory.CreateEDCWebServiceException(msg, EDCWebServiceErrorType.Error, HttpStatusCode.NotFound);
-                throw exception;
+                var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
+                var response = Request.CreateErrorResponse(HttpStatusCode.NotFound, modelError);
+                throw new HttpResponseException(response);
             }
             try
             {
@@ -89,8 +91,9 @@ namespace EDCWebApp.Controllers
                 if (word == null)
                 {
                     var msg = "The requested word can't be found.";
-                    var exception = EDCExceptionFactory.CreateEDCWebServiceException(msg, EDCWebServiceErrorType.Error, HttpStatusCode.NotFound);
-                    throw exception;
+                    var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
+                    var response = Request.CreateErrorResponse(HttpStatusCode.NotFound, modelError);
+                    throw new HttpResponseException(response);
                 }
                 user.Words.Remove(word);
                 await db.SaveChangesToDbAsync();
@@ -98,8 +101,9 @@ namespace EDCWebApp.Controllers
             catch (Exception e)
             {
                 var msg = e.Message;
-                var exception = EDCExceptionFactory.CreateEDCWebServiceException(msg, EDCWebServiceErrorType.Error, HttpStatusCode.InternalServerError);
-                throw exception;
+                var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
+                var response = Request.CreateErrorResponse(HttpStatusCode.InternalServerError, modelError);
+                throw new HttpResponseException(response);
             }
             return Ok(HttpStatusCode.NoContent);
         }
@@ -112,8 +116,9 @@ namespace EDCWebApp.Controllers
             if (name == null || name.Length == 0 || !CheckInputLearnRequest(model))
             {
                 var msg = "There is something wrong with the input.";
-                var exception = EDCExceptionFactory.CreateEDCWebServiceException(msg, EDCWebServiceErrorType.Error, HttpStatusCode.BadRequest);
-                throw exception;
+                var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
+                var response = Request.CreateErrorResponse(HttpStatusCode.BadRequest, modelError);
+                throw new HttpResponseException(response);
             }
             var learnRequestObjs = new List<EDCLearnRequest>();
 
@@ -185,8 +190,9 @@ namespace EDCWebApp.Controllers
                 catch (Exception e)
                 {
                     var msg = e.Message;
-                    var exception = EDCExceptionFactory.CreateEDCWebServiceException(msg, EDCWebServiceErrorType.Error, HttpStatusCode.InternalServerError);
-                    throw exception;
+                    var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
+                    var response = Request.CreateErrorResponse(HttpStatusCode.InternalServerError, modelError);
+                    throw new HttpResponseException(response);
                 } 
             }
             return Ok();
@@ -200,15 +206,17 @@ namespace EDCWebApp.Controllers
             if (name == null || name.Length == 0 || !CheckInputEditLearnRequest(model))
             {
                 var msg = "There is something wrong with input.";
-                var exception = EDCExceptionFactory.CreateEDCWebServiceException(msg, EDCWebServiceErrorType.Error, HttpStatusCode.BadRequest);
-                throw exception;
+                var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
+                var response = Request.CreateErrorResponse(HttpStatusCode.BadRequest, modelError);
+                throw new HttpResponseException(response);
             }
             var learnRequest = await db.LearnRequests.FindAsync(id);
             if (learnRequest == null)
             {
                 var msg = "Can't find the learn request.";
-                var exception = EDCExceptionFactory.CreateEDCWebServiceException(msg, EDCWebServiceErrorType.Error, HttpStatusCode.BadRequest);
-                throw exception;
+                var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
+                var response = Request.CreateErrorResponse(HttpStatusCode.NotFound, modelError);
+                throw new HttpResponseException(response);
             }
             //see if the request new time and date is already existed
             var times = TimeConversionUtils.GetStartAndEndTime(model.Time);
@@ -218,8 +226,9 @@ namespace EDCWebApp.Controllers
             if (newRequest != null)
             {
                 var msg = "Your requested new date and time are already existed.";
-                var exception = EDCExceptionFactory.CreateEDCWebServiceException(msg, EDCWebServiceErrorType.Warning);
-                throw exception;
+                var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Warning, true);
+                var response = Request.CreateErrorResponse(HttpStatusCode.BadRequest, modelError);
+                throw new HttpResponseException(response);
             }
             learnRequest.Date = model.Date;
             learnRequest.StartTime = times[0];
@@ -232,8 +241,9 @@ namespace EDCWebApp.Controllers
             catch (Exception e)
             {
                 var msg = e.Message;
-                var exception = EDCExceptionFactory.CreateEDCWebServiceException(msg, EDCWebServiceErrorType.Error, HttpStatusCode.InternalServerError);
-                throw exception;
+                var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
+                var response = Request.CreateErrorResponse(HttpStatusCode.InternalServerError, modelError);
+                throw new HttpResponseException(response);
             }
             return StatusCode(HttpStatusCode.NoContent);
         }
@@ -256,8 +266,9 @@ namespace EDCWebApp.Controllers
             }
             if (user == null || learnRequest == null)
             {
-                var exception = EDCExceptionFactory.CreateEDCWebServiceException(message, EDCWebServiceErrorType.Error, HttpStatusCode.NotFound);
-                throw exception;
+                var modelError = EDCExceptionFactory.GenerateHttpError(message, EDCWebServiceErrorType.Error, true);
+                var response = Request.CreateErrorResponse(HttpStatusCode.NotFound, modelError);
+                throw new HttpResponseException(response);
             }
             learnRequest.RegisteredStudents.Remove(user);
             if (learnRequest.RegisteredStudents.Count == 0)
@@ -271,8 +282,9 @@ namespace EDCWebApp.Controllers
             catch (Exception e)
             {
                 var msg = e.Message;
-                var exception = EDCExceptionFactory.CreateEDCWebServiceException(msg, EDCWebServiceErrorType.Error, HttpStatusCode.InternalServerError);
-                throw exception;
+                var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
+                var response = Request.CreateErrorResponse(HttpStatusCode.InternalServerError, modelError);
+                throw new HttpResponseException(response);
             }
             return Ok();
         }

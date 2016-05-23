@@ -34,6 +34,36 @@ namespace EDCWebApp
                      "~/Scripts/angular-touch.js",
                      "~/Scripts/angular-ui/ui-bootstrap.min.js",
                      "~/Scripts/angular-ui/ui-bootstrap-tpls.min.js"));
+            bundles.Add(new ScriptBundle("~/bundles/appjs").Include(
+                "~/Client/app.js",
+                "~/Client/controllers/controllerBase.js",
+                 "~/Client/controllers/defaultController.js",
+                  "~/Client/services/serviceBase.js",
+                  "~/Client/services/basicFactory.js",
+                  "~/Client/services/wordFactory.js",
+                  "~/Client/services/errorFactory.js",
+                  "~/Client/services/authenticationFactory.js",
+                  "~/Client/services/learnRequestFactory.js",
+                  "~/Client/services/loginUserFactory.js",
+                  "~/Client/filters/filterBase.js",
+                  "~/Client/filters/trustedFilter.js",
+                  "~/Client/filters/dateShortFilter.js",
+                  "~/Client/directives/directiveBase.js",
+                  "~/Client/directives/characterDirective.js",
+                  "~/Client/directives/dateDirective.js",
+                  "~/Client/directives/dismissibleErrorDirective.js",
+                  "~/Client/directives/everydayDirective.js",
+                  "~/Client/directives/headerDirective.js",
+                  "~/Client/directives/imagelistDirective.js",
+                  "~/Client/directives/phraseDirective.js",
+                  "~/Client/directives/pwdCompareDirective.js",
+                  "~/Client/directives/quoteDirective.js",
+                  "~/Client/directives/svgDirective.js",
+                  "~/Client/directives/userItemContainerDirective.js",
+                  "~/Client/directives/userLearnRequestDirective.js",
+                  "~/Client/directives/userWordDirective.js",
+                  "~/Client/directives/wordBasicDirective.js"
+                ));
 
         }
     }

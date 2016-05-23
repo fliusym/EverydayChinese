@@ -1,0 +1,5 @@
+﻿
+<div ng-if="ctrl.error.message.length > 0" ng-class="{'row alert alert-danger alert-dismissable' : ctrl.error.type === 'error','row alert alert-warning alert-dismissable' : ctrl.error.type === 'warning'}">
+    <button type="button" class="close" ng-click="ctrl.error = null" aria-hidden="true">&times;</button>
+    <strong>{{ctrl.error.message}}</strong>
+</div>

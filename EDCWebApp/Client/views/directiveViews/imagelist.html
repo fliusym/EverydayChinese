@@ -1,0 +1,12 @@
+﻿<div ng-repeat="image in ctrl.images">
+    <br ng-if="$index > 0 && $index %2 == 0" />
+    <div ng-if="$index % 2 == 0" class="row">
+        <div class="col-sm-4">
+            <img src="{{ctrl.images[$index].src}}" class="img-responsive img-border" />
+        </div>
+        <div class="col-sm-4" ng-if="($index + 1) < ctrl.images.length">
+            <img src="{{ctrl.images[$index + 1].src}}" class="img-responsive img-border" />
+        </div>
+    </div>
+</div>
+

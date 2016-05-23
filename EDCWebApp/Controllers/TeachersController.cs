@@ -34,8 +34,9 @@ namespace EDCWebApp.Controllers
             if (teacher == null)
             {
                 var msg = string.Format("Can't find the teacher {0}", id);
-                var exception = EDCExceptionFactory.CreateEDCWebServiceException(msg, EDCWebServiceErrorType.Error, HttpStatusCode.BadRequest);
-                throw exception;
+                var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
+                var response = Request.CreateErrorResponse(HttpStatusCode.NotFound, modelError);
+                throw new HttpResponseException(response);
             }
             var learnRequestDtos = new List<EDCLearnRequestDTO>();
             foreach (var i in teacher.LearnRequests)

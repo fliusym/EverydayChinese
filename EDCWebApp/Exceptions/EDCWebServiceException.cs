@@ -12,28 +12,6 @@ namespace EDCWebApp.Exceptions
         Error,
         Warning
     }
-    public class EDCWebServiceException : Exception
-    {
-        EDCWebServiceErrorType _errorType;
-        public EDCWebServiceException()
-        {
 
-        }
-        public EDCWebServiceException(string message)
-            : base(message)
-        {
-
-        }
-        public EDCWebServiceException(string message, Exception inner)
-            :base(message,inner)
-        {
-
-        }
-        public EDCWebServiceException(string message, EDCWebServiceErrorType type, Exception inner)
-            : base(message, inner)
-        {
-            _errorType = type;
-        }
-    }
 
 }

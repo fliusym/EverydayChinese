@@ -12,6 +12,7 @@ using System.Data.Entity;
 using EDCWebApp.Models;
 using EDCWebApp.Extensions;
 using EDCWebApp.Utilities;
+using System.Web.Http.ModelBinding;
 
 namespace EDCWebApp.Controllers
 {
@@ -31,35 +32,51 @@ namespace EDCWebApp.Controllers
         {
             if (date == null || date.Length == 0)
             {
+                
                 var msg = "The input date is empty.";
-                var exception = EDCExceptionFactory.CreateEDCWebServiceException(msg, EDCWebServiceErrorType.Error, HttpStatusCode.BadRequest);
-                throw exception;
+                var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
+                var response = Request.CreateErrorResponse(HttpStatusCode.BadRequest, modelError);
+                throw new HttpResponseException(response);
             }
             string d;
             TimeConversionUtils.GetDate(date, out d);
             if (d == null)
             {
                 var msg = "The input date is not valid.";
-                var exception = EDCExceptionFactory.CreateEDCWebServiceException(msg, EDCWebServiceErrorType.Error, HttpStatusCode.BadRequest);
-                throw exception;
+                var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
+                var response = Request.CreateErrorResponse(HttpStatusCode.BadRequest, modelError);
+                throw new HttpResponseException(response);
             }
-            
-
-            var word = await db.Words
-                .Include(p => p.Phrases.Select(x => x.Examples))
-                .Include(p => p.Quotes)
-                .Where(p => p.Date == d).SingleOrDefaultAsync();
-            if (word != null)
+            try
             {
-                EDCWordDTO wordDto = db.GenerateDTO(word);
-                if (wordDto != null)
+                var word = await db.Words
+                        .Include(p => p.Phrases.Select(x => x.Examples))
+                        .Include(p => p.Quotes)
+                        .Where(p => p.Date == d).SingleOrDefaultAsync();
+                if (word != null)
                 {
-                    return Ok(wordDto);
+                    EDCWordDTO wordDto = db.GenerateDTO(word);
+                    if (wordDto != null)
+                    {
+                        return Ok(wordDto);
+                    }
                 }
+
+                var msg = string.Format("Can't find the word for {0}.", date);
+                var error = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
+                var httpResponse = Request.CreateErrorResponse(HttpStatusCode.NotFound, error);
+                throw new HttpResponseException(httpResponse);
+                
+
             }
-            var error = "There is something wrong when getting word.";
-            var webException = EDCExceptionFactory.CreateEDCWebServiceException(error, EDCWebServiceErrorType.Error);
-            throw webException;
+            catch (Exception e)
+            {
+                var error = EDCExceptionFactory.GenerateHttpError(e.Message, EDCWebServiceErrorType.Error, true);
+                var httpResponse = Request.CreateErrorResponse(HttpStatusCode.InternalServerError, error);
+                throw new HttpResponseException(httpResponse);
+            }
+        
+
         }
         
     }

@@ -1,0 +1,31 @@
+﻿<div class="col-sm-4 col-md-3 clitem">
+    <div class="row">
+        <div class="col-sm-2 col-sm-offset-2">
+            <cl-svg svgname="ctrl.item.chinese"></cl-svg>
+        </div>
+
+        <div class="col-sm-1 col-sm-offset-9 hoverrow">
+            <button type="button" class="btn btn-default btn-circle " data-toggle="tooltip" data-placement="left" title="Remove" ng-click="ctrl.removeItem()">
+                <i class="glyphicon glyphicon-remove"></i>
+            </button>
+        </div>
+    </div>
+
+
+
+    <div class="row item-center">
+        <div class="col-sm-2">
+            <img src="{{ctrl.item.pinyin}}" />
+        </div>
+        <div class="col-sm-2 col-sm-offset-2">
+            <cl-audio audioid="{{ctrl.item.audiosrc}}"></cl-audio>
+        </div>
+    </div>
+    <div class="row item-center">
+        <p>{{ctrl.item.basicMeaning}}</p>
+    </div>
+    <div class="row item-center">
+        <button type="button" class="btn btn-default btn-lg">例子&nbsp;<small class="english-small">Examples</small></button>
+    </div>
+    <cl-dismissible-error error="ctrl.item.error"></cl-dismissible-error>
+</div>

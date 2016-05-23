@@ -1,0 +1,13 @@
+﻿<div id="addCharacter" ng-mouseleave="ctrl.canadd=false">
+    <div class="row " ng-show="ctrl.canadd">
+
+        <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="right" title="Add to your library" ng-click="ctrl.onAdd()">
+            <i class="glyphicon glyphicon-plus"></i>
+
+        </button>
+    </div>
+    <div class="row" ng-mouseenter="ctrl.canadd=true">
+        <edc-svg svgname="ctrl.svgname"></edc-svg>
+    </div>
+
+</div>

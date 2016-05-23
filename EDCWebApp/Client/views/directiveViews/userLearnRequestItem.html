@@ -1,0 +1,33 @@
+﻿<div class="col-sm-4 col-md-3 clitem">
+    <div class="row" ng-if="!ctrl.isTeacher">
+        <div class="col-sm-1 hoverrow">
+            <button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="left" title="Edit" ng-click="ctrl.editItem()">
+                <i class="glyphicon glyphicon-edit"></i>
+            </button>
+        </div>
+
+        <div class="col-sm-1 col-sm-offset-9 hoverrow">
+            <button type="button" class="btn btn-default btn-circle " data-toggle="tooltip" data-placement="left" title="Remove" ng-click="ctrl.removeItem()">
+                <i class="glyphicon glyphicon-remove"></i>
+            </button>
+        </div>
+    </div>
+    <div class="row item-center">
+        <h5 style="text-align:center">{{ctrl.item.startTime}}</h5>
+    </div>
+    <div class="row item-center">
+        <h2 style="text-align:center">{{ctrl.item.date}}</h2>
+    </div>
+    <div ng-if="ctrl.item.showLearnRequestLink" class="row item-center">
+        <a class="btn btn-default" href="/#/teacherLearnRequest" ng-if="ctrl.isTeacher">Join Class</a>
+        <a class="btn btn-default" href="/#/studentLearnRequest" ng-if="!ctrl.isTeacher">Join Class</a>
+    </div>
+    <!--<div ng-if="ctrl.item.error.message.length > 0" class="row alert alert-warning alert-dismissable" >
+        <button type="button" class="close" ng-click="ctrl.item.error.message = null" aria-hidden="true">&times;</button>
+        <strong>{{ctrl.item.error.message}}</strong>
+    </div>-->
+    <cl-dismissible-error error="ctrl.item.error"></cl-dismissible-error>
+</div>
+
+
+

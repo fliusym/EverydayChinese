@@ -4,21 +4,20 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.ModelBinding;
 
 namespace EDCWebApp.Exceptions
 {
     public static class EDCExceptionFactory
     {
 
-        public static EDCWebServiceException CreateEDCWebServiceException(string message, EDCWebServiceErrorType type)
+        public static HttpError GenerateHttpError(string msg, EDCWebServiceErrorType type, bool includeErrorDetail)
         {
-            var inner = new HttpResponseException(HttpStatusCode.InternalServerError);
-            return new EDCWebServiceException(message, type, inner);
+            var modelState = new ModelStateDictionary();
+            modelState.AddModelError("Message", msg);
+            modelState.AddModelError("ErrorType", type.ToString());
+            return new HttpError(modelState, includeErrorDetail);
         }
-        public static EDCWebServiceException CreateEDCWebServiceException(string message, EDCWebServiceErrorType type, HttpStatusCode code)
-        {
-            var inner = new HttpResponseException(code);
-            return new EDCWebServiceException(message, type, inner);
-        }
+
     }
 }

@@ -1,0 +1,10 @@
+﻿<div class="col-sm-6 ">
+    <button class="btn btn-link" ng-click="onYesterday()" ng-disabled="dateless">
+        <span class=" glyphicon glyphicon-chevron-left">
+        </span>
+    </button>
+    <span><mark>{{today | date: 'EEEE' | dateshort}}</mark></span>
+    <button class="btn btn-link" ng-click="onTomorrow()" ng-disabled="datemore">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+    </button>
+</div>

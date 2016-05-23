@@ -1,0 +1,18 @@
+﻿
+<div>
+    <dl>
+        <dt class="word-basic-dt">词组&nbsp;&nbsp;<small>Phases</small></dt>
+        <dd class="word-basic-dd" ng-repeat="phrase in ctrl.phraseList">
+            <div class="row">
+                <em>{{phrase.chinese}}&nbsp;</em>
+                <em><small>{{phrase.english}}</small></em>
+                <cl-audio audioid="{{phrase.audioid}}">&nbsp;&nbsp;&nbsp;</cl-audio>
+            </div>
+            <div class="row word-basic-row">
+                <p ng-repeat="example in phrase.examples">
+                    {{example.chinese}}&nbsp;&nbsp;&nbsp;<small class="small-transparent">{{example.english}}</small>
+                </p>
+            </div>
+        </dd>
+    </dl>
+</div>

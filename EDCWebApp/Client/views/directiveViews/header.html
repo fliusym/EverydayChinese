@@ -1,0 +1,62 @@
+﻿<div class="container">
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/#/default">Learn Chinese</a>
+            </div>
+
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-haspopup="true" aria-expanded="false">
+                            Chinese Basics<span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/#/chinesepinyin">Read</a>
+                            </li>
+                            <li>
+                                <a href="/#/chinesecharacter">Write</a>
+                            </li>
+                            <li ng-if="!ctrl.loggedinInfo.isTeacher">
+                                <a href="/#/addLearnRequest">Free Online Learn</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li ng-hide="ctrl.loggedinInfo.flag">
+                        <a href="/#/login">Login</a>
+                    </li>
+                    <li ng-hide="ctrl.loggedinInfo.flag">
+                        <a href="/#/register">Register</a>
+                    </li>
+                    <li ng-show="ctrl.loggedinInfo.flag" class="dropdown">
+                        <a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-haspopup="true" aria-expanded="false">
+                            {{ctrl.loggedinInfo.user}}<span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/#/user?user={{ctrl.loggedinInfo.user}}" ng-if="!ctrl.loggedinInfo.isTeacher">My Resources</a>
+                                <a href="/#/teacher?user={{ctrl.loggedinInfo.user}}" ng-if="ctrl.loggedinInfo.isTeacher">My Resources</a>
+                            </li>
+                            <li>
+                                <a href="/#/changepwd">Change Password</a>
+                            </li>
+                            <li>
+                                <a href="/#/logout">Logout</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

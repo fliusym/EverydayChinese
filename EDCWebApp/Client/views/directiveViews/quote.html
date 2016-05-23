@@ -1,0 +1,7 @@
+﻿<div>
+    <h4>{{ctrl.quotetitle.chinese}}<small>&nbsp;{{ctrl.quotetitle.english}}</small></h4>
+    <blockquote ng-repeat="quote in ctrl.quotes">
+        <p>{{quote.chinese}}</p>
+        <footer ng-show="{{quote.hasfooter}}">{{quote.who}}&nbsp;&nbsp; <cite>{{quote.where}}</cite></footer>
+    </blockquote>
+</div>

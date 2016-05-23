@@ -16,7 +16,7 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>44303</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -266,16 +266,58 @@
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Client\app.js" />
+    <Content Include="Client\controllers\controllerBase.js" />
     <Content Include="Client\controllers\defaultController.js" />
+    <Content Include="Client\directives\audioDirective.js" />
+    <Content Include="Client\directives\characterDirective.js" />
+    <Content Include="Client\directives\dateDirective.js" />
+    <Content Include="Client\directives\directiveBase.js" />
+    <Content Include="Client\directives\dismissibleErrorDirective.js" />
+    <Content Include="Client\directives\everydayDirective.js" />
+    <Content Include="Client\directives\headerDirective.js" />
+    <Content Include="Client\directives\imagelistDirective.js" />
+    <Content Include="Client\directives\phraseDirective.js" />
+    <Content Include="Client\directives\pwdCompareDirective.js" />
+    <Content Include="Client\directives\quoteDirective.js" />
+    <Content Include="Client\directives\svgDirective.js" />
+    <Content Include="Client\directives\userItemContainerDirective.js" />
+    <Content Include="Client\directives\userLearnRequestDirective.js" />
+    <Content Include="Client\directives\userWordDirective.js" />
+    <Content Include="Client\directives\wordBasicDirective.js" />
+    <Content Include="Client\filters\dateShortFilter.js" />
+    <Content Include="Client\filters\filterBase.js" />
+    <Content Include="Client\filters\trustedFilter.js" />
     <Content Include="Client\services\authenticationFactory.js" />
     <Content Include="Client\services\basicFactory.js" />
+    <Content Include="Client\services\learnRequestFactory.js" />
     <Content Include="Client\services\loginUserFactory.js" />
     <Content Include="Client\services\wordFactory.js" />
     <Content Include="Client\services\errorFactory.js" />
     <Content Include="Client\services\serviceBase.js" />
+    <Content Include="Client\views\default.html" />
+    <Content Include="Client\views\directiveViews\audio.html" />
+    <Content Include="Client\views\directiveViews\character.html" />
+    <Content Include="Client\views\directiveViews\date.html" />
+    <Content Include="Client\views\directiveViews\dismissibleError.html" />
+    <Content Include="Client\views\directiveViews\everyday.html" />
+    <Content Include="Client\views\directiveViews\header.html" />
+    <Content Include="Client\views\directiveViews\imagelist.html" />
+    <Content Include="Client\views\directiveViews\phrase.html" />
+    <Content Include="Client\views\directiveViews\quote.html" />
+    <Content Include="Client\views\directiveViews\userItemContainer.html" />
+    <Content Include="Client\views\directiveViews\userLearnRequestItem.html" />
+    <Content Include="Client\views\directiveViews\userWordItem.html" />
+    <Content Include="Client\views\directiveViews\wordBasic.html" />
     <Content Include="Content\addLearnRequestBg.gif" />
+    <Content Include="Content\Audios\WordAudio\人.m4a" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Pinyin\WordPinyin\人.png" />
+    <Content Include="Content\Pinyin\WordPinyin\多.png" />
+    <Content Include="Content\SVG\人.svg" />
+    <Content Include="Content\SVG\多.svg" />
+    <Content Include="Content\SVG\大.svg" />
+    <Content Include="Content\SVG\草.svg" />
     <Content Include="Content\ui-bootstrap-csp.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -1122,7 +1164,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Client\views\" />
+    <Folder Include="Content\Audios\PhraseAudio\" />
+    <Folder Include="Content\Pinyin\PhrasePinyin\" />
+    <Folder Include="Content\Scenario\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -1157,7 +1201,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>55271</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:55271/</IISUrl>
+          <IISUrl>https://localhost:44303/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

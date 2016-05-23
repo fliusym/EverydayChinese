@@ -17,6 +17,8 @@ using EDCWebApp.Models;
 using EDCWebApp.Providers;
 using EDCWebApp.Results;
 using EDCWebApp.Extensions;
+using EDCWebApp.Exceptions;
+using System.Net;
 
 namespace EDCWebApp.Controllers
 {
@@ -341,8 +343,9 @@ namespace EDCWebApp.Controllers
             if (!ModelState.IsValid)
             {
                 var message = "There is something wrong with the input";
-                var exception = EDCWebApp.Exceptions.EDCExceptionFactory.CreateEDCWebServiceException(message, EDCWebApp.Exceptions.EDCWebServiceErrorType.Error);
-                throw exception;
+                var modelError = EDCExceptionFactory.GenerateHttpError(message, EDCWebServiceErrorType.Error, true);
+                var response = Request.CreateErrorResponse(HttpStatusCode.BadRequest, modelError);
+                throw new HttpResponseException(response);
             //    return BadRequest(ModelState);
             }
 
