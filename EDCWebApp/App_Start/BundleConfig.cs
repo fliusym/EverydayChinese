@@ -38,6 +38,9 @@ namespace EDCWebApp
                 "~/Client/app.js",
                 "~/Client/controllers/controllerBase.js",
                  "~/Client/controllers/defaultController.js",
+                 "~/Client/controllers/loginController.js",
+                 "~/Client/controllers/studentController.js",
+                 "~/Client/controllers/addLearnRequestController.js",
                   "~/Client/services/serviceBase.js",
                   "~/Client/services/basicFactory.js",
                   "~/Client/services/wordFactory.js",
@@ -62,7 +65,8 @@ namespace EDCWebApp
                   "~/Client/directives/userItemContainerDirective.js",
                   "~/Client/directives/userLearnRequestDirective.js",
                   "~/Client/directives/userWordDirective.js",
-                  "~/Client/directives/wordBasicDirective.js"
+                  "~/Client/directives/wordBasicDirective.js",
+                  "~/Client/directives/addLearnRequestDirective.js"
                 ));
 
         }

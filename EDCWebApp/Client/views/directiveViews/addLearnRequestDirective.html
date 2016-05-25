@@ -1,0 +1,42 @@
+﻿<div class="addLearnRequest-border col-sm-2">
+    <p class="text-center">{{ctrl.addedLearnRequest.date}}</p>
+    <p class="text-center">{{ctrl.addedLearnRequest.day}}</p>
+    <div class="line-seperator"></div>
+    <div ng-if="ctrl.addedLearnRequest.morning.length > 0">
+        <p class="text-center addLearnRequest-p-font">Morning</p>
+        <div class="addLearnRequest-margin">
+            <div class="radio" ng-repeat="t in ctrl.addedLearnRequest.morning">
+                <label>
+                    <input type="radio" name="{{ctrl.addedLearnRequest.date}}morningOptions" ng-model="ctrl.morningChoose" value="{{t}}" />
+                    {{t}}
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="ctrl.addedLearnRequest.afternoon.length > 0">
+        <p class="text-center addLearnRequest-p-font">Afternoon</p>
+        <div class="addLearnRequest-margin">
+            <div class="radio" ng-repeat="t in ctrl.addedLearnRequest.afternoon">
+                <label>
+                    <input type="radio" name="{{ctrl.addedLearnRequest.date}}afternoonOptions" ng-model="ctrl.afternoonChoose" value="{{t}}" />
+                    {{t}}
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="ctrl.addedLearnRequest.evening.length > 0">
+        <p class="text-center addLearnRequest-p-font">Evening</p>
+        <div class="addLearnRequest-margin">
+            <div class="radio" ng-repeat="t in ctrl.addedLearnRequest.evening">
+                <label>
+                    <input type="radio" name="{{ctrl.addedLearnRequest.date}}eveningOptions" ng-model="ctrl.eveningChoose" value="{{t}}" />
+                    {{t}}
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -59,6 +59,7 @@ namespace EDCWebApp.Extensions
             }
             return new EDCWordDTO()
             {
+                Id = word.ID,
                 Audio = word.Audio,
                 BasicMeanings = word.BasicMeanings,
                 Pinyin = word.Pinyin,
@@ -86,6 +87,7 @@ namespace EDCWebApp.Extensions
             }
             return new EDCLearnRequestDTO()
             {
+                Id = request.ID,
                 Date = request.Date,
                 StartTime = request.StartTime,
                 EndTime = request.EndTime,
@@ -110,15 +112,16 @@ namespace EDCWebApp.Extensions
             }
             return new EDCScenarioContentDTO()
             {
+                Id = content.ID,
                 Images = images
             };
         }
 
-        public static async Task AssignTeacherToLearnRequest(this IEDCLoginUserContext context, EDCLearnRequest learnRequest, string teacherName)
+        public static void AssignTeacherToLearnRequest(this IEDCLoginUserContext context, EDCLearnRequest learnRequest, string teacherName)
         {
             if (context != null && learnRequest != null)
             {
-                var teacher = await context.Teachers.Where(p => p.TeacherName == teacherName).SingleOrDefaultAsync();
+                var teacher = context.Teachers.Find(teacherName);
                 if (teacher != null)
                 {
                     teacher.LearnRequests.Add(learnRequest);

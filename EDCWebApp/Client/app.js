@@ -42,12 +42,12 @@
         controller: 'ResetPasswordController',
         controllerAs: 'resetPasswordCtrl'
     }).when('/user', {
-        templateUrl: viewBase + 'loginUser.html',
-        controller: 'LoginUserController',
+        templateUrl: viewBase + 'student.html',
+        controller: 'StudentController',
         controllerAs: 'loginUserCtrl'
     }).when('/teacher', {
-        templateUrl: viewBase + 'loginTeacher.html',
-        controller: 'LoginTeacherController',
+        templateUrl: viewBase + 'teacher.html',
+        controller: 'TeacherController',
         controllerAs: 'loginTeacherCtrl'
     }).when('/teacherLearnRequest', {
         templateUrl: viewBase + 'teacherLearnRequest.html',
@@ -63,8 +63,8 @@
         controllerAs: 'addLRCtrl'
     }).when('/addWord', {
         resolve: {
-            addWord: ['loginUserFactory', 'defaultFactory', function (loginUserFactory, defaultFactory) {
-                var date = defaultFactory.getCurrentDate();
+            addWord: ['loginUserFactory', 'timeFactory', function (loginUserFactory, timeFactory) {
+                var date = timeFactory.getCurrentDate();
                 loginUserFactory.addWord(date);
             }]
         }

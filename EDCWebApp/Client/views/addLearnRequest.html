@@ -1,0 +1,22 @@
+﻿<cl-header></cl-header>
+<form class="col-sm-offset-2">
+    <div class="row">
+        <h3>Available Time For The Next Seven Days</h3>
+    </div>
+    <div class="row form-group">
+        <div ng-repeat="a in addLRCtrl.availableTime">
+            <edc-add-learn-request added-learn-request="a" morning-choose="a.morningChoose" afternoon-choose="a.afternoonChoose" evening-choose="a.eveningChoose"></edc-add-learn-request>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-offset-3 col-sm-2 ">
+            <button type="button" class="btn btn-primary btn-xlarge" ng-click="addLRCtrl.onSubmit()">Submit</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <edc-dismissible-error error="addLRCtrl.error"></edc-dismissible-error>
+    </div>
+    
+</form>

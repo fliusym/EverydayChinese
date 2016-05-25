@@ -8,11 +8,11 @@
     function ($resource, tokenKey, TransformHeaderService, $q, $location, authenticationFactory) {
         'use strict';
         var factory = {};
-
+        var cachedStudentLearnRequests;
         factory.getUserResources = function (id) {
             var token = sessionStorage.getItem(tokenKey);
             //since the username is email address, has to add trailing slash
-            var resource = $resource('/api/LCLoginStudents/:id', null, {
+            var resource = $resource('/api/Students', null, {
                 getUserResource: {
                     method: 'GET',
                     headers: { 'Authorization': ('Bearer ' + token) },
@@ -42,9 +42,9 @@
             return resource.getUserResource({ id: id });
         }
 
-        factory.removeLearnRequest = function (userName, date, startTime, duration) {
+        factory.removeLearnRequest = function (id) {
             var token = sessionStorage.getItem(tokenKey);
-            var resource = $resource('/api/LCLearnRequest/Remove', null, {
+            var resource = $resource('/api/LearnRequests/:id', null, {
                 removeItem: {
                     method: 'DELETE',
                     headers: {
@@ -53,12 +53,12 @@
                     }
                 }
             });
-            return resource.removeItem({ StudentName: userName, Date: date, StartTime: startTime, Duration: duration });
+            return resource.removeItem({ id: id });
         }
 
-        factory.editLearnRequest = function (oldDate, date, time, oldTime) {
+        factory.editLearnRequest = function (id,date,time) {
             var token = sessionStorage.getItem(tokenKey);
-            var resource = $resource('/api/LCLearnRequest/Edit', null, {
+            var resource = $resource('/api/LearnRequests/:id', null, {
                 editItem: {
                     method: 'PUT',
                     headers: {
@@ -68,46 +68,31 @@
                     }
                 }
             });
-            return resource.editItem({ oldDate: oldDate, date: date, time: time, oldTime: oldTime });
+            return resource.editItem({ id: id}, { date: date, time: time } );
         }
 
-        factory.getUserAvailableTime = function (user) {
-            this.getUserResources(user).$promise.then(function (data) {
-                if (data) {
-                    var learnRequests = data.LearnRequests;
-                    var availables = AddLearnRequestService.getAvailableTime();
-                    //get rid of those times the user has already taken
-                    for (var i = 0; i < availables.length; i++) {
-                        for (var j = 0; j < learnRequests.length; j++) {
-                            if (availables[i].date === learnRequests[j].Date) {
-                                //check if they have the same start to end time
-                                if (isExisted(availables[i].morningChoose, learnRequests[j])) {
-                                    availables[i].morningChoose = '';
-                                }
-                                if (isExisted(availables[i].afternoonChoose, learnRequests[j])) {
-                                    availables[i].afternoonChoose = '';
-                                }
-                                if (isExisted(availables[i].eveningChoose, learnRequests[j])) {
-                                    availables[i].eveningChoose = '';
-                                }
-                            }
-                        }
-                    }
-                    return $q(function (resolve, reject) {
-                        if (availables.length > 0) {
-                            resolve(availables);
-                        } else {
-                            reject('no available learn request time');
-                        }
-                    });
+        factory.addLearnRequest = function (requestData) {
+            var token = sessionStorage.getItem(tokenKey);
+            //since the username is email address, has to add trailing slash
+            var resource = $resource('/api/LearnRequests', null, {
+                postLearnRequest: {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': ('Bearer ' + token),
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
                 }
             });
+            var data = {
+                'LearnRequests': requestData.data
+            };
+            return resource.postLearnRequest(data);
         }
 
         factory.addWord = function (date) {
             var token = sessionStorage.getItem(tokenKey);
-            var resource = $resource('/api/Default/Edit', null, {
-                editWord: {
+            var resource = $resource('/api/Student/Words', null, {
+                addWord: {
                     method: 'PUT',
                     headers: {
                         'Authorization': ('Bearer ' + token),
@@ -117,18 +102,18 @@
                     }
                 }
             });
-            resource.editWord(date).$promise.then(function () {
-                var mydata = AuthenticationService.getLoginInfo();
+            resource.addWord(date).$promise.then(function () {
+                var mydata = authenticationFactory.getLoginInfo();
                 $location.path('/user').search({ user: mydata.user });
             }, function () {
                 $location.path('/default');
-                if (!$rootScope.$$phase) $rootScope.$apply();
+           //     if (!$rootScope.$$phase) $rootScope.$apply();
             });
         }
 
         factory.removeWord = function (id) {
             var token = sessionStorage.getItem(tokenKey);
-            var resource = $resource('/api/LCLoginStudents/Word/:id', null, {
+            var resource = $resource('/api/Words/:id', null, {
                 deleteWord: {
                     method: 'DELETE',
                     headers: {
@@ -141,6 +126,12 @@
                 }
             });
             return resource.deleteWord({ id: id });
+        }
+        factory.setCachedStudentLearnRequests = function (learnRequests) {
+            cachedStudentLearnRequests = learnRequests;
+        }
+        factory.getCachedStudentLearnRequests = function () {
+            return cachedStudentLearnRequests;
         }
         return factory;
     }]);

@@ -42,52 +42,65 @@
                 ctrl.editItem = function () {
                     var availableDates = [];
                     var availableTimes = {};
-
-                    var userinfo = authenticationFactory.getLoginInfo();
-                    var user = userinfo.user;
-                    loginUserFactory.getUserResources(user).$promise.then(function (data) {
-                        if (data) {
-                            var learnRequests = data.LearnRequests;
-                            var availables = AddLearnRequestService.getAvailableTime();
-                            learnRequestFactory.filterUserLearnRequests(availables, learnRequests);
-
-                            for (var i = 0; i < availables.length; i++) {
-                                var date = availables[i].date;
-                                availableDates.push(date);
-                                availableTimes[date] = [];
-                                if (availables[i].morning && availables[i].morning.length > 0) {
-                                    availableTimes[date].push.apply(availableTimes[date], availables[i].morning);
-                                }
-                                if (availables[i].afternoon && availables[i].afternoon.length > 0) {
-                                    availableTimes[date].push.apply(availableTimes[date], availables[i].afternoon);
-                                }
-                                if (availables[i].evening && availables[i].evening.length > 0) {
-                                    availableTimes[date].push.apply(availableTimes[date], availables[i].evening);
-                                }
+                    var learnRequests = [];
+                    learnRequests = loginUserFactory.getCachedStudentLearnRequests();
+                    if (!learnRequests) {
+                        var userinfo = authenticationFactory.getLoginInfo();
+                        var user = userinfo.user;
+                        loginUserFactory.getUserResources(user).$promise.then(function (data) {
+                            
+                            for (var i = 0; i < data.LearnRequests.length; i++) {
+                                var request = data.LearnRequests[i];
+                                var requestItem = {
+                                    date: request.Date,
+                                    startTime: request.StartTime,
+                                    endTime: request.EndTime,
+                                    //      isTeacher: vm.isTeacher
+                                };
+                                learnRequests.push(requestItem);
                             }
-                            if (availableDates.length > 0) {
-                                var modalInstance = $uibModal.open({
-                                    templateUrl: '/Scripts/app/views/clModal.html',
-                                    controller: 'ModalInstanceCtrl',
-                                    resolve: {
-                                        dates: function () {
-                                            return availableDates;
-                                        },
-                                        times: function () {
-                                            return availableTimes;
-                                        }
-                                    }
-                                });
-                                modalInstance.result.then(function (result) {
-                                    ctrl.edit()(ctrl.index, result);
-                                }, function () {
+                        }, function (error) {
+                            learnRequests = null;
+                        });
+                    }
+                    if (learnRequests) {
+                        var availables = learnRequestFactory.getAvailableTime();
+                        learnRequestFactory.filterUserLearnRequests(availables, learnRequests);
 
-                                });
+                        for (var i = 0; i < availables.length; i++) {
+                            var date = availables[i].date;
+                            availableDates.push(date);
+                            availableTimes[date] = [];
+                            if (availables[i].morning && availables[i].morning.length > 0) {
+                                availableTimes[date].push.apply(availableTimes[date], availables[i].morning);
                             }
-
+                            if (availables[i].afternoon && availables[i].afternoon.length > 0) {
+                                availableTimes[date].push.apply(availableTimes[date], availables[i].afternoon);
+                            }
+                            if (availables[i].evening && availables[i].evening.length > 0) {
+                                availableTimes[date].push.apply(availableTimes[date], availables[i].evening);
+                            }
                         }
-                    });
+                        if (availableDates.length > 0) {
+                            var modalInstance = $uibModal.open({
+                                templateUrl: '/Client/views/edcModal.html',
+                                controller: 'ModalInstanceCtrl',
+                                resolve: {
+                                    dates: function () {
+                                        return availableDates;
+                                    },
+                                    times: function () {
+                                        return availableTimes;
+                                    }
+                                }
+                            });
+                            modalInstance.result.then(function (result) {
+                                ctrl.edit()(ctrl.index, result);
+                            }, function () {
 
+                            });
+                        }
+                    }
                 };
 
             }],

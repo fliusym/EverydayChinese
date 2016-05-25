@@ -1,0 +1,30 @@
+﻿<form name="registerCtrl.registerForm" class="col-sm-offset-4" novalidate>
+    <div class="form-group" ng-class="{'has-error': registerCtrl.registerForm.emailInput.$touched && registerCtrl.registerForm.emailInput.$invalid}">
+        <label for="emailInput">Email Address</label>
+        <input type="email" name="emailInput" class="form-control" required id="emailInput" placeholder="Email" ng-model="registerCtrl.emailaddress" />
+        <div class="help-block" ng-messages="registerCtrl.registerForm.emailInput.$error" ng-if="registerCtrl.registerForm.emailInput.$touched">
+            <p ng-message="required">User email is required</p>
+            <p ng-message="email">This has to be a valid email address</p>
+        </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': registerCtrl.registerForm.pwdInput.$touched && registerCtrl.registerForm.pwdInput.$invalid}">
+        <label for="passwordInput">Password</label><small>&nbsp;&nbsp;At least 6 characters</small>
+        <input type="password" name="pwdInput" class="form-control" minlength="6" required id="passwordInput" placeholder="Password" ng-model="registerCtrl.password" />
+        <div class="help-block" ng-messages="registerCtrl.registerForm.pwdInput.$error" ng-if="registerCtrl.registerForm.pwdInput.$touched">
+            <p ng-message="minlength">Password has to be at least 6 characters</p>
+        </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': registerCtrl.registerForm.confirmInput.$touched && registerCtrl.registerForm.confirmInput.$invalid}">
+        <label for="passwordConfirmInput">Confirm Password</label>
+        <input type="password" name="confirmInput" class="form-control" cl-pwd-compare="registerCtrl.password" required id="passwordConfirmInput" placeholder="Confirm Password" ng-model="registerCtrl.confirmpassword" />
+        <div class="help-block" ng-messages="registerCtrl.registerForm.confirmInput.$error" ng-if="registerCtrl.registerForm.confirmInput.$touched">
+            <p ng-message="compareTo">Password is not matched</p>
+        </div>
+    </div>
+    <span>
+        &nbsp;&nbsp;
+    </span>
+    <button type="submit" class="btn btn-default col-sm-2 " ng-click="registerCtrl.onRegister()">Register</button>
+    <!--<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>-->
+    <button type="submit" class="btn btn-default col-sm-offset-1 col-sm-2 " ng-click="registerCtrl.onCancel()">Cancel</button>
+</form>

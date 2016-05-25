@@ -40,4 +40,10 @@ namespace EDCWebApp.Models
 
         public string ProviderKey { get; set; }
     }
+
+    public class AccountInfoViewModel
+    {
+        public string Email { get; set; }
+        public bool IsTeacher { get; set; }
+    }
 }

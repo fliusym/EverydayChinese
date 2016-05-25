@@ -25,6 +25,7 @@ namespace EDCWebApp.Models
     }
     public class EDCWordDTO
     {
+        public int Id { get; set; }
         public string Character { get; set; }
         public string Pinyin { get; set; }
         public string Explanation { get; set; }

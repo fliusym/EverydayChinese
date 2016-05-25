@@ -266,8 +266,12 @@
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Client\app.js" />
+    <Content Include="Client\controllers\addLearnRequestController.js" />
     <Content Include="Client\controllers\controllerBase.js" />
     <Content Include="Client\controllers\defaultController.js" />
+    <Content Include="Client\controllers\loginController.js" />
+    <Content Include="Client\controllers\studentController.js" />
+    <Content Include="Client\directives\addLearnRequestDirective.js" />
     <Content Include="Client\directives\audioDirective.js" />
     <Content Include="Client\directives\characterDirective.js" />
     <Content Include="Client\directives\dateDirective.js" />
@@ -294,7 +298,10 @@
     <Content Include="Client\services\wordFactory.js" />
     <Content Include="Client\services\errorFactory.js" />
     <Content Include="Client\services\serviceBase.js" />
+    <Content Include="Client\views\addLearnRequest.html" />
+    <Content Include="Client\views\confirmEmail.html" />
     <Content Include="Client\views\default.html" />
+    <Content Include="Client\views\directiveViews\addLearnRequestDirective.html" />
     <Content Include="Client\views\directiveViews\audio.html" />
     <Content Include="Client\views\directiveViews\character.html" />
     <Content Include="Client\views\directiveViews\date.html" />
@@ -308,6 +315,13 @@
     <Content Include="Client\views\directiveViews\userLearnRequestItem.html" />
     <Content Include="Client\views\directiveViews\userWordItem.html" />
     <Content Include="Client\views\directiveViews\wordBasic.html" />
+    <Content Include="Client\views\edcModal.html" />
+    <Content Include="Client\views\forgotpwd.html" />
+    <Content Include="Client\views\forgotpwdconfirmed.html" />
+    <Content Include="Client\views\login.html" />
+    <Content Include="Client\views\register.html" />
+    <Content Include="Client\views\resetpwd.html" />
+    <Content Include="Client\views\student.html" />
     <Content Include="Content\addLearnRequestBg.gif" />
     <Content Include="Content\Audios\WordAudio\人.m4a" />
     <Content Include="Content\bootstrap.css" />

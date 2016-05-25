@@ -1,0 +1,25 @@
+﻿<edc-header></edc-header>
+<div role="main" class="container">
+
+    <edc-item-container ng-if="loginUserCtrl.authorized" title="Words">
+        <div ng-repeat="item in loginUserCtrl.userWordItems">
+            <br ng-if="$index > 0 && $index%3 == 0" />
+            <div ng-if="$index % 3 == 0" class="row">
+                <edc-word-item ng-if="($index) < loginUserCtrl.userWordItems.length" item="loginUserCtrl.userWordItems[$index]" index="$index" remove="loginUserCtrl.removeWord"></edc-word-item>
+                <edc-word-item ng-if="($index + 1) < loginUserCtrl.userWordItems.length" item="loginUserCtrl.userWordItems[$index + 1]" index="$index + 1" remove="loginUserCtrl.removeWord"></edc-word-item>
+                <edc-word-item ng-if="($index + 2) < loginUserCtrl.userWordItems.length" item="loginUserCtrl.userWordItems[$index + 2]" index="$index + 2" remove="loginUserCtrl.removeWord"></edc-word-item>
+            </div>
+        </div>
+    </edc-item-container>
+
+    <edc-item-container ng-if="loginUserCtrl.authorized" title="Learn Requests">
+        <div ng-repeat="item in loginUserCtrl.userLearnRequests">
+            <br ng-if="$index > 0 && $index%3 == 0" />
+            <div ng-if="$index % 3 == 0" class="row">
+                <edc-learn-request ng-if="($index) < loginUserCtrl.userLearnRequests.length" item="loginUserCtrl.userLearnRequests[$index]" is-teacher="false" index="$index" remove="loginUserCtrl.removeLearnRequest" edit="loginUserCtrl.editLearnRequest"></edc-learn-request>
+                <edc-learn-request ng-if="($index + 1) < loginUserCtrl.userLearnRequests.length" item="loginUserCtrl.userLearnRequests[$index + 1]" index="$index + 1" is-teacher="false" remove="loginUserCtrl.removeLearnRequest" edit="loginUserCtrl.editLearnRequest"></edc-learn-request>
+                <edc-learn-request ng-if="($index + 2) < loginUserCtrl.userLearnRequests.length" item="loginUserCtrl.userLearnRequests[$index + 2]" index="$index + 2" is-teacher="false" remove="loginUserCtrl.removeLearnRequest" edit="loginUserCtrl.editLearnRequest"></edc-learn-request>
+            </div>
+        </div>
+    </edc-item-container>
+</div>

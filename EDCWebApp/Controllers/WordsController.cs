@@ -32,7 +32,7 @@ namespace EDCWebApp.Controllers
         {
             if (date == null || date.Length == 0)
             {
-                
+
                 var msg = "The input date is empty.";
                 var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
                 var response = Request.CreateErrorResponse(HttpStatusCode.BadRequest, modelError);
@@ -47,37 +47,24 @@ namespace EDCWebApp.Controllers
                 var response = Request.CreateErrorResponse(HttpStatusCode.BadRequest, modelError);
                 throw new HttpResponseException(response);
             }
-            try
+
+            var word = await db.Words
+                    .Include(p => p.Phrases.Select(x => x.Examples))
+                    .Include(p => p.Quotes)
+                    .Where(p => p.Date == d).SingleOrDefaultAsync();
+            if (word != null)
             {
-                var word = await db.Words
-                        .Include(p => p.Phrases.Select(x => x.Examples))
-                        .Include(p => p.Quotes)
-                        .Where(p => p.Date == d).SingleOrDefaultAsync();
-                if (word != null)
+                EDCWordDTO wordDto = db.GenerateDTO(word);
+                if (wordDto != null)
                 {
-                    EDCWordDTO wordDto = db.GenerateDTO(word);
-                    if (wordDto != null)
-                    {
-                        return Ok(wordDto);
-                    }
+                    return Ok(wordDto);
                 }
-
-                var msg = string.Format("Can't find the word for {0}.", date);
-                var error = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
-                var httpResponse = Request.CreateErrorResponse(HttpStatusCode.NotFound, error);
-                throw new HttpResponseException(httpResponse);
-                
-
             }
-            catch (Exception e)
-            {
-                var error = EDCExceptionFactory.GenerateHttpError(e.Message, EDCWebServiceErrorType.Error, true);
-                var httpResponse = Request.CreateErrorResponse(HttpStatusCode.InternalServerError, error);
-                throw new HttpResponseException(httpResponse);
-            }
-        
-
+            var message = string.Format("Can't find the word for {0}.", d);
+            var error = EDCExceptionFactory.GenerateHttpError(message, EDCWebServiceErrorType.Error, true);
+            var httpResponse = Request.CreateErrorResponse(HttpStatusCode.NotFound, error);
+            throw new HttpResponseException(httpResponse);
         }
-        
+
     }
 }

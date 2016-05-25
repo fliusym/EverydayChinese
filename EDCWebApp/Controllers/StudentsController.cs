@@ -28,6 +28,7 @@ namespace EDCWebApp.Controllers
         }
 
         //get student
+        [HttpGet]
         [ResponseType(typeof(EDCStudentDTO))]
         public async Task<IHttpActionResult> GetStudent(string id)
         {
@@ -69,15 +70,55 @@ namespace EDCWebApp.Controllers
             };
             return Ok(studentDto);
         }
-
+        //add word
+        [Route("~/api/Student/Words")]
+        [HttpPut]
+        public async Task<IHttpActionResult> PutWord([FromBody]string date)
+        {
+            var dateObj = DateTime.Parse(date);
+            if (dateObj == null)
+            {
+                var msg = "There is something wrong with the input.";
+                var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
+                var response = Request.CreateErrorResponse(HttpStatusCode.NotFound, modelError);
+                throw new HttpResponseException(response);
+            }
+            var d = dateObj.ToShortDateString();
+            var word = await db.Words.Where(p => p.Date == d).SingleOrDefaultAsync();
+            if (word == null)
+            {
+                var msg = String.Format("Word of the date {0} can't be find.", d);
+                var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
+                var response = Request.CreateErrorResponse(HttpStatusCode.NotFound, modelError);
+                throw new HttpResponseException(response);
+            }
+            if (word.StudentName == User.Identity.Name)
+            {
+                return Ok();
+            }
+            word.StudentName = User.Identity.Name;
+            db.SetEntityModified<EDCWord>(word);
+            try
+            {
+                await db.SaveChangesToDbAsync();
+            }
+            catch (Exception e)
+            {
+                var msg = e.Message;
+                var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
+                var response = Request.CreateErrorResponse(HttpStatusCode.NotFound, modelError);
+                throw new HttpResponseException(response);
+            }
+            return Ok();
+        }
         //remove word
-        [Route("{name}/Words/{id}")]
+        [Route("~/api/Words/{id}")]
         [HttpDelete]
-        [Authorize(Roles="Student")]
-        public async Task<IHttpActionResult> RemoveWord(string name, int id)
+        [Authorize(Roles = "Student")]
+        public async Task<IHttpActionResult> DeleteWord(int id)
         {
             var user = await db.Students.Include(p => p.Words)
-                .Where(p => p.StudentName == name).SingleOrDefaultAsync();
+                .Where(p => p.StudentName == User.Identity.Name).SingleOrDefaultAsync();
             if (user == null)
             {
                 var msg = "The user can't be found.";
@@ -85,16 +126,17 @@ namespace EDCWebApp.Controllers
                 var response = Request.CreateErrorResponse(HttpStatusCode.NotFound, modelError);
                 throw new HttpResponseException(response);
             }
+
+            var word = await db.Words.FindAsync(id);
+            if (word == null)
+            {
+                var msg = "The requested word can't be found.";
+                var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
+                var response = Request.CreateErrorResponse(HttpStatusCode.NotFound, modelError);
+                throw new HttpResponseException(response);
+            }
             try
             {
-                var word = await db.Words.FindAsync(id);
-                if (word == null)
-                {
-                    var msg = "The requested word can't be found.";
-                    var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
-                    var response = Request.CreateErrorResponse(HttpStatusCode.NotFound, modelError);
-                    throw new HttpResponseException(response);
-                }
                 user.Words.Remove(word);
                 await db.SaveChangesToDbAsync();
             }
@@ -109,40 +151,44 @@ namespace EDCWebApp.Controllers
         }
 
         //add learn request
-        [Route("{name}/LearnRequests/Add")]
+        [Route("~/api/LearnRequests")]
         [HttpPost]
-        public async Task<IHttpActionResult> AddLearnRequest(string name, EDCLearnRequestBindingModel model)
+        public async Task<IHttpActionResult> PostLearnRequest(EDCLearnRequestBindingModel model)
         {
-            if (name == null || name.Length == 0 || !CheckInputLearnRequest(model))
+            if (!CheckInputLearnRequest(model))
             {
                 var msg = "There is something wrong with the input.";
                 var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
                 var response = Request.CreateErrorResponse(HttpStatusCode.BadRequest, modelError);
                 throw new HttpResponseException(response);
             }
+            var name = User.Identity.Name;
+            var student = await db.Students.Where(p => p.StudentName == name).SingleOrDefaultAsync();
             var learnRequestObjs = new List<EDCLearnRequest>();
 
-            foreach (var l in model.DateAndTimes)
+            foreach (var l in model.LearnRequests)
             {
                 var date = l.Date;
                 string shortDate;
-                TimeConversionUtils.GetDate(date,out shortDate);
-                var dateFromDb = db.LearnRequests.Where(p => p.Date == shortDate);
+                TimeConversionUtils.GetDate(date, out shortDate);
+                var dateFromDb = db.LearnRequests.Where(p => p.Date == shortDate).Include(p => p.RegisteredStudents);
                 if (dateFromDb.Count() > 0)
                 {
                     foreach (var t in l.Times)
                     {
                         string[] times = TimeConversionUtils.GetStartAndEndTime(t);
                         bool needBuildNew = true;
+                        EDCLearnRequest existed = null;
                         foreach (var temp in dateFromDb)
                         {
                             if (times[0] == temp.StartTime && times[1] == temp.EndTime)
                             {
-                                var student = await db.Students.Where(p => p.StudentName == name).SingleOrDefaultAsync();
-                                if (student != null)
-                                {
-                                    temp.RegisteredStudents.Add(student);
-                                }
+                                existed = temp;
+                                //if (student != null)
+                                //{
+                                //    temp.RegisteredStudents.Add(student);
+
+                                //}
                                 needBuildNew = false;
                                 break;
                             }
@@ -153,6 +199,13 @@ namespace EDCWebApp.Controllers
                             if (obj != null)
                             {
                                 learnRequestObjs.Add(obj);
+                            }
+                        }
+                        else
+                        {
+                            if (existed != null)
+                            {
+                                existed.RegisteredStudents.Add(student);
                             }
                         }
                     }
@@ -178,9 +231,9 @@ namespace EDCWebApp.Controllers
                     var tasks = new List<Task>();
                     foreach (var l in learnRequestObjs)
                     {
-                        tasks.Add(db.AssignTeacherToLearnRequest(l, teacherName));
+                        db.AssignTeacherToLearnRequest(l, teacherName);
                     }
-                    await Task.WhenAll(tasks);
+
                     foreach (var l in learnRequestObjs)
                     {
                         db.LearnRequests.Add(l);
@@ -193,17 +246,17 @@ namespace EDCWebApp.Controllers
                     var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
                     var response = Request.CreateErrorResponse(HttpStatusCode.InternalServerError, modelError);
                     throw new HttpResponseException(response);
-                } 
+                }
             }
             return Ok();
         }
 
         //edit learn request
-        [Route("{name}/LearnRequests/Edit/{id}")]
+        [Route("~/api/LearnRequests/{id}")]
         [HttpPut]
-        public async Task<IHttpActionResult> EditLearnRequest(string name, int id, EDCLearnRequestEditBindingModel model)
+        public async Task<IHttpActionResult> EditLearnRequest(int id, EDCLearnRequestEditBindingModel model)
         {
-            if (name == null || name.Length == 0 || !CheckInputEditLearnRequest(model))
+            if (!CheckInputEditLearnRequest(model))
             {
                 var msg = "There is something wrong with input.";
                 var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
@@ -220,9 +273,11 @@ namespace EDCWebApp.Controllers
             }
             //see if the request new time and date is already existed
             var times = TimeConversionUtils.GetStartAndEndTime(model.Time);
+            var startTime = times[0];
+            var endTime = times[1];
             var newRequest = await db.LearnRequests.Where(p => p.Date == model.Date
-                && p.StartTime == times[0]
-                && p.EndTime == times[1]).SingleOrDefaultAsync();
+                && p.StartTime == startTime
+                && p.EndTime == endTime).SingleOrDefaultAsync();
             if (newRequest != null)
             {
                 var msg = "Your requested new date and time are already existed.";
@@ -249,23 +304,24 @@ namespace EDCWebApp.Controllers
         }
 
         //remove learn request
-        [Route("{name}/LearnRequests/Delete/{id}")]
+        [Route("~/api/LearnRequests/{id}")]
         [HttpDelete]
-        public async Task<IHttpActionResult> DeleteLearnRequest(string name, int id)
+        public async Task<IHttpActionResult> DeleteLearnRequest(int id)
         {
-            var user = await db.Students.FindAsync(name);
-            var learnRequest = await db.LearnRequests.FindAsync(id);
+            var learnRequest = await db.LearnRequests.Include(p => p.RegisteredStudents)
+                .Where(i => i.ID == id).SingleOrDefaultAsync();
             string message = "";
-            if (user == null)
-            {
-                message = string.Format("Can't find the user {0}", name);
-            }
-            else if (learnRequest == null)
+            if (learnRequest == null)
             {
                 message = "Can't find the learn request.";
+                var modelError = EDCExceptionFactory.GenerateHttpError(message, EDCWebServiceErrorType.Error, true);
+                var response = Request.CreateErrorResponse(HttpStatusCode.NotFound, modelError);
+                throw new HttpResponseException(response);
             }
-            if (user == null || learnRequest == null)
+            var user = await db.Students.FindAsync(User.Identity.Name);
+            if (user == null)
             {
+                message = "Can't find the user.";
                 var modelError = EDCExceptionFactory.GenerateHttpError(message, EDCWebServiceErrorType.Error, true);
                 var response = Request.CreateErrorResponse(HttpStatusCode.NotFound, modelError);
                 throw new HttpResponseException(response);
@@ -295,12 +351,7 @@ namespace EDCWebApp.Controllers
             {
                 return false;
             }
-            var userName = model.StudentName;
-            if (userName == null || userName.Length == 0)
-            {
-                return false;
-            }
-            var times = model.DateAndTimes;
+            var times = model.LearnRequests;
             if (times == null || times.Count == 0)
             {
                 return false;

@@ -6,7 +6,7 @@
         warning: 'warning'
     };
     var errorMsgInfo = {
-        message: '',
+        message: 'There are some errors.',
         type: msgType.error,
         debugOnly: false
     };

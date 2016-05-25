@@ -1,0 +1,28 @@
+﻿<form name="loginCtrl.loginForm" class="col-sm-offset-4" novalidate>
+    <div class="form-group" ng-class="{'has-error': loginCtrl.loginForm.emailInput.$touched && loginCtrl.loginForm.emailInput.$invalid}">
+        <label for="emailInput">Email Address</label>
+        <input type="email" class="form-control" name="emailInput" required id="emailInput" placeholder="Email" ng-model="loginCtrl.emailaddress" />
+        <div class="help-block" ng-messages="loginCtrl.loginForm.emailInput.$error" ng-if="loginCtrl.loginForm.emailInput.$touched">
+            <p ng-message="required">User email is required</p>
+            <p ng-message="email">This has to be a valid email address</p>
+        </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': loginCtrl.loginForm.pwdInput.$touched && loginCtrl.loginForm.pwdInput.$invalid}">
+        <label for="passwordInput">Password</label>
+        <input type="password" class="form-control" name="pwdInput" required id="passwordInput" placeholder="Password" ng-model="loginCtrl.password" />
+        <div class="help-block" ng-messages="loginCtrl.loginForm.pwdInput.$error" ng-if="loginCtrl.loginForm.pwdInput.$touched">
+            <p ng-message="required">Password is required</p>
+        </div>
+        <a href="/#/forgot_password">Forgot password?</a>
+    </div>
+
+    <div class="alert alert-danger col-sm-8" ng-show="loginCtrl.hasErrorFlag">
+        <span>There is something wrong</span>
+        <span>Your username and password doesn't match</span>
+    </div>
+    <div class="row"></div>
+    <button type="submit" class="btn btn-default col-sm-2" ng-click="loginCtrl.onLogin()">Login</button>
+    <button type="submit" class="btn btn-default col-sm-offset-1 col-sm-2" ng-click="loginCtrl.onCancelLogin()">Cancel</button>
+
+</form>
+

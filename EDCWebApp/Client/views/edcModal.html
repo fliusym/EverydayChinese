@@ -1,0 +1,22 @@
+﻿<div class="modal-header">
+
+    <h4 class="modal-title">Edit Time</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <h4>Date</h4>
+    </div>
+    <div class="row">
+        <select class="form-control" ng-model="selectedDate" ng-options="date for date in availableDates" ng-change="onDateChange()"></select>
+    </div>
+    <div class="row">
+        <h4>Time</h4>
+    </div>
+    <div class="row">
+        <select class="form-control" ng-model="selectedTime" ng-options="time for time in availableTimes"></select>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+    <button type="button" class="btn btn-primary" ng-click="ok()">Ok</button>
+</div>

@@ -26,9 +26,7 @@
                             <li>
                                 <a href="/#/chinesecharacter">Write</a>
                             </li>
-                            <li ng-if="!ctrl.loggedinInfo.isTeacher">
-                                <a href="/#/addLearnRequest">Free Online Learn</a>
-                            </li>
+
                         </ul>
                     </li>
                     <li ng-hide="ctrl.loggedinInfo.flag">
@@ -54,6 +52,9 @@
                                 <a href="/#/logout">Logout</a>
                             </li>
                         </ul>
+                    </li>
+                    <li ng-if="!ctrl.loggedinInfo.isTeacher">
+                        <a href="/#/addLearnRequest">Free Online Learn</a>
                     </li>
                 </ul>
             </div>

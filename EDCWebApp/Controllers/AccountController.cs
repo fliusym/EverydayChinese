@@ -67,7 +67,16 @@ namespace EDCWebApp.Controllers
             }
             return new { result = false };
         }
-
+        [HttpGet]
+        [Route("AccountInfo")]
+        public AccountInfoViewModel GetAccountInfo()
+        {
+            return new AccountInfoViewModel
+            {
+                Email = User.Identity.Name,
+                IsTeacher = User.IsInRole("Teacher")
+            };
+        }
         // GET api/Account/UserInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]
@@ -366,8 +375,8 @@ namespace EDCWebApp.Controllers
             return Ok(new
             {
                 email = model.Email,
-                UserId = user.Id,
-                Code = code
+                userId = user.Id,
+                code = code
             });
            
         }

@@ -36,11 +36,7 @@ function ($resource, $rootScope, $location, broadcastFactory, transformHeaderFac
             $location.path('/confirmEmail').search({ userEmail: data.email });
         }, function (error) {
             //need to work later for error
-            errorFactory.setErrorMsg({
-                message: error.message,
-                type: error.type === 'Error' ? 'error' : 'warning',
-                debugOnly: false
-            });
+            errorFactory.setErrorFromException(error);
         });
     };
 
@@ -65,8 +61,8 @@ function ($resource, $rootScope, $location, broadcastFactory, transformHeaderFac
         }).$promise.then(function (tokenBack) {
             sessionStorage.setItem(tokenKey, tokenBack.access_token);
             var isTeacher = false;
-            factory.getIsTeacher().$promise.then(function (data) {
-                isTeacher = data.result;
+            factory.getAccountInfo().$promise.then(function (data) {
+                isTeacher = data.IsTeacher;
                 if (isTeacher) {
                     $location.path('/teacher').search({ user: mydata.email });
                 } else {
@@ -94,11 +90,7 @@ function ($resource, $rootScope, $location, broadcastFactory, transformHeaderFac
                 reason: reason,
                 isTeacher: false
             };
-            errorFactory.setErrorMsg({
-                message: reason.message,
-                type: 'error',
-                debugOnly: false
-            });
+            errorFactory.setErrorFromException(reason);
             sessionStorage.setItem(userInfo, JSON.stringify(user));
             broadcastFactory.send('loginFail', reason);
         });
@@ -120,11 +112,7 @@ function ($resource, $rootScope, $location, broadcastFactory, transformHeaderFac
             $location.path('/forgot_password_confirmed');
         }, function (error) {
             //need to work later for error
-            errorFactory.setErrorMsg({
-                message: error.message,
-                type: error.type === 'Error' ? 'error' : 'warning',
-                debugOnly: false
-            });
+            errorFactory.setErrorFromException(error);
         });
     };
     //reset password
@@ -138,11 +126,7 @@ function ($resource, $rootScope, $location, broadcastFactory, transformHeaderFac
         }).$promise.then(function () {
             $location.path('/login').search({ userEmail: null, code: null });
         }, function (error) {
-            errorFactory.setErrorMsg({
-                message: error.message,
-                type: error.type === 'Error' ? 'error' : 'warning',
-                debugOnly: false
-            });
+            errorFactory.setErrorFromException(error);
             //need to work later for error
         });
     }
@@ -153,9 +137,9 @@ function ($resource, $rootScope, $location, broadcastFactory, transformHeaderFac
         }
 
     };
-    factory.getIsTeacher = function () {
+    factory.getAccountInfo = function () {
         var token = sessionStorage.getItem(tokenKey);
-        var resource = $resource('/api/Account/IsTeacher', null, {
+        var resource = $resource('/api/Account/AccountInfo', null, {
             getUserResource: {
                 method: 'GET',
                 headers: { 'Authorization': ('Bearer ' + token) },

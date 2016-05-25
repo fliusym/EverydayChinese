@@ -11,6 +11,7 @@ namespace EDCWebApp.Models
     }
     public class EDCScenarioContentDTO
     {
+        public int Id { get; set; }
         public IEnumerable<ScenarioImage> Images { get; set; }
     }
 }
