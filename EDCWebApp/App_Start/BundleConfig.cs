@@ -52,6 +52,7 @@ namespace EDCWebApp
                   "~/Client/filters/trustedFilter.js",
                   "~/Client/filters/dateShortFilter.js",
                   "~/Client/directives/directiveBase.js",
+                  "~/Client/directives/audioDirective.js",
                   "~/Client/directives/characterDirective.js",
                   "~/Client/directives/dateDirective.js",
                   "~/Client/directives/dismissibleErrorDirective.js",

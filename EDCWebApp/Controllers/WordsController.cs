@@ -46,6 +46,7 @@ namespace EDCWebApp.Controllers
                 var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
                 var response = Request.CreateErrorResponse(HttpStatusCode.BadRequest, modelError);
                 throw new HttpResponseException(response);
+                //return BadRequest();
             }
 
             var word = await db.Words

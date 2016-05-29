@@ -16,7 +16,7 @@
                             for (var j = 0; j < word.Phrases[i].Examples.length; j++) {
                                 examples.push({
                                     chinese: word.Phrases[i].Examples[j].Chinese,
-                                    english: word.Phrases[i].Examples[j].Englisgh
+                                    english: word.Phrases[i].Examples[j].English
                                 });
                             }
                         }

@@ -57,6 +57,7 @@
                                     endTime: request.EndTime,
                                     //      isTeacher: vm.isTeacher
                                 };
+                               
                                 learnRequests.push(requestItem);
                             }
                         }, function (error) {

@@ -1,4 +1,4 @@
-﻿<div class="col-sm-4 col-md-3 clitem">
+﻿<div class="col-sm-4 col-md-3 clitem-learnrequest">
     <div class="row" ng-if="!ctrl.isTeacher">
         <div class="col-sm-1 hoverrow">
             <button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="left" title="Edit" ng-click="ctrl.editItem()">
@@ -13,7 +13,7 @@
         </div>
     </div>
     <div class="row item-center">
-        <h5 style="text-align:center">{{ctrl.item.startTime}}</h5>
+        <h5 style="text-align:center">{{ctrl.item.startToEndTime}}</h5>
     </div>
     <div class="row item-center">
         <h2 style="text-align:center">{{ctrl.item.date}}</h2>

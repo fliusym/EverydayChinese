@@ -23,8 +23,29 @@
                         chinese: word.Character,
                         audiosrc: word.Audio,
                         basicMeaning: word.BasicMeanings,
+                        quotes: word.Quotes,
                         date: word.Date
                     };
+                    item.phrases = [];
+                    for (var k = 0; k < word.Phrases.length; k++) {
+                        var examples = [];
+                        if (word.Phrases[k].Examples) {
+                            for (var j = 0; j < word.Phrases[k].Examples.length; j++) {
+                                examples.push({
+                                    chinese: word.Phrases[k].Examples[j].Chinese,
+                                    english: word.Phrases[k].Examples[j].English
+                                });
+                            }
+                        }
+
+                        item.phrases.push({
+                            chinese: word.Phrases[k].Chinese,
+                            english: word.Phrases[k].English,
+                            audioid: "/" + word.Phrases[k].Pinyin,
+                            examples: examples
+
+                        });
+                    }
                     vm.userWordItems.push(item);
                 }
 
@@ -39,6 +60,7 @@
                         endTime: request.EndTime,
                         //      isTeacher: vm.isTeacher
                     };
+                    requestItem.startToEndTime = requestItem.startTime + ' - ' + requestItem.endTime;
                     vm.userLearnRequests.push(requestItem);
                 }
                 loginUserFactory.setCachedStudentLearnRequests(vm.userLearnRequests);

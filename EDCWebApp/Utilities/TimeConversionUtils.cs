@@ -17,7 +17,8 @@ namespace EDCWebApp.Utilities
             catch (Exception)
             {
                 date = null;
-                throw;
+              //  throw;
+               
             }
             
             
