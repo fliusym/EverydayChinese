@@ -14,4 +14,8 @@ namespace EDCWebApp.Tests
             return this.SingleOrDefault(p => p.ID == (int)keyValues.Single());
         }
     }
+    class TestStudentDbSet : TestDbSet<EDCStudent>
+    {
+
+    }
 }

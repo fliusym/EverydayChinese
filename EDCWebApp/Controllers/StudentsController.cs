@@ -43,32 +43,55 @@ namespace EDCWebApp.Controllers
                 var response = Request.CreateErrorResponse(HttpStatusCode.BadRequest, modelError);
                 throw new HttpResponseException(response);
             }
-            var learnRequests = new List<EDCLearnRequestDTO>();
-            foreach (var l in student.LearnRequests)
+            try
             {
-                var dto = db.GenerateDTO(l);
-                learnRequests.Add(dto);
+                var learnRequests = student.LearnRequests != null ? new List<EDCLearnRequestDTO>() : null;
+                if (learnRequests != null)
+                {
+                    foreach (var l in student.LearnRequests)
+                    {
+                        var dto = db.GenerateDTO(l);
+                        learnRequests.Add(dto);
+                    }
+                }
+
+                var scenarios = student.Scenarios != null ? new List<EDCScenarioContentDTO>() : null;
+                if (scenarios != null)
+                {
+                    foreach (var s in student.Scenarios)
+                    {
+                        var dto = db.GenerateDTO(s);
+                        scenarios.Add(dto);
+                    }
+                }
+
+                var words = student.Words != null ? new List<EDCWordDTO>() : null;
+                if (words != null)
+                {
+                    foreach (var w in student.Words)
+                    {
+                        var dto = db.GenerateDTO(w);
+                        words.Add(dto);
+                    }
+                }
+
+                EDCStudentDTO studentDto = new EDCStudentDTO()
+                {
+                    Name = student.StudentName,
+                    LearnRequests = learnRequests,
+                    Scenarios = scenarios,
+                    Words = words
+                };
+                return Ok(studentDto);
             }
-            var scenarios = new List<EDCScenarioContentDTO>();
-            foreach (var s in student.Scenarios)
+            catch (Exception e)
             {
-                var dto = db.GenerateDTO(s);
-                scenarios.Add(dto);
+                var msg = e.Message;
+                var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
+                var response = Request.CreateErrorResponse(HttpStatusCode.BadRequest, modelError);
+                throw new HttpResponseException(response);
             }
-            var words = new List<EDCWordDTO>();
-            foreach (var w in student.Words)
-            {
-                var dto = db.GenerateDTO(w);
-                words.Add(dto);
-            }
-            EDCStudentDTO studentDto = new EDCStudentDTO()
-            {
-                Name = student.StudentName,
-                LearnRequests = learnRequests,
-                Scenarios = scenarios,
-                Words = words
-            };
-            return Ok(studentDto);
+
         }
         //add word
         [Route("~/api/Student/Words")]

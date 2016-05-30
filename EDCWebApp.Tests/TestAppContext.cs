@@ -14,6 +14,7 @@ namespace EDCWebApp.Tests
         public TestAppContext()
         {
             this.Words = new TestWordDbSet();
+            this.Students = new TestStudentDbSet();
         }
         public DbSet<EDCWord> Words { get; set; }
         public DbSet<EDCStudent> Students { get; set; }
