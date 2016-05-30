@@ -16,6 +16,7 @@ namespace EDCWebApp.Models
         public ICollection<EDCWord> Words { get; set; }
         public ICollection<EDCScenarioContent> Scenarios { get; set; }
         public ICollection<EDCLearnRequest> LearnRequests { get; set; }
+        public ICollection<EDCHubConnection> HubConnections { get; set; }
 
     }
 }

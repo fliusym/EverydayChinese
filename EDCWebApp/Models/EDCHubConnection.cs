@@ -7,13 +7,15 @@ using System.Web;
 
 namespace EDCWebApp.Models
 {
-    public class EDCTeacher
+    public class EDCHubConnection
     {
         [Key]
         [DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.None)]
-        public string TeacherName { get; set; }
+        public string HubConnectionID { get; set; }
 
-        public ICollection<EDCLearnRequest> LearnRequests { get; set; }
-        public ICollection<EDCHubConnection> HubConnections { get; set; }
+        public bool Connected { get; set; }
+        public string LoginDate { get; set; }
+        public string LoginTime { get; set; }
+
     }
 }

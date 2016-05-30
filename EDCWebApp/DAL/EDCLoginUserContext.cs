@@ -17,6 +17,7 @@ namespace EDCWebApp.DAL
         public DbSet<EDCTeacher> Teachers { get; set; }
         public DbSet<EDCPhraseExample> PhraseExamples { get; set; }
         public DbSet<EDCPhrase> Phrases { get; set; }
+        public DbSet<EDCHubConnection> HubConnections { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

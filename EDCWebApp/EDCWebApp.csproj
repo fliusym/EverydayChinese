@@ -39,6 +39,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.1.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.1.2\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.1.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.1.2\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -229,6 +237,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hubs\BlackBoard.cs" />
+    <Compile Include="Hubs\DbContextHubExtensions.cs" />
+    <Compile Include="Hubs\HubUser.cs" />
+    <Compile Include="Hubs\LearnRequestHub.cs" />
     <Compile Include="Migrations\201605202033588_Initial.cs" />
     <Compile Include="Migrations\201605202033588_Initial.Designer.cs">
       <DependentUpon>201605202033588_Initial.cs</DependentUpon>
@@ -237,9 +249,18 @@
     <Compile Include="Migrations\201605202308166_AddTeacherEntity.Designer.cs">
       <DependentUpon>201605202308166_AddTeacherEntity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605301355534_AddHubConnection.cs" />
+    <Compile Include="Migrations\201605301355534_AddHubConnection.Designer.cs">
+      <DependentUpon>201605301355534_AddHubConnection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605301359047_UpdateStudentAndTeacherWithHubConnection.cs" />
+    <Compile Include="Migrations\201605301359047_UpdateStudentAndTeacherWithHubConnection.Designer.cs">
+      <DependentUpon>201605301359047_UpdateStudentAndTeacherWithHubConnection.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\EDCHubConnection.cs" />
     <Compile Include="Models\EDCLearnRequest.cs" />
     <Compile Include="Models\EDCLearnRequestBinderProvider.cs" />
     <Compile Include="Models\EDCLearnRequestBindingModels.cs" />
@@ -1149,6 +1170,8 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.signalR-2.1.2.js" />
+    <Content Include="Scripts\jquery.signalR-2.1.2.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -1195,6 +1218,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605202308166_AddTeacherEntity.resx">
       <DependentUpon>201605202308166_AddTeacherEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605301355534_AddHubConnection.resx">
+      <DependentUpon>201605301355534_AddHubConnection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605301359047_UpdateStudentAndTeacherWithHubConnection.resx">
+      <DependentUpon>201605301359047_UpdateStudentAndTeacherWithHubConnection.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
