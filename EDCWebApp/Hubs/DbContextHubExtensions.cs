@@ -91,5 +91,58 @@ namespace EDCWebApp.Hubs
                 }
             }
         }
+
+        public static IEnumerable<string> GetConnectedStudents(this EDCLoginUserContext db)
+        {
+            if (db != null)
+            {
+                var ret = new List<string>();
+                var students = db.Students.Include(p => p.HubConnections);
+                foreach (var s in students)
+                {
+                    foreach (var c in s.HubConnections)
+                    {
+                        if (c.Connected)
+                        {
+                            var date = c.LoginDate + " " + c.LoginTime;
+                            var datetime = DateTime.Parse(date);
+                            var now = DateTime.Now;
+                            if ((now - datetime).TotalMinutes < 100)
+                            {
+                                ret.Add(s.StudentName);
+                            }
+                        }
+                    }
+                }
+
+                return ret.Distinct();
+
+
+            }
+            return null;
+        }
+
+        public static void RemoveAllHubConnections(this EDCLoginUserContext db)
+        {
+            if (db != null)
+            {
+                db.HubConnections.RemoveRange(db.HubConnections.Where(p => p.Connected == true || p.Connected == false));
+                db.SaveChangesToDb();
+            }
+        }
+
+        public static string IsTeacherLogged(this EDCLoginUserContext db)
+        {
+            if (db != null)
+            {
+                var teacher = db.Teachers.Where(p => p.HubConnections.Any(x => x.Connected == true)).SingleOrDefault();
+
+                if (teacher != null)
+                {
+                    return teacher.TeacherName;
+                }
+            }
+            return "";
+        }
     }
 }

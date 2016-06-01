@@ -28,7 +28,7 @@
 
         factory.getTeacherResource = function (id) {
             var token = sessionStorage.getItem(tokenKey);
-            var resource = $resource('/api/LCLoginTeachers/:id', null, {
+            var resource = $resource('/api/Teachers', null, {
                 getUserResource: {
                     method: 'GET',
                     isArray: false,

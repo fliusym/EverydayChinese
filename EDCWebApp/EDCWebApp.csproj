@@ -290,8 +290,10 @@
     <Content Include="Client\controllers\addLearnRequestController.js" />
     <Content Include="Client\controllers\controllerBase.js" />
     <Content Include="Client\controllers\defaultController.js" />
+    <Content Include="Client\controllers\learnRequestController.js" />
     <Content Include="Client\controllers\loginController.js" />
     <Content Include="Client\controllers\studentController.js" />
+    <Content Include="Client\controllers\teacherController.js" />
     <Content Include="Client\directives\addLearnRequestDirective.js" />
     <Content Include="Client\directives\audioDirective.js" />
     <Content Include="Client\directives\characterDirective.js" />
@@ -304,7 +306,9 @@
     <Content Include="Client\directives\phraseDirective.js" />
     <Content Include="Client\directives\pwdCompareDirective.js" />
     <Content Include="Client\directives\quoteDirective.js" />
+    <Content Include="Client\directives\studentCanvasDirective.js" />
     <Content Include="Client\directives\svgDirective.js" />
+    <Content Include="Client\directives\teacherCanvasDirective.js" />
     <Content Include="Client\directives\userItemContainerDirective.js" />
     <Content Include="Client\directives\userLearnRequestDirective.js" />
     <Content Include="Client\directives\userWordDirective.js" />
@@ -314,8 +318,10 @@
     <Content Include="Client\filters\trustedFilter.js" />
     <Content Include="Client\services\authenticationFactory.js" />
     <Content Include="Client\services\basicFactory.js" />
+    <Content Include="Client\services\canvasDrawFactory.js" />
     <Content Include="Client\services\learnRequestFactory.js" />
     <Content Include="Client\services\loginUserFactory.js" />
+    <Content Include="Client\services\signalRFactory.js" />
     <Content Include="Client\services\wordFactory.js" />
     <Content Include="Client\services\errorFactory.js" />
     <Content Include="Client\services\serviceBase.js" />
@@ -343,6 +349,9 @@
     <Content Include="Client\views\register.html" />
     <Content Include="Client\views\resetpwd.html" />
     <Content Include="Client\views\student.html" />
+    <Content Include="Client\views\studentLearnRequest.html" />
+    <Content Include="Client\views\teacher.html" />
+    <Content Include="Client\views\teacherLearnRequest.html" />
     <Content Include="Content\addLearnRequestBg.gif" />
     <Content Include="Content\Audios\WordAudio\人.m4a" />
     <Content Include="Content\bootstrap.css" />

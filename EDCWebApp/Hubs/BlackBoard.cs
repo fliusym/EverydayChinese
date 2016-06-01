@@ -15,7 +15,7 @@ namespace EDCWebApp.Hubs
     }
     public class BlackBoard
     {
-        [JsonProperty("previousProperty")]
+        [JsonProperty("previousPosition")]
         public Position PreviousPosition { get; set; }
         [JsonProperty("currentPosition")]
         public Position CurrentPosition { get; set; }

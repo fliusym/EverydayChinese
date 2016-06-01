@@ -24,6 +24,11 @@ namespace EDCWebApp
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
 
+            bundles.Add(new ScriptBundle("~/bundles/signalR").Include(
+                    "~/Scripts/jquery.signalR-2.1.2.min.js"
+
+            ));
+
             bundles.Add(new ScriptBundle("~/bundles/angularjs").Include(
                      "~/Scripts/angular.js",
                      "~/Scripts/angular-sanitize.js",
@@ -34,13 +39,18 @@ namespace EDCWebApp
                      "~/Scripts/angular-touch.js",
                      "~/Scripts/angular-ui/ui-bootstrap.min.js",
                      "~/Scripts/angular-ui/ui-bootstrap-tpls.min.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/appjs").Include(
                 "~/Client/app.js",
+                /*controllers*/
                 "~/Client/controllers/controllerBase.js",
                  "~/Client/controllers/defaultController.js",
                  "~/Client/controllers/loginController.js",
                  "~/Client/controllers/studentController.js",
                  "~/Client/controllers/addLearnRequestController.js",
+                 "~/Client/controllers/learnRequestController.js",
+                 "~/Client/controllers/teacherController.js",
+                 /*factories*/
                   "~/Client/services/serviceBase.js",
                   "~/Client/services/basicFactory.js",
                   "~/Client/services/wordFactory.js",
@@ -48,9 +58,13 @@ namespace EDCWebApp
                   "~/Client/services/authenticationFactory.js",
                   "~/Client/services/learnRequestFactory.js",
                   "~/Client/services/loginUserFactory.js",
+                  "~/Client/services/signalRFactory.js",
+                  "~/Client/services/canvasDrawFactory.js",
+                  /*filters*/
                   "~/Client/filters/filterBase.js",
                   "~/Client/filters/trustedFilter.js",
                   "~/Client/filters/dateShortFilter.js",
+                  /*directives*/
                   "~/Client/directives/directiveBase.js",
                   "~/Client/directives/audioDirective.js",
                   "~/Client/directives/characterDirective.js",
@@ -67,7 +81,9 @@ namespace EDCWebApp
                   "~/Client/directives/userLearnRequestDirective.js",
                   "~/Client/directives/userWordDirective.js",
                   "~/Client/directives/wordBasicDirective.js",
-                  "~/Client/directives/addLearnRequestDirective.js"
+                  "~/Client/directives/addLearnRequestDirective.js",
+                  "~/Client/directives/teacherCanvasDirective.js",
+                  "~/Client/directives/studentCanvasDirective.js"
                 ));
 
         }

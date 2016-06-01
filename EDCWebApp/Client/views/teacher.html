@@ -1,0 +1,16 @@
+﻿<edc-header></edc-header>
+
+
+<div role="main" class="container" ng-if="!loginTeacherCtrl.error">
+    <edc-item-container ng-if="loginTeacherCtrl.authorized" title="Learn Requests">
+        <div ng-repeat="item in loginTeacherCtrl.teacherLearnRequests">
+            <br ng-if="$index > 0 && $index%3 == 0" />
+            <div ng-if="$index % 3 == 0" class="row">
+                <edc-learn-request ng-if="($index) < loginTeacherCtrl.teacherLearnRequests.length" item="loginTeacherCtrl.teacherLearnRequests[$index]" is-teacher="true"></edc-learn-request>
+                <edc-learn-request ng-if="($index + 1) < loginTeacherCtrl.teacherLearnRequests.length" item="loginTeacherCtrl.teacherLearnRequests[$index + 1]" is-teacher="true"></edc-learn-request>
+                <edc-learn-request ng-if="($index + 2) < loginTeacherCtrl.teacherLearnRequests.length" item="loginTeacherCtrl.teacherLearnRequests[$index + 2]" is-teacher="true"></edc-learn-request>
+            </div>
+        </div>
+    </edc-item-container>
+</div>
+<edc-dismissible-error error="loginTeacherCtrl.error"></edc-dismissible-error>

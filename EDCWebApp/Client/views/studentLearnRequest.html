@@ -1,0 +1,46 @@
+﻿<edc-header></edc-header>
+<!--learnRequest-teacher-not-logged col-md-8-->
+<div ng-if="!studentLRCtrl.isTeacherLoggedOn && !studentLRCtrl.isLessonEnded" class="alert alert-info" role="alert">
+    
+        Teacher is not logged yet, please wait a few minutes. When the teacher logs in, you will
+        automatically join the course.
+    
+</div>
+<div ng-if="studentLRCtrl.isTeacherLoggedOn && !studentLRCtrl.isLessonEnded" class="container" role="main">
+    <div class="row">
+        <div class="col-sm-1 col-md-1">
+            <button type="button" class="btn btn-default btn-lg">
+                Ask Question
+            </button>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <canvas edc-student-canvas class="learnRequest-canvas" width="600" height="400"></canvas>
+
+    </div>
+    <div class="row">
+        <div class="col-sm-3 col-md-2 ">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default">Teacher</button>
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <p>{{studentLRCtrl.teacher}}</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ng-if="!studentLRCtrl.isTeacherLoggedOn && studentLRCtrl.isLessonEnded" class="learnRequest-teacher-not-logged">
+    <p>
+        The lesson is ended. Thanks for your participation.
+    </p>
+</div>
+
