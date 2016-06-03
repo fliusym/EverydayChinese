@@ -63,9 +63,12 @@
         controllerAs: 'addLRCtrl'
     }).when('/addWord', {
         resolve: {
-            addWord: ['loginUserFactory', 'timeFactory', function (loginUserFactory, timeFactory) {
-                var date = timeFactory.getCurrentDate();
-                loginUserFactory.addWord(date);
+            addWord: ['loginUserFactory', 'timeFactory','wordFactory', function (loginUserFactory,
+                timeFactory,  wordFactory) {
+                //   var date = timeFactory.getCurrentDate();
+                //var user = authenticationFactory.getLoginInfo().user;
+                var id = wordFactory.getCurrentWordIdToAdd();
+                loginUserFactory.addWord(id);
             }]
         }
     }).when('/default', {

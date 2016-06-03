@@ -17,6 +17,7 @@
                     var cur = data[i];
                     if (cur) {
                         var item = {
+                            id: cur.Id,
                             date: cur.Date,
                             startTime: cur.StartTime,
                             endTime: cur.EndTime,

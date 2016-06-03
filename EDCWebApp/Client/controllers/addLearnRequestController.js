@@ -41,7 +41,7 @@
                     data: data
                 };
                 //  var userName = userinfo.user;
-                loginUserFactory.addLearnRequest(requestData).$promise.then(function () {
+                loginUserFactory.addLearnRequest(userinfo.user, requestData).$promise.then(function () {
                     $location.path('/user').search({ user: userinfo.user });
                 }, function (error) {
                     errorFactory.setErrorFromException(error);

@@ -50,5 +50,32 @@ namespace EDCWebApp.Controllers
                 LearnRequests = learnRequestDtos
             });
         }
+
+        [Route("~/api/Teachers/LearnRequests/{id}")]
+        [System.Web.Http.HttpDelete]
+        public async Task<IHttpActionResult> DeleteLearnRequest(int id)
+        {
+            var learnRequest = await db.LearnRequests.FindAsync(id);
+            if (learnRequest == null)
+            {
+                var message = "Can't find the learn request.";
+                var modelError = EDCExceptionFactory.GenerateHttpError(message, EDCWebServiceErrorType.Error, true);
+                var response = Request.CreateErrorResponse(HttpStatusCode.NotFound, modelError);
+                throw new HttpResponseException(response);
+            }
+            try
+            {
+                db.LearnRequests.Remove(learnRequest);
+                await db.SaveChangesToDbAsync();
+            }
+            catch (Exception e)
+            {
+                var msg = e.Message;
+                var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
+                var response = Request.CreateErrorResponse(HttpStatusCode.InternalServerError, modelError);
+                throw new HttpResponseException(response);
+            }
+            return Ok();
+        }
     }
 }

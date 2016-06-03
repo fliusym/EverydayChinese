@@ -1,6 +1,6 @@
 ﻿angular.module('learnChineseApp.controller').controller('StudentLearnRequestController', [
-    'signalRFactory', '$scope',
-    function (signalRFactory, $scope) {
+    'signalRFactory', '$scope', 'broadcastFactory', '$location',
+    function (signalRFactory, $scope, broadcastFactory,$location) {
         'use strict';
         var vm = this;
         signalRFactory.init();
@@ -22,7 +22,7 @@
             }
         });
         $scope.$on('hubConnectionError', function (msg) {
-           
+
         });
         $scope.$on('userConnected', function (msg, user) {
             if (user) {
@@ -42,14 +42,16 @@
                 }
             }
         });
-        $scope.$on('userDisconnected', function (msg, user, stopCalled) {
-            if (user) {
-                if (user.isTeacher) {
+        $scope.$on('userDisconnected', function (msg, data) {
+            if (data) {
+                if (data.user.isTeacher) {
 
-                    if (stopCalled) {
+                    if (data.stopCalled) {
                         vm.isTeacherLoggedOn = false;
                         vm.isLessonEnded = true;
-                    //    signalRFactory.stopConnection();
+                        vm.infomsg = "The session has ended. Thanks for your participation."
+                        
+                        //    signalRFactory.stopConnection();
                     } else {
                         vm.isTeacherTempLoggedOut = true;
                         vm.teacher = '';
@@ -59,11 +61,11 @@
             }
         });
     }]).controller('TeacherLearnRequestController', [
-        '$scope', 'signalRFactory',
-        function ($scope, signalRFactory) {
+        '$scope', 'signalRFactory', '$routeParams', 'loginUserFactory',
+        function ($scope, signalRFactory, $routeParams, loginUserFactory) {
             'use strict';
             var vm = this;
-
+            var id = $routeParams.index;
             function getConnectedStudents() {
                 var p = signalRFactory.getConnectedStudents();
                 if (p) {
@@ -97,8 +99,8 @@
                 getConnectedStudents();
 
             });
-            $scope.$on('userDisconnected', function (msg, user) {
-                if (!user.isTeacher) {
+            $scope.$on('userDisconnected', function (msg, data) {
+                if (!data.user.isTeacher) {
                     getConnectedStudents();
                 }
             });
@@ -113,5 +115,13 @@
             };
             vm.endSession = function () {
                 signalRFactory.stopConnection();
+                vm.sessionEnded = true;
+                vm.infomsg = "The sesssion is ended.";
+                loginUserFactory.deleteLearnRequest(id)
+                    .$promise.then(function () {
+
+                    }, function (error) {
+
+                    });
             };
         }]);

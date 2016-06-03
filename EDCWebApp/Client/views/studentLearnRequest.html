@@ -38,9 +38,8 @@
     </div>
 </div>
 
-<div ng-if="!studentLRCtrl.isTeacherLoggedOn && studentLRCtrl.isLessonEnded" class="learnRequest-teacher-not-logged">
-    <p>
-        The lesson is ended. Thanks for your participation.
-    </p>
+<div ng-if="!studentLRCtrl.isTeacherLoggedOn && studentLRCtrl.isLessonEnded && studentLRCtrl.infomsg" class="alert alert-info alert-dismissable" role="alert">
+    <button type="button" class="close" ng-click="studentLRCtrl.infomsg = null" aria-hidden="true">&times;</button>
+    <strong>{{studentLRCtrl.infomsg}}</strong>
 </div>
 

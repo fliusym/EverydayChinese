@@ -2,14 +2,15 @@
 .directive('edcLearnRequest', [function () {
     'use strict';
     var checkIfNeedToJoin = function (item) {
-        var date = new Date();
-        var requestTime = item.date + ' ' + item.startTime;
-        var requestDate = new Date(requestTime);
-        if (Math.abs((date - requestDate) / 60000) < 2160) {
-            return true;
-        } else {
-            return false;
-        }
+        //var date = new Date();
+        //var requestTime = item.date + ' ' + item.startTime;
+        //var requestDate = new Date(requestTime);
+        //if (Math.abs((date - requestDate) / 60000) < 2160) {
+        //    return true;
+        //} else {
+        //    return false;
+        //}
+        return true;
     }
     return {
         require: '^edcItemContainer',

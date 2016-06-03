@@ -17,7 +17,7 @@
                 broadcastFactory.send('userReconnected', user);
             });
             learnRequestProxy.on('userDisconnected', function (user,stopCalled) {
-                broadcastFactory.send('userDisconnected', user,stopCalled);
+                broadcastFactory.send('userDisconnected', {user: user, stopCalled: stopCalled});
             });
             connection.start()
             .done(function () {
@@ -37,7 +37,7 @@
         stopConnection: function () {
             if (connection && learnRequestProxy) {
                 connected = false;
-                learnRequestProxy.invoke('teacherStopped');
+           //     learnRequestProxy.invoke('teacherStopped');
                 connection.stop();
             }
         },

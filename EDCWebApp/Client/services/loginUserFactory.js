@@ -44,7 +44,7 @@
 
         factory.removeLearnRequest = function (id) {
             var token = sessionStorage.getItem(tokenKey);
-            var resource = $resource('/api/LearnRequests/:id', null, {
+            var resource = $resource('/api/Students/LearnRequests/:id', null, {
                 removeItem: {
                     method: 'DELETE',
                     headers: {
@@ -55,10 +55,26 @@
             });
             return resource.removeItem({ id: id });
         }
-
+        //compared with removeLearnRquest, this function will remove 
+        //the learn request from backend, while the function removeLearnRequest 
+        //most of time only remove the student from learn request's registered students 
+        //it can only be called from teacher
+        factory.deleteLearnRequest = function (id) {
+            var token = sessionStorage.getItem(tokenKey);
+            var resource = $resource('/api/Teachers/LearnRequests/:id', null, {
+                removeItem: {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': ('Bearer ' + token),
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }
+            });
+            return resource.removeItem({ id: id });
+        }
         factory.editLearnRequest = function (id,date,time) {
             var token = sessionStorage.getItem(tokenKey);
-            var resource = $resource('/api/LearnRequests/:id', null, {
+            var resource = $resource('/api/Students/LearnRequests/:id', null, {
                 editItem: {
                     method: 'PUT',
                     headers: {
@@ -71,10 +87,10 @@
             return resource.editItem({ id: id}, { date: date, time: time } );
         }
 
-        factory.addLearnRequest = function (requestData) {
+        factory.addLearnRequest = function (name,requestData) {
             var token = sessionStorage.getItem(tokenKey);
             //since the username is email address, has to add trailing slash
-            var resource = $resource('/api/LearnRequests', null, {
+            var resource = $resource('/api/Students/:name/LearnRequests', null, {
                 postLearnRequest: {
                     method: 'POST',
                     headers: {
@@ -86,12 +102,12 @@
             var data = {
                 'LearnRequests': requestData.data
             };
-            return resource.postLearnRequest(data);
+            return resource.postLearnRequest({name:name},data);
         }
 
-        factory.addWord = function (date) {
+        factory.addWord = function (id) {
             var token = sessionStorage.getItem(tokenKey);
-            var resource = $resource('/api/Student/Words', null, {
+            var resource = $resource('/api/Students/Words', null, {
                 addWord: {
                     method: 'PUT',
                     headers: {
@@ -102,7 +118,7 @@
                     }
                 }
             });
-            resource.addWord(date).$promise.then(function () {
+            resource.addWord(id).$promise.then(function () {
                 var mydata = authenticationFactory.getLoginInfo();
                 $location.path('/user').search({ user: mydata.user });
             }, function () {
@@ -111,9 +127,9 @@
             });
         }
 
-        factory.removeWord = function (id) {
+        factory.removeWord = function (name, id) {
             var token = sessionStorage.getItem(tokenKey);
-            var resource = $resource('/api/Words/:id', null, {
+            var resource = $resource('/api/Students/:name/Words/:id', null, {
                 deleteWord: {
                     method: 'DELETE',
                     headers: {
@@ -125,7 +141,7 @@
                     }
                 }
             });
-            return resource.deleteWord({ id: id });
+            return resource.deleteWord({ name:name, id: id });
         }
         factory.setCachedStudentLearnRequests = function (learnRequests) {
             cachedStudentLearnRequests = learnRequests;

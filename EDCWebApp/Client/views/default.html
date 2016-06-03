@@ -1,6 +1,6 @@
 ﻿
 <edc-header></edc-header>
-
+<!--svgname="{{defaultCtrl.svgname}}"-->
 <div class="container" role="main">
     <div class="row">
         <edc-everyday title="Everyday Chinese" chinese="每日一词"></edc-everyday>
@@ -16,7 +16,7 @@
     <div ng-if="!defaultCtrl.error">
         <div class="row">
             <div class="col-sm-1 col-sm-offset-1">
-                <edc-character svgname="{{defaultCtrl.svgname}}" add="defaultCtrl.add()"></edc-character>
+                <edc-character info="defaultCtrl.info" add="defaultCtrl.add"></edc-character>
             </div>
 
             <div class="col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-1">

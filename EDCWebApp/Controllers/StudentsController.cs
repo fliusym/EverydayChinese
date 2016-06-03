@@ -15,7 +15,7 @@ using EDCWebApp.Utilities;
 
 namespace EDCWebApp.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Student")]
     [RoutePrefix("api/Students")]
     public class StudentsController : ApiController
     {
@@ -94,23 +94,14 @@ namespace EDCWebApp.Controllers
 
         }
         //add word
-        [Route("~/api/Student/Words")]
+        [Route("~/api/Students/Words")]
         [HttpPut]
-        public async Task<IHttpActionResult> PutWord([FromBody]string date)
+        public async Task<IHttpActionResult> PutWord([FromBody]int id)
         {
-            var dateObj = DateTime.Parse(date);
-            if (dateObj == null)
-            {
-                var msg = "There is something wrong with the input.";
-                var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
-                var response = Request.CreateErrorResponse(HttpStatusCode.NotFound, modelError);
-                throw new HttpResponseException(response);
-            }
-            var d = dateObj.ToShortDateString();
-            var word = await db.Words.Where(p => p.Date == d).SingleOrDefaultAsync();
+            var word = await db.Words.FindAsync(id);
             if (word == null)
             {
-                var msg = String.Format("Word of the date {0} can't be find.", d);
+                var msg = String.Format("The word can't be find.");
                 var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
                 var response = Request.CreateErrorResponse(HttpStatusCode.NotFound, modelError);
                 throw new HttpResponseException(response);
@@ -135,13 +126,14 @@ namespace EDCWebApp.Controllers
             return Ok();
         }
         //remove word
-        [Route("~/api/Words/{id}")]
+        [Route("~/api/Students/{name}/Words/{id}")]
         [HttpDelete]
-        [Authorize(Roles = "Student")]
-        public async Task<IHttpActionResult> DeleteWord(int id)
+        public async Task<IHttpActionResult> DeleteWord(string name, int id)
         {
+            //var user = await db.Students.Include(p => p.Words)
+            //    .Where(p => p.StudentName == User.Identity.Name).SingleOrDefaultAsync();
             var user = await db.Students.Include(p => p.Words)
-                .Where(p => p.StudentName == User.Identity.Name).SingleOrDefaultAsync();
+                        .Where(p => p.StudentName == name).SingleOrDefaultAsync();
             if (user == null)
             {
                 var msg = "The user can't be found.";
@@ -174,9 +166,9 @@ namespace EDCWebApp.Controllers
         }
 
         //add learn request
-        [Route("~/api/LearnRequests")]
+        [Route("~/api/Students/{name}/LearnRequests")]
         [HttpPost]
-        public async Task<IHttpActionResult> PostLearnRequest(EDCLearnRequestBindingModel model)
+        public async Task<IHttpActionResult> PostLearnRequest(string name, EDCLearnRequestBindingModel model)
         {
             if (!CheckInputLearnRequest(model))
             {
@@ -185,7 +177,7 @@ namespace EDCWebApp.Controllers
                 var response = Request.CreateErrorResponse(HttpStatusCode.BadRequest, modelError);
                 throw new HttpResponseException(response);
             }
-            var name = User.Identity.Name;
+            //    var name = User.Identity.Name;
             var student = await db.Students.Where(p => p.StudentName == name).SingleOrDefaultAsync();
             var learnRequestObjs = new List<EDCLearnRequest>();
 
@@ -207,11 +199,6 @@ namespace EDCWebApp.Controllers
                             if (times[0] == temp.StartTime && times[1] == temp.EndTime)
                             {
                                 existed = temp;
-                                //if (student != null)
-                                //{
-                                //    temp.RegisteredStudents.Add(student);
-
-                                //}
                                 needBuildNew = false;
                                 break;
                             }
@@ -263,9 +250,10 @@ namespace EDCWebApp.Controllers
                     }
                     await db.SaveChangesToDbAsync();
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    var msg = e.Message;
+
+                    var msg = "There are some internal errors happened.";
                     var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
                     var response = Request.CreateErrorResponse(HttpStatusCode.InternalServerError, modelError);
                     throw new HttpResponseException(response);
@@ -275,7 +263,7 @@ namespace EDCWebApp.Controllers
         }
 
         //edit learn request
-        [Route("~/api/LearnRequests/{id}")]
+        [Route("~/api/Students/LearnRequests/{id}")]
         [HttpPut]
         public async Task<IHttpActionResult> EditLearnRequest(int id, EDCLearnRequestEditBindingModel model)
         {
@@ -327,7 +315,7 @@ namespace EDCWebApp.Controllers
         }
 
         //remove learn request
-        [Route("~/api/LearnRequests/{id}")]
+        [Route("~/api/Students/LearnRequests/{id}")]
         [HttpDelete]
         public async Task<IHttpActionResult> DeleteLearnRequest(int id)
         {

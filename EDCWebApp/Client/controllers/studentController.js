@@ -111,7 +111,7 @@
             var word = vm.userWordItems[index];
             if (word) {
                 var id = word.id;
-                loginUserFactory.removeWord(id).$promise.then(function () {
+                loginUserFactory.removeWord(userName,id).$promise.then(function () {
                     vm.userWordItems.splice(index, 1);
                 }, function (error) {
                     vm.userWordItems[index].error = {};

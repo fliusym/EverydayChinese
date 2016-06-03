@@ -23,13 +23,7 @@ namespace EDCWebApp.Hubs
                 return db.GetConnectedStudents();
             }
         }
-        public void TeacherStopped()
-        {
-            using (var db = new EDCWebApp.DAL.EDCLoginUserContext())
-            {
-                db.RemoveAllHubConnections();
-            }
-        }
+
         public string IsTeacherLoggedIn()
         {
             using (var db = new EDCWebApp.DAL.EDCLoginUserContext())
@@ -136,6 +130,10 @@ namespace EDCWebApp.Hubs
                                 Name = Context.User.Identity.Name,
                                 IsTeacher = true
                             },stopCalled);
+                        }
+                        if (stopCalled)
+                        {
+                            db.RemoveAllHubConnections();
                         }
                     }
                     else

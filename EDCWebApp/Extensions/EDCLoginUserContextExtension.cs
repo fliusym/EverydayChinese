@@ -121,7 +121,8 @@ namespace EDCWebApp.Extensions
         {
             if (context != null && learnRequest != null)
             {
-                var teacher = context.Teachers.Find(teacherName);
+                var teacher = context.Teachers.Include(p => p.LearnRequests)
+                    .Where(p => p.TeacherName == teacherName).SingleOrDefault();
                 if (teacher != null)
                 {
                     teacher.LearnRequests.Add(learnRequest);

@@ -8,7 +8,8 @@
 
         },
         bindToController: {
-            svgname: '@',
+            //svgname: '@',
+            info: '=',
             add: '&'
         },
         controller: [function () {
@@ -16,7 +17,7 @@
             ctrl.canadd = false;
             ctrl.onAdd = function () {
                 ctrl.canadd = false;
-                this.add();
+                this.add()(this.info.id);
             }
         }],
         controllerAs: 'ctrl',

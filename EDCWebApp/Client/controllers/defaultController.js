@@ -5,7 +5,10 @@
             var vm = this;
             var getCurrentDayWord = function (date) {
                 wordFactory.getWord(date).$promise.then(function (word) {
-                    vm.svgname = word.Character;
+                    vm.info = {};
+                    vm.info['svgname'] = word.Character;
+                    vm.info['id'] = word.Id;
+                //    vm.svgname = word.Character;
                     vm.wordEnglish = word.BasicMeanings;
                     vm.pinyin = "/" + word.Pinyin;
                     vm.audioSrc = "/" + word.Audio;
@@ -90,8 +93,9 @@
                 vm.currentDate = date;
                 getCurrentDayWord(date);
             }
-            vm.add = function () {
+            vm.add = function (id) {
                 timeFactory.setCurrentDate(vm.currentDate);
+                wordFactory.setCurrentWordIdToAdd(id);
                 $location.path('/addWord');
             }
         }]);
