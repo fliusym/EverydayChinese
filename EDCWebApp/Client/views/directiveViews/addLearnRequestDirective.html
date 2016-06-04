@@ -7,7 +7,7 @@
         <div class="addLearnRequest-margin">
             <div class="radio" ng-repeat="t in ctrl.addedLearnRequest.morning">
                 <label>
-                    <input type="radio" name="{{ctrl.addedLearnRequest.date}}morningOptions" ng-model="ctrl.morningChoose" value="{{t}}" />
+                    <input type="radio" name="{{ctrl.addedLearnRequest.date}}morningOptions" ng-model="ctrl.morningChoose" value="{{t}}" ng-click="ctrl.morningOptionClick($event)" />
                     {{t}}
                 </label>
             </div>
@@ -19,7 +19,7 @@
         <div class="addLearnRequest-margin">
             <div class="radio" ng-repeat="t in ctrl.addedLearnRequest.afternoon">
                 <label>
-                    <input type="radio" name="{{ctrl.addedLearnRequest.date}}afternoonOptions" ng-model="ctrl.afternoonChoose" value="{{t}}" />
+                    <input type="radio" name="{{ctrl.addedLearnRequest.date}}afternoonOptions" ng-model="ctrl.afternoonChoose" value="{{t}}" ng-click="ctrl.afternoonOptionClick($event)" />
                     {{t}}
                 </label>
             </div>
@@ -31,12 +31,13 @@
         <div class="addLearnRequest-margin">
             <div class="radio" ng-repeat="t in ctrl.addedLearnRequest.evening">
                 <label>
-                    <input type="radio" name="{{ctrl.addedLearnRequest.date}}eveningOptions" ng-model="ctrl.eveningChoose" value="{{t}}" />
+                    <input type="radio" name="{{ctrl.addedLearnRequest.date}}eveningOptions" ng-model="ctrl.eveningChoose" value="{{t}}" ng-click="ctrl.eveningOptionClick($event)" />
                     {{t}}
                 </label>
             </div>
         </div>
     </div>
+
 </div>
 
 

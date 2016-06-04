@@ -16,6 +16,15 @@ namespace EDCWebApp.Hubs
             Clients.AllExcept(board.LastUpdateBy).draw(board);
         }
 
+        public void TeacherStopped()
+        {
+            Clients.AllExcept(Context.ConnectionId).teacherStoppedExplicitly();
+            using (var db = new EDCWebApp.DAL.EDCLoginUserContext())
+            {
+                db.RemoveAllHubConnections();
+            }
+        }
+
         public IEnumerable<string> GetConnectedStudents()
         {
             using (var db = new EDCWebApp.DAL.EDCLoginUserContext())
@@ -64,7 +73,7 @@ namespace EDCWebApp.Hubs
             }
             await base.OnConnected();
         }
-
+        
         public override async System.Threading.Tasks.Task OnReconnected()
         {
             try
@@ -131,10 +140,10 @@ namespace EDCWebApp.Hubs
                                 IsTeacher = true
                             },stopCalled);
                         }
-                        if (stopCalled)
-                        {
-                            db.RemoveAllHubConnections();
-                        }
+                        //if (stopCalled)
+                        //{
+                        //    db.RemoveAllHubConnections();
+                        //}
                     }
                     else
                     {

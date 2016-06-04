@@ -1,6 +1,6 @@
 ﻿angular.module('learnChineseApp.controller').controller('StudentLearnRequestController', [
-    'signalRFactory', '$scope', 'broadcastFactory', '$location',
-    function (signalRFactory, $scope, broadcastFactory,$location) {
+    'signalRFactory', '$scope', 'broadcastFactory', '$location', '$rootScope',
+    function (signalRFactory, $scope, broadcastFactory, $location, $rootScope) {
         'use strict';
         var vm = this;
         signalRFactory.init();
@@ -11,9 +11,12 @@
                 var teacher = signalRFactory.getIsTeacherLoggedOn();
                 if (teacher) {
                     teacher.done(function (user) {
-                        vm.isTeacherLoggedOn = true;
-                        vm.teacher = user;
-                        $scope.$apply();
+                        if (user) {
+                            vm.isTeacherLoggedOn = true;
+                            vm.teacher = user;
+                            $scope.$apply();
+                        }
+
                     }).fail(function (err) {
 
                     });
@@ -49,16 +52,22 @@
                     if (data.stopCalled) {
                         vm.isTeacherLoggedOn = false;
                         vm.isLessonEnded = true;
-                        vm.infomsg = "The session has ended. Thanks for your participation."
-                        
-                        //    signalRFactory.stopConnection();
+                        vm.infomsg = "Sorry, but the current session is interrupted. Please wait for a few seconds to press F5 to refresh."
                     } else {
-                        vm.isTeacherTempLoggedOut = true;
                         vm.teacher = '';
                     }
                     $scope.$apply();
+                } else {
+
                 }
             }
+        });
+
+        $scope.$on('teacherStoppedExplicitly', function (msg) {
+            vm.infomsg = 'The session is ended. Thanks for your participation.';
+            vm.isTeacherLoggedOn = false;
+            vm.isLessonEnded = true;
+            $scope.$apply();
         });
     }]).controller('TeacherLearnRequestController', [
         '$scope', 'signalRFactory', '$routeParams', 'loginUserFactory',
@@ -107,7 +116,7 @@
 
             vm.pencil = function () {
                 vm.canDraw = true;
-                $scope.$apply();
+              //  $scope.$apply();
             };
             vm.endDraw = function (candraw) {
                 vm.canDraw = candraw;
