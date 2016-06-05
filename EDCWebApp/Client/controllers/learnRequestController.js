@@ -115,13 +115,27 @@
             });
 
             vm.pencil = function () {
-                vm.canDraw = true;
+                if (vm.canDraw) {
+                    vm.canDraw = false;
+                } else {
+                    vm.canDraw = true;
+                }
+                vm.eraseFlag = false;
               //  $scope.$apply();
             };
-            vm.endDraw = function (candraw) {
-                vm.canDraw = candraw;
-                $scope.$apply();
+            vm.erase = function () {
+                if (vm.eraseFlag) {
+                    vm.eraseFlag = false;
+                } else {
+                    vm.eraseFlag = true;
+                }
+                
+                vm.canDraw = false;
             };
+            //vm.endDraw = function (candraw) {
+            //    vm.canDraw = candraw;
+            //    $scope.$apply();
+            //};
             vm.endSession = function () {
                 signalRFactory.stopConnection();
                 vm.sessionEnded = true;

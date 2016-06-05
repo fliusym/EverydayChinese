@@ -48,12 +48,15 @@
                             <li>
                                 <a href="/#/changepwd">Change Password</a>
                             </li>
+                            <li ng-if="!ctrl.loggedinInfo.isTeacher">
+                                <a href="/#/addLearnRequest">Free Online Learn</a>
+                            </li>
                             <li>
                                 <a href="/#/logout">Logout</a>
                             </li>
                         </ul>
                     </li>
-                    <li ng-if="!ctrl.loggedinInfo.isTeacher">
+                    <li ng-hide="ctrl.loggedinInfo.flag">
                         <a href="/#/addLearnRequest">Free Online Learn</a>
                     </li>
                 </ul>

@@ -4,7 +4,7 @@
 <div class="container" role="main" ng-if="!teacherLRCtrl.sessionEnded">
     <div class="row">
         <div class="col-sm-1 col-md-1">
-            <button type="button" class="btn btn-default btn-lg" data-toggle="tooltip" data-placement="bottom" title="Erase" ng-click="teacherLRCtrl.erase()">
+            <button type="button" ng-class="{'btn btn-default btn-lg' : !teacherLRCtrl.eraseFlag,'btn btn-default btn-lg active' : teacherLRCtrl.eraseFlag}" data-toggle="tooltip" data-placement="bottom" title="Erase" ng-click="teacherLRCtrl.erase()">
                 <i class="glyphicon glyphicon-remove"></i>
             </button>
         </div>
@@ -16,7 +16,7 @@
     </div>
     <br />
     <div class="row">
-        <canvas width="600" height="400" edc-teacher-canvas candraw="teacherLRCtrl.canDraw" erase="teacherLRCtrl.erase" enddraw="teacherLRCtrl.endDraw" class="learnRequest-canvas"></canvas>
+        <canvas width="600" height="400" edc-teacher-canvas candraw="teacherLRCtrl.canDraw" erase="teacherLRCtrl.eraseFlag" enddraw="teacherLRCtrl.endDraw" ng-class="{'learnRequest-canvas': !teacherLRCtrl.canDraw && !teacherLRCtrl.eraseFlag, 'canvas-pencil-cursor':teacherLRCtrl.canDraw, 'canvas-eraser-cursor': teacherLRCtrl.eraseFlag}"></canvas>
     </div>
     <br />
     <div class="row">

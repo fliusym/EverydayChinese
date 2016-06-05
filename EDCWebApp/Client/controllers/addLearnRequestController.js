@@ -49,4 +49,8 @@
                 });
             }
         }
+
+        vm.onCancel = function () {
+            $location.path('/default');
+        }
     }]);

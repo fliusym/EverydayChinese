@@ -24,7 +24,8 @@
                 drawing = true;
             });
             elem.bind('mousemove', function (event) {
-                if (drawing && scope.candraw) {
+                if (drawing && (scope.candraw || scope.erase)) {
+                  
                     if (event.offsetX !== undefined) {
                         currentX = event.offsetX;
                         currentY = event.offsetY;
@@ -32,7 +33,7 @@
                         currentX = event.layerX - event.currentTarget.offsetLeft;
                         currentY = event.layerY - event.currentTarget.offsetTop;
                     }
-                    canvasDrawFactory.draw(ctx, { prevX: lastX, prevY: lastY, currX: currentX, currY: currentY });
+                    canvasDrawFactory.draw(ctx, { prevX: lastX, prevY: lastY, currX: currentX, currY: currentY,eraseFlag: scope.erase });
                     signalRFactory.updateBoardPosition({
                         'previousPosition': {
                             'xValue': lastX,
@@ -42,16 +43,17 @@
                             'xValue': currentX,
                             'yValue': currentY
                         },
-                        'eraseFlag': false
+                        'eraseFlag': scope.erase
                     });
                     lastX = currentX;
                     lastY = currentY;
+                   
                 }
             });
             elem.bind('mouseup', function (event) {
                 drawing = false;
-                scope.candraw = false;
-                scope.enddraw()(scope.candraw);
+                //scope.candraw = false;
+                //scope.enddraw()(scope.candraw);
             })
         }
     };
