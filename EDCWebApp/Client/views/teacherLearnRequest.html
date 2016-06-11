@@ -9,21 +9,14 @@
             </button>
         </div>
         <div class="col-sm-1 col-md-1 ">
-            <button type="button" ng-class="{'btn btn-default btn-lg' : !teacherLRCtrl.canDraw,'btn btn-default btn-lg active' : teacherLRCtrl.canDraw}" class="btn btn-default btn-lg" data-toggle="tooltip" data-placement="bottom" title="Pencil" ng-click="teacherLRCtrl.pencil()">
+            <button type="button" ng-class="{'btn btn-default btn-lg' : !teacherLRCtrl.canDraw,'btn btn-default btn-lg active' : teacherLRCtrl.canDraw}"  data-toggle="tooltip" data-placement="bottom" title="Pencil" ng-click="teacherLRCtrl.pencil()">
                 <i class="glyphicon glyphicon-pencil"></i>
             </button>
         </div>
-    </div>
-    <br />
-    <div class="row">
-        <canvas width="600" height="400" edc-teacher-canvas candraw="teacherLRCtrl.canDraw" erase="teacherLRCtrl.eraseFlag" enddraw="teacherLRCtrl.endDraw" ng-class="{'learnRequest-canvas': !teacherLRCtrl.canDraw && !teacherLRCtrl.eraseFlag, 'canvas-pencil-cursor':teacherLRCtrl.canDraw, 'canvas-eraser-cursor': teacherLRCtrl.eraseFlag}"></canvas>
-    </div>
-    <br />
-    <div class="row">
-        <div class="col-sm-3 col-md-2 ">
-            <div class="btn-group">
-                <button type="button" class="btn btn-default">Students</button>
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+        <div >
+            <!--<div class="btn-group">
+                <button type="button" class="btn btn-default btn-lg">Students</button>
+                <button type="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
                     <span class="caret"></span>
                     <span class="sr-only">Toggle Dropdown</span>
@@ -33,9 +26,22 @@
                         <p>{{student}}</p>
                     </li>
                 </ul>
-            </div>
+            </div>-->
+            <select class="form-control input-lg col-sm-1 col-md-1" name="allStudents" id="allStudents" ng-model="teacherLRCtrl.selectedStudent">
+                <option ng-repeat="student in teacherLRCtrl.students" value="{{student}}">{{student}}</option>
+            </select>
+            <button ng-if="teacherLRCtrl.selectedStudent" class="btn btn-default btn-lg col-sm-2 col-md-2" ng-click="teacherLRCtrl.sendControl()">Give Control</button>
+            <button ng-if="teacherLRCtrl.selectedStudent" class="btn btn-default btn-lg col-sm-2 col-md-2 alert-info" ng-click="teacherLRCtrl.cancelControl()">Cancel Control</button>
         </div>
-        <button type="button" class="btn btn-default btn-lg" ng-click="teacherLRCtrl.endSession()">End</button>
+    </div>
+    <br />
+    <div class="row">
+        <canvas width="600" height="400" edc-teacher-canvas is-student="false" candraw="teacherLRCtrl.canDraw" erase="teacherLRCtrl.eraseFlag" enddraw="teacherLRCtrl.endDraw" ng-class="{'learnRequest-canvas': !teacherLRCtrl.canDraw && !teacherLRCtrl.eraseFlag, 'canvas-pencil-cursor':teacherLRCtrl.canDraw, 'canvas-eraser-cursor': teacherLRCtrl.eraseFlag}"></canvas>
+
+    </div>
+    <br />
+    <div class="row">
+        <button type="button" class="btn btn-default btn-lg alert-info col-sm-3 col-md-3" ng-click="teacherLRCtrl.endSession()">End</button>
     </div>
 </div>
 <div ng-if="teacherLRCtrl.sessionEnded && teacherLRCtrl.infomsg" class="alert alert-info alert-dismissable" role="alert">

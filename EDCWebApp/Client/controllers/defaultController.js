@@ -10,8 +10,10 @@
                     vm.info['id'] = word.Id;
                 //    vm.svgname = word.Character;
                     vm.wordEnglish = word.BasicMeanings;
-                    vm.pinyin = "/" + word.Pinyin;
-                    vm.audioSrc = "/" + word.Audio;
+                  //  vm.pinyin = "/" + word.Pinyin;
+                    //   vm.audioSrc = "/" + word.Audio;
+                    vm.pinyin = word.Pinyin;
+                    vm.audioSrc =  word.Audio;
                     vm.phraselist = [];
                     for (var i = 0; i < word.Phrases.length; i++) {
                         var examples = [];
@@ -27,11 +29,20 @@
                         vm.phraselist.push({
                             chinese: word.Phrases[i].Chinese,
                             english: word.Phrases[i].English,
-                            audioid: "/" + word.Phrases[i].Pinyin,
+                            audioid: word.Phrases[i].Pinyin,
+                           // audioid: "/" + word.Phrases[i].Pinyin,
                             examples: examples
 
                         });
                     }
+                    vm.quotes = word.quotes.map(function (value) {
+                        return {
+                            chinese: value.What,
+                            hasfooter: true,
+                            who: value.Who,
+                            where: value.where
+                        };
+                    })
                 }, function (error) {
                     errorFactory.setErrorFromException(error);
                     var test = errorFactory.getErrorMsg();
@@ -43,23 +54,23 @@
             getCurrentDayWord(vm.currentDate);
 
             vm.quotetitle = {
-                chinese: '名人语录',
-                english: 'Quotes'
+                chinese: '俚语',
+                english: 'Slang Words'
             };
-            vm.quotes = [
-                {
-                    chinese: '人民群众是一切知识的力量和源泉，中国人民解放军,人民群众是一切知识的力量和源泉，中国人民解放军',
-                    hasfooter: true,
-                    who: '毛泽东',
-                    where: '为人民服务'
-                },
-                {
-                    chinese: '人民群众是一切知识的力量和源泉，中国人民解放军',
-                    hasfooter: true,
-                    who: '毛泽东',
-                    where: '为人民服务'
-                }
-            ];
+            //vm.quotes = [
+            //    {
+            //        chinese: '人民群众是一切知识的力量和源泉，中国人民解放军,人民群众是一切知识的力量和源泉，中国人民解放军',
+            //        hasfooter: true,
+            //        who: '毛泽东',
+            //        where: '为人民服务'
+            //    },
+            //    {
+            //        chinese: '人民群众是一切知识的力量和源泉，中国人民解放军',
+            //        hasfooter: true,
+            //        who: '毛泽东',
+            //        where: '为人民服务'
+            //    }
+            //];
 
             vm.scenariotitle = {
                 chinese: '生活场景介绍',

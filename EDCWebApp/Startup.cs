@@ -14,6 +14,8 @@ namespace EDCWebApp
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
+            var hubConfig = new HubConfiguration();
+            hubConfig.EnableDetailedErrors = true;
             app.MapSignalR();
             //for the hubs need user authentication
             GlobalHost.HubPipeline.RequireAuthentication();

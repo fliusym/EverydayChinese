@@ -10,12 +10,16 @@ namespace EDCWebApp.Hubs
     public class LearnRequestHub : Hub
     {
         [Authorize(Roles="Teacher")]
+        #region hub functions
         public void UpdatePosition(BlackBoard board)
         {
             board.LastUpdateBy = Context.ConnectionId;
             Clients.AllExcept(board.LastUpdateBy).draw(board);
         }
-
+        public void UpdatePositionFromStudent(BlackBoard board)
+        {
+            Clients.All.drawFromStudent(board);
+        }
         public void TeacherStopped()
         {
             Clients.AllExcept(Context.ConnectionId).teacherStoppedExplicitly();
@@ -24,7 +28,17 @@ namespace EDCWebApp.Hubs
                 db.RemoveAllHubConnections();
             }
         }
-
+        public void GiveControlToStudent(string user)
+        {
+            using (var db = new EDCWebApp.DAL.EDCLoginUserContext())
+            {
+                var con = db.GetStudentHubConnection(user);
+                if (con != null)
+                {
+                    Clients.Client(con.HubConnectionID).controlFromTeacher();
+                }
+            }
+        }
         public IEnumerable<string> GetConnectedStudents()
         {
             using (var db = new EDCWebApp.DAL.EDCLoginUserContext())
@@ -40,6 +54,19 @@ namespace EDCWebApp.Hubs
                 return db.IsTeacherLogged();
             }
         }
+        public void CancelControlFromTeacher(string user)
+        {
+            using (var db = new EDCWebApp.DAL.EDCLoginUserContext())
+            {
+                var con = db.GetStudentHubConnection(user);
+                if (con != null)
+                {
+                    Clients.Client(con.HubConnectionID).cancelFromTeacher();
+                }
+            }
+        }
+        #endregion
+        #region override hub connection
         public override async System.Threading.Tasks.Task OnConnected()
         {
             var name = Context.User.Identity.Name;
@@ -165,6 +192,8 @@ namespace EDCWebApp.Hubs
                 throw;
             }
             await base.OnDisconnected(stopCalled);
-        } 
+        }
+
+        #endregion
     }
 }

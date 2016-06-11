@@ -19,6 +19,7 @@ namespace EDCWebApp.DAL
         public DbSet<EDCPhrase> Phrases { get; set; }
         public DbSet<EDCHubConnection> HubConnections { get; set; }
 
+        public DbSet<EDCQuote> Quotes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

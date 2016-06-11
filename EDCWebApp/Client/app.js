@@ -71,6 +71,10 @@
                 loginUserFactory.addWord(id);
             }]
         }
+    }).when('/addNewWord', {
+        templateUrl: viewBase + 'addNewWord.html',
+        controller: 'AddNewWordController',
+        controllerAs: 'addNWCtrl'
     }).when('/default', {
         templateUrl: viewBase + 'default.html',
         controller: 'DefaultController',

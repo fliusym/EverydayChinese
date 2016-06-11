@@ -6,7 +6,7 @@
             <div class="row">
                 <em>{{phrase.chinese}}&nbsp;</em>
                 <em><small>{{phrase.english}}</small></em>
-                <edc-audio audioid="{{phrase.audioid}}">&nbsp;&nbsp;&nbsp;</edc-audio>
+                <edc-audio audioid="{{phrase.audioid  | contentDirectory :'Audios/PhraseAudio/'}}">&nbsp;&nbsp;&nbsp;</edc-audio>
             </div>
             <div class="row word-basic-row">
                 <p ng-repeat="example in phrase.examples">

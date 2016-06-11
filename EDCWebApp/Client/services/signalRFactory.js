@@ -10,6 +10,9 @@
             learnRequestProxy.on('draw', function (board) {
                 broadcastFactory.send('drawBoard', board);
             });
+            learnRequestProxy.on('drawFromStudent', function (board) {
+                broadcastFactory.send('drawBoardFromStudent', board);
+            });
             learnRequestProxy.on('userConnected', function (user) {
                 broadcastFactory.send('userConnected', user);
             });
@@ -22,7 +25,13 @@
             learnRequestProxy.on('teacherStoppedExplicitly', function () {
                 broadcastFactory.send('teacherStoppedExplicitly');
             });
-            
+            learnRequestProxy.on('controlFromTeacher', function () {
+                broadcastFactory.send('controlFromTeacher');
+            });
+            learnRequestProxy.on('cancelFromTeacher', function () {
+                broadcastFactory.send('cancelFromTeacher');
+            });
+            connection.logging = true;
             connection.start()
             .done(function () {
                 connected = true;
@@ -31,12 +40,36 @@
                 connected = false;
                 broadcastFactory.send('hubConnectionError');
             });
+            connection.error(function (error) {
+                console.log('SignalR Error:' + error);
+            });
         },
-        updateBoardPosition: function (board) {
+        updateBoardPosition: function (board,fromStudent) {
             if (learnRequestProxy && connected) {
-                learnRequestProxy.invoke('updatePosition', board);
+                if (!fromStudent) {
+                    learnRequestProxy.invoke('updatePosition', board)
+                    .fail(function (error) {
+                        console.log('updateBoardPosition error' + error);
+                    });
+                } else {
+                    learnRequestProxy.invoke('updatePositionFromStudent', board)
+                    .fail(function (error) {
+
+                    });
+                }
+
             }
             
+        },
+        giveControlToStudent:function(user){
+            if (learnRequestProxy && connected) {
+                learnRequestProxy.invoke('giveControlToStudent', user);
+            }
+        },
+        cancelControlFromTeacher:function(user){
+            if (learnRequestProxy && connected) {
+                learnRequestProxy.invoke('cancelControlFromTeacher',user);
+            }
         },
         stopConnection: function () {
             if (connection && learnRequestProxy) {

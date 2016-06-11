@@ -1,0 +1,61 @@
+﻿<div class="panel-group col-sm-10">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <button data-toggle="collapse" data-target="#wordPhrases{{index}}">Word Phrases {{index}}</button>
+
+            </h4>
+        </div>
+        <div id="wordPhrases{{index}}" class="panel-collapse collapse" >
+            <div>
+
+                <div class="row">
+                    <label for="phraseEnglish" class="col-sm-2 control-label">Phrase English</label>
+                    <div class="col-sm-10">
+                        <input type="text" id="phraseEnglish" ng-model="phrase.english" />
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="phraseChinese" class="col-sm-2 control-label">Phrase Chinese</label>
+                    <div class="col-sm-10">
+                        <input type="text" id="phraseChinese" ng-model="phrase.chinese" />
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="phraseChinese" class="col-sm-2 control-label">Phrase Pinyin</label>
+                    <div class="col-sm-10">
+                        <input type="text" id="phraseChinese" ng-model="phrase.pinyin" />
+                    </div>
+                </div>
+                <div class="panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <button data-toggle="collapse" data-target="#phrase{{index}}examples1">Examples One</button>
+                            </h4>
+                        </div>
+                        <div id="phrase{{index}}examples1" class="panel-collapse collapse">
+                            <edc-add-word-phrase-example></edc-add-word-phrase-example>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <button data-toggle="collapse" data-target="#phrase{{index}}examples2">Examples Two</button>
+                            </h4>
+                        </div>
+                        <div id="phrase{{index}}examples2" class="panel-collapse collapse">
+                            <edc-add-word-phrase-example></edc-add-word-phrase-example>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

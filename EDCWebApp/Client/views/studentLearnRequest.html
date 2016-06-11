@@ -7,16 +7,26 @@
     
 </div>
 <div ng-if="studentLRCtrl.isTeacherLoggedOn && !studentLRCtrl.isLessonEnded" class="container" role="main">
-    <div class="row">
+    <div class="row" ng-if="studentLRCtrl.getControlFromTeacher">
+        <div class="col-sm-2 col-md-2">
+            <button type="button" class="btn btn-default btn-lg alert-info" ng-click="studentLRCtrl.returnControl()">
+                Return Control
+            </button>
+        </div>
         <div class="col-sm-1 col-md-1">
-            <button type="button" class="btn btn-default btn-lg">
-                Ask Question
+            <button type="button" ng-class="{'btn btn-default btn-lg' : !studentLRCtrl.eraseFlag,'btn btn-default btn-lg active' : studentLRCtrl.eraseFlag}" data-toggle="tooltip" data-placement="bottom" title="Erase" ng-click="studentLRCtrl.eraseFlag = !studentLRCtrl.eraseFlag; studentLRCtrl.canDraw = false">
+                <i class="glyphicon glyphicon-remove"></i>
+            </button>
+        </div>
+        <div class="col-sm-1 col-md-1 ">
+            <button type="button" ng-class="{'btn btn-default btn-lg' : !studentLRCtrl.canDraw,'btn btn-default btn-lg active' : studentLRCtrl.canDraw}" data-toggle="tooltip" data-placement="bottom" title="Pencil" ng-click="studentLRCtrl.canDraw = !studentLRCtrl.canDraw; studentLRCtrl.eraseFlag = false">
+                <i class="glyphicon glyphicon-pencil"></i>
             </button>
         </div>
     </div>
     <br />
     <div class="row">
-        <canvas edc-student-canvas class="learnRequest-canvas" width="600" height="400"></canvas>
+        <canvas edc-teacher-canvas class="learnRequest-canvas" width="600" height="400" candraw="studentLRCtrl.canDraw" erase="studentLRCtrl.eraseFlag" is-student="true" ng-class="{'learnRequest-canvas': !studentLRCtrl.canDraw && !studentLRCtrl.eraseFlag, 'canvas-pencil-cursor':studentLRCtrl.canDraw, 'canvas-eraser-cursor': studentLRCtrl.eraseFlag}"></canvas>
 
     </div>
     <div class="row">
@@ -38,7 +48,7 @@
     </div>
 </div>
 
-<div ng-if="!studentLRCtrl.isTeacherLoggedOn && studentLRCtrl.isLessonEnded && studentLRCtrl.infomsg" class="alert alert-info alert-dismissable" role="alert">
+<div ng-if="!studentLRCtrl.isTeacherLoggedOn && studentLRCtrl.infomsg" class="alert alert-info alert-dismissable" role="alert">
     <button type="button" class="close" ng-click="studentLRCtrl.infomsg = null" aria-hidden="true">&times;</button>
     <strong>{{studentLRCtrl.infomsg}}</strong>
 </div>

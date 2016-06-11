@@ -1,0 +1,100 @@
+﻿<div>
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <button data-toggle="collapse" data-target="#wordPaths">Word Paths</button>
+
+                </h4>
+            </div>
+            <div id="wordPaths" class="panel-collapse collapse">
+                <div class="row">
+                    <label for="svgPath" class="col-sm-2 control-label">SVG Path</label>
+                    <div class="col-sm-10">
+                        <input type="text" id="svgPath" ng-model="word.svgPath" />
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="pinyinPath" class="col-sm-2 control-label">Pinyin Path</label>
+                    <div class="col-sm-10">
+                        <input type="text" id="pinyinPath" ng-model="word.pinyinPath" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label for="audioPath" class="col-sm-2 control-label">Audio Path</label>
+                    <div class="col-sm-10">
+                        <input type="text" id="audioPath" ng-model="word.audioPath" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <button data-toggle="collapse" data-target="#wordBasics">Word Basics</button>
+
+                </h4>
+            </div>
+            <div id="wordBasics" class="panel-collapse collapse">
+                <div class="row">
+                    <label for="basicMeanings" class="col-sm-2 control-label">Basic Meanings</label>
+                    <div class="col-sm-10">
+                        <input type="text" id="basicMeanings" ng-model="word.basicMeanings" />
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="explanation" class="col-sm-2 control-label">Explanation</label>
+                    <div class="col-sm-10">
+                        <input type="text" id="explanation" ng-model="word.explanation" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label for="date" class="col-sm-2 control-label">date</label>
+                    <div class="col-sm-10">
+                        <input type="text" id="date" ng-model="word.date" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <button data-toggle="collapse" data-target="#wordQuotes1">Word Quote 1</button>
+
+                </h4>
+            </div>
+            <div id="wordQuotes1" class="panel-collapse collapse">
+                <edc-add-word-quote></edc-add-word-quote>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <button data-toggle="collapse" data-target="#wordQuotes2">Word Quote 2</button>
+
+                </h4>
+            </div>
+            <div id="wordQuotes2" class="panel-collapse collapse">
+                <edc-add-word-quote></edc-add-word-quote>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row" ng-transclude>
+    </div>
+    <br id="finalBreak"/>
+    <div class="row col-sm-4">
+        <button type="button" class="btn btn-default" ng-click="onAddMorePhrase()">Add More Phrase</button>
+    </div>
+</div>

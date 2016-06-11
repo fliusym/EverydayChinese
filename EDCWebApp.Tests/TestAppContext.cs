@@ -21,7 +21,9 @@ namespace EDCWebApp.Tests
         public DbSet<EDCTeacher> Teachers { get; set; }
         public DbSet<EDCScenarioContent> Scenarios { get; set; }
         public DbSet<EDCLearnRequest> LearnRequests { get; set; }
-
+        public DbSet<EDCPhrase> Phrases { get; set; }
+        public DbSet<EDCPhraseExample> PhraseExamples { get; set; }
+        public DbSet<EDCQuote> Quotes { get; set; }
 
 
 

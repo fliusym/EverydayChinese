@@ -4,7 +4,10 @@
     'use strict';
     return {
         restrict: 'A',
-        scope:{},
+        scope: {
+            candraw: '=',
+            erase: '=',
+        },
         link: function (scope, elem, attrs) {
             $rootScope.$on('drawBoard', function (msg, board) {
                 if (board) {

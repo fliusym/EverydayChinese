@@ -16,6 +16,9 @@ namespace EDCWebApp.DAL
         DbSet<EDCLearnRequest> LearnRequests { get; }
         DbSet<EDCWord> Words { get;  }
         DbSet<EDCScenarioContent> Scenarios { get; }
+        DbSet<EDCPhraseExample> PhraseExamples { get; set; }
+        DbSet<EDCPhrase> Phrases { get; set; }
+        DbSet<EDCQuote> Quotes { get; }
 
         void SaveChangesToDb();
         Task<int> SaveChangesToDbAsync();

@@ -51,7 +51,8 @@
 
                     if (data.stopCalled) {
                         vm.isTeacherLoggedOn = false;
-                        vm.isLessonEnded = true;
+                        cancelControl();
+                       // vm.isLessonEnded = true;
                         vm.infomsg = "Sorry, but the current session is interrupted. Please wait for a few seconds to press F5 to refresh."
                     } else {
                         vm.teacher = '';
@@ -69,6 +70,23 @@
             vm.isLessonEnded = true;
             $scope.$apply();
         });
+        $scope.$on('controlFromTeacher', function (msg) {
+            vm.getControlFromTeacher = true;
+            $scope.$apply();
+        });
+        var cancelControl = function () {
+            vm.getControlFromTeacher = false;
+            vm.canDraw = false;
+            vm.eraseFlag = false;
+        };
+        $scope.$on('cancelFromTeacher', function (msg) {
+            cancelControl();
+            $scope.$apply();
+        });
+
+        vm.returnControl = function () {
+            cancelControl();
+        }
     }]).controller('TeacherLearnRequestController', [
         '$scope', 'signalRFactory', '$routeParams', 'loginUserFactory',
         function ($scope, signalRFactory, $routeParams, loginUserFactory) {
@@ -121,7 +139,7 @@
                     vm.canDraw = true;
                 }
                 vm.eraseFlag = false;
-              //  $scope.$apply();
+
             };
             vm.erase = function () {
                 if (vm.eraseFlag) {
@@ -132,10 +150,14 @@
                 
                 vm.canDraw = false;
             };
-            //vm.endDraw = function (candraw) {
-            //    vm.canDraw = candraw;
-            //    $scope.$apply();
-            //};
+            vm.sendControl = function () {
+                var user = vm.selectedStudent;
+                signalRFactory.giveControlToStudent(user);
+            };
+            vm.cancelControl = function () {
+                var user = vm.selectedStudent;
+                signalRFactory.cancelControlFromTeacher(user);
+            }
             vm.endSession = function () {
                 signalRFactory.stopConnection();
                 vm.sessionEnded = true;

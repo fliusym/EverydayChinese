@@ -1,14 +1,34 @@
 ﻿angular.module('learnChineseApp.directive')
-.directive('edcTeacherCanvas', ['canvasDrawFactory', 'signalRFactory', function (canvasDrawFactory, signalRFactory) {
+.directive('edcTeacherCanvas', ['canvasDrawFactory', 'signalRFactory', '$rootScope', function (canvasDrawFactory, signalRFactory,$rootScope) {
     'use strict';
+    var drawBoard = function (board,ctx) {
+        if (board) {
+            canvasDrawFactory.draw(ctx, {
+                prevX: board.previousPosition.xValue,
+                prevY: board.previousPosition.yValue,
+                currX: board.currentPosition.xValue,
+                currY: board.currentPosition.yValue,
+                eraseFlag: board.eraseFlag
+            });
+        }
+    };
     return {
         restrict: 'A',
         scope:{
             candraw: '=',
             erase: '=',
+            isStudent: '=',
             enddraw: '&'
         },
         link: function (scope, elem, attrs) {
+            $rootScope.$on('drawBoard', function (msg, board) {
+                var ctx = elem[0].getContext('2d');
+                drawBoard(board, ctx);
+            });
+            $rootScope.$on('drawBoardFromStudent', function (msg, board) {
+                var ctx = elem[0].getContext('2d');
+                drawBoard(board, ctx);
+            });
             var ctx = elem[0].getContext('2d');
             var drawing = false;
 
@@ -44,7 +64,7 @@
                             'yValue': currentY
                         },
                         'eraseFlag': scope.erase
-                    });
+                    },scope.isStudent);
                     lastX = currentX;
                     lastY = currentY;
                    

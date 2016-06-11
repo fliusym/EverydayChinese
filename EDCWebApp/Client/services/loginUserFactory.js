@@ -105,6 +105,22 @@
             return resource.postLearnRequest({name:name},data);
         }
 
+
+        factory.addNewWord = function (object) {
+            var token = sessionStorage.getItem(tokenKey);
+            //since the username is email address, has to add trailing slash
+            var resource = $resource('/api/Words/Add', null, {
+                postWord: {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': ('Bearer ' + token),
+                        'Content-Type': 'application/json'
+                    },
+                }
+            });
+            return resource.postWord(object);
+        }
+
         factory.addWord = function (id) {
             var token = sessionStorage.getItem(tokenKey);
             var resource = $resource('/api/Students/Words', null, {

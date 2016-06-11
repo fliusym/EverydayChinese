@@ -67,5 +67,121 @@ namespace EDCWebApp.Controllers
             throw new HttpResponseException(httpResponse);
         }
 
+        [Authorize(Roles="Teacher")]
+        [HttpPost]
+        [Route("~/api/Words/Add")]
+        [ResponseType(typeof(EDCWordDTO))]
+        public async Task<IHttpActionResult> PostWord(AddWordBindingModel word)
+        {
+            if (!ModelState.IsValid)
+            {
+                var msg = "Something wrong with the input while adding the word.";
+                var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
+                var response = Request.CreateErrorResponse(HttpStatusCode.BadRequest, modelError);
+                throw new HttpResponseException(response);
+            }
+            //to see if the word is already there
+            var wordFromDb = await db.Words.Where(p => p.Character == word.Character).SingleOrDefaultAsync();
+            if (wordFromDb != null)
+            {
+                return Ok();
+            }
+            //see if the date is the same
+            var dateFromDb = await db.Words.Where(p => p.Date == word.Date).SingleOrDefaultAsync();
+            if (dateFromDb != null)
+            {
+                var msg = String.Format("The date {0} already has the word.", word.Date);
+                var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
+                var response = Request.CreateErrorResponse(HttpStatusCode.BadRequest, modelError);
+                throw new HttpResponseException(response);
+            }
+            var edcWord = new EDCWord()
+            {
+                Audio = word.Audio,
+                Pinyin = word.Pinyin,
+                Character = word.Character,
+                BasicMeanings = word.BasicMeanings,
+                Date = word.Date,
+                Explanation = word.Explanation
+            };
+            if (word.Phrases != null && word.Phrases.Count() > 0)
+            {
+                var phrases = new List<EDCPhrase>();
+                var examples = new List<EDCPhraseExample>();
+                foreach (var p in word.Phrases)
+                {
+                    if(p.English == null || p.English.Length == 0
+                        || p.Chinese == null || p.Chinese.Length == 0)
+                    {
+                        continue;
+                    }
+                    var phraseExamples = new List<EDCPhraseExample>();
+                    foreach (var e in p.Examples)
+                    {
+                        phraseExamples.Add(new EDCPhraseExample
+                        {
+                            Englisgh = e.English,
+                            Chinese = e.Chinese
+                        });
+                    }
+                    phrases.Add(new EDCPhrase
+                    {
+                        English = p.English,
+                        Chinese = p.Chinese,
+                        Pinyin = p.Pinyin,
+                        Examples = phraseExamples
+                    });
+                    examples.AddRange(phraseExamples);
+                }
+                edcWord.Phrases = phrases;
+                foreach (var e in examples)
+                {
+                    db.PhraseExamples.Add(e);
+                }
+                foreach (var p in phrases)
+                {
+                    db.Phrases.Add(p);
+                }
+            }
+            if (word.Quotes != null && word.Quotes.Count() > 0)
+            {
+                var quotes = new List<EDCQuote>();
+                foreach (var q in word.Quotes)
+                {
+                    if(q.What == null || q.What.Length == 0
+                        ||q.Where == null || q.Where.Length ==0
+                        || q.Who == null || q.Who.Length == 0)
+                    {
+                        continue;
+                    }
+                    quotes.Add(new EDCQuote
+                    {
+                        What = q.What,
+                        Where = q.Where,
+                        Who = q.Who
+                    });
+                }
+                edcWord.Quotes = quotes;
+                foreach (var q in quotes)
+                {
+                    db.Quotes.Add(q);
+                }
+            }
+            
+            db.Words.Add(edcWord);
+            try
+            {
+                await db.SaveChangesToDbAsync();
+            }
+            catch (Exception)
+            {
+                var msg = "Something internal errors occurred while adding the word.";
+                var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
+                var response = Request.CreateErrorResponse(HttpStatusCode.InternalServerError, modelError);
+                throw new HttpResponseException(response);
+            }
+            var wordDto = db.GenerateDTO(edcWord);
+            return CreatedAtRoute("DefaultApi", new { id = edcWord.ID }, wordDto);
+        }
     }
 }

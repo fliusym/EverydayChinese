@@ -144,5 +144,26 @@ namespace EDCWebApp.Hubs
             }
             return "";
         }
+
+        public static EDCHubConnection GetStudentHubConnection(this EDCLoginUserContext db, string name)
+        {
+            if (db != null)
+            {
+                var student = db.Students.Include(p => p.HubConnections)
+                    .Where(p => p.StudentName == name).SingleOrDefault();
+                if (student != null)
+                {
+                    var connections = student.HubConnections;
+                    foreach (var c in connections)
+                    {
+                        if (c.Connected)
+                        {
+                            return c;
+                        }
+                    }
+                }
+            }
+            return null;
+        }
     }
 }

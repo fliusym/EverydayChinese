@@ -18,6 +18,7 @@ namespace EDCWebApp
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
+                      "~/Scripts/bootstrap-select.js",
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
@@ -25,7 +26,7 @@ namespace EDCWebApp
                       "~/Content/site.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/signalR").Include(
-                    "~/Scripts/jquery.signalR-2.1.2.min.js"
+                    "~/Scripts/jquery.signalR-2.1.2.js"
 
             ));
 
@@ -50,6 +51,7 @@ namespace EDCWebApp
                  "~/Client/controllers/addLearnRequestController.js",
                  "~/Client/controllers/learnRequestController.js",
                  "~/Client/controllers/teacherController.js",
+                 "~/Client/controllers/addNewWordController.js",
                  /*factories*/
                   "~/Client/services/serviceBase.js",
                   "~/Client/services/basicFactory.js",
@@ -64,6 +66,7 @@ namespace EDCWebApp
                   "~/Client/filters/filterBase.js",
                   "~/Client/filters/trustedFilter.js",
                   "~/Client/filters/dateShortFilter.js",
+                  "~/Client/filters/directoryFilter.js",
                   /*directives*/
                   "~/Client/directives/directiveBase.js",
                   "~/Client/directives/audioDirective.js",
@@ -83,7 +86,11 @@ namespace EDCWebApp
                   "~/Client/directives/wordBasicDirective.js",
                   "~/Client/directives/addLearnRequestDirective.js",
                   "~/Client/directives/teacherCanvasDirective.js",
-                  "~/Client/directives/studentCanvasDirective.js"
+                  "~/Client/directives/studentCanvasDirective.js",
+                  "~/Client/directives/addWordDirective.js",
+                  "~/Client/directives/addWordPhraseDirective.js",
+                  "~/Client/directives/addWordQuoteDirective.js",
+                  "~/Client/directives/addWordPhraseExampleDirective.js"
                 ));
 
         }
