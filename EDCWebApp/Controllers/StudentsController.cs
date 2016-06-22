@@ -33,8 +33,10 @@ namespace EDCWebApp.Controllers
         public async Task<IHttpActionResult> GetStudent(string id)
         {
             var student = await db.Students.Include(p => p.LearnRequests)
-                .Include(p => p.Scenarios)
+                .Include(p => p.Scenarios.Select(x=>x.Images))
+                .Include(p=>p.Words.Select(x=>x.Slangs))
                 .Include(p => p.Words.Select(x => x.Phrases.Select(t => t.Examples)))
+                .Include(p=>p.Scenarios.Select(x=>x.Images.Select(t=>t.Words)))
                 .Where(x => x.StudentName == id).SingleOrDefaultAsync();
             if (student == null)
             {
@@ -125,6 +127,38 @@ namespace EDCWebApp.Controllers
             }
             return Ok();
         }
+        //add scenario
+        [Route("~/api/Students/Scenarios")]
+        [HttpPut]
+        public async Task<IHttpActionResult> PutScenario([FromBody]int id)
+        {
+            var scenario = await db.Scenarios.FindAsync(id);
+            if (scenario == null)
+            {
+                var msg = String.Format("The scenario can't be find.");
+                var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
+                var response = Request.CreateErrorResponse(HttpStatusCode.NotFound, modelError);
+                throw new HttpResponseException(response);
+            }
+            if (scenario.StudentName == User.Identity.Name)
+            {
+                return Ok();
+            }
+            scenario.StudentName = User.Identity.Name;
+            db.SetEntityModified<EDCScenarioContent>(scenario);
+            try
+            {
+                await db.SaveChangesToDbAsync();
+            }
+            catch (Exception)
+            {
+                var msg = "There is something internal errors while adding the scenario";
+                var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
+                var response = Request.CreateErrorResponse(HttpStatusCode.NotFound, modelError);
+                throw new HttpResponseException(response);
+            }
+            return Ok();
+        }
         //remove word
         [Route("~/api/Students/{name}/Words/{id}")]
         [HttpDelete]
@@ -164,7 +198,43 @@ namespace EDCWebApp.Controllers
             }
             return Ok(HttpStatusCode.NoContent);
         }
+        //remove scenario
+        [Route("~/api/Students/{name}/Scenarios/{id}")]
+        [HttpDelete]
+        public async Task<IHttpActionResult> DeleteScenario(string name, int id)
+        {
+            var user = await db.Students.Include(p => p.Scenarios)
+                        .Where(p => p.StudentName == name).SingleOrDefaultAsync();
+            if (user == null)
+            {
+                var msg = "The user can't be found.";
+                var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
+                var response = Request.CreateErrorResponse(HttpStatusCode.NotFound, modelError);
+                throw new HttpResponseException(response);
+            }
 
+            var scenario = await db.Scenarios.FindAsync(id);
+            if (scenario == null)
+            {
+                var msg = "The requested scenario can't be found.";
+                var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
+                var response = Request.CreateErrorResponse(HttpStatusCode.NotFound, modelError);
+                throw new HttpResponseException(response);
+            }
+            try
+            {
+                user.Scenarios.Remove(scenario);
+                await db.SaveChangesToDbAsync();
+            }
+            catch (Exception e)
+            {
+                var msg = e.Message;
+                var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
+                var response = Request.CreateErrorResponse(HttpStatusCode.InternalServerError, modelError);
+                throw new HttpResponseException(response);
+            }
+            return Ok(HttpStatusCode.NoContent);
+        }
         //add learn request
         [Route("~/api/Students/{name}/LearnRequests")]
         [HttpPost]

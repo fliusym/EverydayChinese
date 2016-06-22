@@ -224,6 +224,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HtmlActionResult.cs" />
+    <Compile Include="Controllers\ScenesController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
     <Compile Include="Controllers\TeachersController.cs" />
     <Compile Include="Controllers\WordsController.cs" />
@@ -257,9 +258,22 @@
     <Compile Include="Migrations\201605301359047_UpdateStudentAndTeacherWithHubConnection.Designer.cs">
       <DependentUpon>201605301359047_UpdateStudentAndTeacherWithHubConnection.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606111641308_AddThemeToScenarioContent.cs" />
+    <Compile Include="Migrations\201606111641308_AddThemeToScenarioContent.Designer.cs">
+      <DependentUpon>201606111641308_AddThemeToScenarioContent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606111755375_ChangeQuoteToSlang.cs" />
+    <Compile Include="Migrations\201606111755375_ChangeQuoteToSlang.Designer.cs">
+      <DependentUpon>201606111755375_ChangeQuoteToSlang.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606171948261_AddScenarioWord.cs" />
+    <Compile Include="Migrations\201606171948261_AddScenarioWord.Designer.cs">
+      <DependentUpon>201606171948261_AddScenarioWord.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AddSceneBindingModel.cs" />
     <Compile Include="Models\AddWordBindingModel.cs" />
     <Compile Include="Models\EDCHubConnection.cs" />
     <Compile Include="Models\EDCLearnRequest.cs" />
@@ -269,6 +283,7 @@
     <Compile Include="Models\EDCScenarioContent.cs" />
     <Compile Include="Models\EDCScenarioContentDTO.cs" />
     <Compile Include="Models\EDCScenarioImage.cs" />
+    <Compile Include="Models\EDCScenarioWord.cs" />
     <Compile Include="Models\EDCStudent.cs" />
     <Compile Include="Models\EDCStudentDTO.cs" />
     <Compile Include="Models\EDCTeacher.cs" />
@@ -277,7 +292,7 @@
     <Compile Include="Models\EDCWordDTO.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\EDCPhrase.cs" />
-    <Compile Include="Models\EDCQuote.cs" />
+    <Compile Include="Models\EDCSlang.cs" />
     <Compile Include="Models\EDCPhraseExample.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
@@ -289,18 +304,23 @@
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Client\app.js" />
     <Content Include="Client\controllers\addLearnRequestController.js" />
+    <Content Include="Client\controllers\addNewScenarioController.js" />
     <Content Include="Client\controllers\addNewWordController.js" />
     <Content Include="Client\controllers\controllerBase.js" />
     <Content Include="Client\controllers\defaultController.js" />
     <Content Include="Client\controllers\learnRequestController.js" />
     <Content Include="Client\controllers\loginController.js" />
+    <Content Include="Client\controllers\scenarioDetailController.js" />
     <Content Include="Client\controllers\studentController.js" />
     <Content Include="Client\controllers\teacherController.js" />
     <Content Include="Client\directives\addLearnRequestDirective.js" />
+    <Content Include="Client\directives\addScenarioDirective.js" />
+    <Content Include="Client\directives\addScenarioImageDirective.js" />
+    <Content Include="Client\directives\addScenarioWordDirective.js" />
     <Content Include="Client\directives\addWordDirective.js" />
     <Content Include="Client\directives\addWordPhraseDirective.js" />
     <Content Include="Client\directives\addWordPhraseExampleDirective.js" />
-    <Content Include="Client\directives\addWordQuoteDirective.js" />
+    <Content Include="Client\directives\addWordSlangDirective.js" />
     <Content Include="Client\directives\audioDirective.js" />
     <Content Include="Client\directives\characterDirective.js" />
     <Content Include="Client\directives\dateDirective.js" />
@@ -312,11 +332,14 @@
     <Content Include="Client\directives\phraseDirective.js" />
     <Content Include="Client\directives\pwdCompareDirective.js" />
     <Content Include="Client\directives\quoteDirective.js" />
+    <Content Include="Client\directives\scenarioDirective.js" />
+    <Content Include="Client\directives\slangDirective.js" />
     <Content Include="Client\directives\studentCanvasDirective.js" />
     <Content Include="Client\directives\svgDirective.js" />
     <Content Include="Client\directives\teacherCanvasDirective.js" />
     <Content Include="Client\directives\userItemContainerDirective.js" />
     <Content Include="Client\directives\userLearnRequestDirective.js" />
+    <Content Include="Client\directives\userScenarioDirective.js" />
     <Content Include="Client\directives\userWordDirective.js" />
     <Content Include="Client\directives\wordBasicDirective.js" />
     <Content Include="Client\filters\dateShortFilter.js" />
@@ -328,19 +351,24 @@
     <Content Include="Client\services\canvasDrawFactory.js" />
     <Content Include="Client\services\learnRequestFactory.js" />
     <Content Include="Client\services\loginUserFactory.js" />
+    <Content Include="Client\services\scenarioFactory.js" />
     <Content Include="Client\services\signalRFactory.js" />
     <Content Include="Client\services\wordFactory.js" />
     <Content Include="Client\services\errorFactory.js" />
     <Content Include="Client\services\serviceBase.js" />
     <Content Include="Client\views\addLearnRequest.html" />
+    <Content Include="Client\views\addNewScenario.html" />
     <Content Include="Client\views\addNewWord.html" />
     <Content Include="Client\views\confirmEmail.html" />
     <Content Include="Client\views\default.html" />
     <Content Include="Client\views\directiveViews\addLearnRequestDirective.html" />
+    <Content Include="Client\views\directiveViews\addScenario.html" />
+    <Content Include="Client\views\directiveViews\addScenarioImage.html" />
+    <Content Include="Client\views\directiveViews\addScenarioWord.html" />
     <Content Include="Client\views\directiveViews\addWord.html" />
     <Content Include="Client\views\directiveViews\addWordPhrase.html" />
     <Content Include="Client\views\directiveViews\addWordPhraseExample.html" />
-    <Content Include="Client\views\directiveViews\addWordQuote.html" />
+    <Content Include="Client\views\directiveViews\addWordSlang.html" />
     <Content Include="Client\views\directiveViews\audio.html" />
     <Content Include="Client\views\directiveViews\character.html" />
     <Content Include="Client\views\directiveViews\date.html" />
@@ -350,8 +378,11 @@
     <Content Include="Client\views\directiveViews\imagelist.html" />
     <Content Include="Client\views\directiveViews\phrase.html" />
     <Content Include="Client\views\directiveViews\quote.html" />
+    <Content Include="Client\views\directiveViews\scenario.html" />
+    <Content Include="Client\views\directiveViews\slang.html" />
     <Content Include="Client\views\directiveViews\userItemContainer.html" />
     <Content Include="Client\views\directiveViews\userLearnRequestItem.html" />
+    <Content Include="Client\views\directiveViews\userScenarioItem.html" />
     <Content Include="Client\views\directiveViews\userWordItem.html" />
     <Content Include="Client\views\directiveViews\wordBasic.html" />
     <Content Include="Client\views\edcModal.html" />
@@ -360,26 +391,198 @@
     <Content Include="Client\views\login.html" />
     <Content Include="Client\views\register.html" />
     <Content Include="Client\views\resetpwd.html" />
+    <Content Include="Client\views\scenarioDetail.html" />
     <Content Include="Client\views\student.html" />
     <Content Include="Client\views\studentLearnRequest.html" />
     <Content Include="Client\views\teacher.html" />
     <Content Include="Client\views\teacherLearnRequest.html" />
     <Content Include="Content\addLearnRequestBg.gif" />
+    <Content Include="Content\Audios\PhraseAudio\一样.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\一般.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\专一.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\两个月.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\个人.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\个体户.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\个别.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\中奖.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\中心.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\中止.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\中等.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\人品.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\会议.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\但是.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\别个.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\别人.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\到机场.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\到达.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\剃头.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\唯一.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\在意.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\多余.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\大学.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\头发.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\女人.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\存在.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\家庭.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\巨大.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\我们.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\我的.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\拥有.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\故人.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\是的.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\是非.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\有机.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\有趣.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\机会.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\杂草.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\比比皆是.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\的确.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\目的.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\目的地.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\第一.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\约会.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\老家.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\草坪.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\草率.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\草鸡.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\许多.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\这会儿.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\这回.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\这里.m4a" />
+    <Content Include="Content\Audios\PhraseAudio\迟到.m4a" />
+    <Content Include="Content\Audios\WordAudio\一.m4a" />
+    <Content Include="Content\Audios\WordAudio\个.m4a" />
+    <Content Include="Content\Audios\WordAudio\中.m4a" />
     <Content Include="Content\Audios\WordAudio\人.m4a" />
+    <Content Include="Content\Audios\WordAudio\会.m4a" />
+    <Content Include="Content\Audios\WordAudio\到.m4a" />
+    <Content Include="Content\Audios\WordAudio\在.m4a" />
+    <Content Include="Content\Audios\WordAudio\多.m4a" />
+    <Content Include="Content\Audios\WordAudio\大.m4a" />
+    <Content Include="Content\Audios\WordAudio\头.m4a" />
+    <Content Include="Content\Audios\WordAudio\家.m4a" />
+    <Content Include="Content\Audios\WordAudio\我.m4a" />
+    <Content Include="Content\Audios\WordAudio\是.m4a" />
+    <Content Include="Content\Audios\WordAudio\有.m4a" />
+    <Content Include="Content\Audios\WordAudio\草.m4a" />
+    <Content Include="Content\Audios\WordAudio\这.m4a" />
     <Content Include="Content\bootstrap-select.css" />
     <Content Include="Content\bootstrap-select.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\ErasorCursor.png" />
     <Content Include="Content\PencilCursor.png" />
+    <Content Include="Content\Pinyin\WordPinyin\一.png" />
     <Content Include="Content\Pinyin\WordPinyin\不.png" />
+    <Content Include="Content\Pinyin\WordPinyin\个.png" />
+    <Content Include="Content\Pinyin\WordPinyin\中.png" />
     <Content Include="Content\Pinyin\WordPinyin\人.png" />
+    <Content Include="Content\Pinyin\WordPinyin\会.png" />
+    <Content Include="Content\Pinyin\WordPinyin\到.png" />
+    <Content Include="Content\Pinyin\WordPinyin\在.png" />
     <Content Include="Content\Pinyin\WordPinyin\多.png" />
+    <Content Include="Content\Pinyin\WordPinyin\大.png" />
+    <Content Include="Content\Pinyin\WordPinyin\头.png" />
+    <Content Include="Content\Pinyin\WordPinyin\家.png" />
+    <Content Include="Content\Pinyin\WordPinyin\我.png" />
+    <Content Include="Content\Pinyin\WordPinyin\是.png" />
+    <Content Include="Content\Pinyin\WordPinyin\有.png" />
+    <Content Include="Content\Pinyin\WordPinyin\的.png" />
+    <Content Include="Content\Pinyin\WordPinyin\这.png" />
+    <Content Include="Content\ScenarioWordBackground.jpg" />
+    <Content Include="Content\Scenario\firsttime_meet_one.png" />
+    <Content Include="Content\Scenario\firsttime_meet_second.png" />
+    <Content Include="Content\Scenario\scenariofirst.png" />
+    <Content Include="Content\Scenario\watchmovie_first.png" />
+    <Content Include="Content\Scenario\watchmovie_second.png" />
+    <Content Include="Content\Scenario\Word\Audio\一.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\七.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\万.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\三.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\下午好.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\九.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\二.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\五.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\会面.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\你好.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\免费.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\八.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\六.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\刺骨的寒冷.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\前台.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\包.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\十.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\千.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\四.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\国家.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\多云.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\大雨.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\天气预报.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\好转.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\密码.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\小册子.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\小雨.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\强风.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\很冷.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\很热.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\微风.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\我是.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\房间.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\找到.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\护照.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\无线网.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\早上好.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\早餐.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\晚上好.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\晴空万里.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\最后.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\毛毛雨.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\气温.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\炎热.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\百.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\空气质量.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\第.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\蓝天.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\退房.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\酒店.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\问候.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\问题.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\阵雨.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\除了.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\零.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\雷阵雨.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\预订.m4a" />
+    <Content Include="Content\Scenario\Word\Audio\麻烦.m4a" />
+    <Content Include="Content\Scenario\Word\Pinyin\下午好.png" />
+    <Content Include="Content\Scenario\Word\Pinyin\中午好.png" />
+    <Content Include="Content\Scenario\Word\Pinyin\你好.png" />
+    <Content Include="Content\Scenario\Word\Pinyin\早上好.png" />
+    <Content Include="Content\Scenario\Word\Pinyin\晚上好.png" />
+    <Content Include="Content\Scenario\Word\Pinyin\问候.png" />
+    <Content Include="Content\Scenario\Word\Pinyin\除了.png" />
+    <Content Include="Content\Scenario\问候_1.png" />
+    <Content Include="Content\Scenario\问候_2.png" />
+    <Content Include="Content\Scenario\问候_3.png" />
+    <Content Include="Content\SVG\一.svg" />
     <Content Include="Content\SVG\不.svg" />
+    <Content Include="Content\SVG\个.svg" />
+    <Content Include="Content\SVG\中.svg">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Content\SVG\人.svg" />
+    <Content Include="Content\SVG\会.svg" />
+    <Content Include="Content\SVG\到.svg" />
+    <Content Include="Content\SVG\在.svg" />
     <Content Include="Content\SVG\多.svg" />
     <Content Include="Content\SVG\大.svg" />
+    <Content Include="Content\SVG\头.svg" />
+    <Content Include="Content\SVG\家.svg" />
+    <Content Include="Content\SVG\我.svg" />
+    <Content Include="Content\SVG\是.svg" />
+    <Content Include="Content\SVG\有.svg" />
+    <Content Include="Content\SVG\的.svg" />
     <Content Include="Content\SVG\草.svg" />
+    <Content Include="Content\SVG\这.svg" />
     <Content Include="Content\ui-bootstrap-csp.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -1294,9 +1497,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\Audios\PhraseAudio\" />
-    <Folder Include="Content\Pinyin\PhrasePinyin\" />
-    <Folder Include="Content\Scenario\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -1317,6 +1517,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605301359047_UpdateStudentAndTeacherWithHubConnection.resx">
       <DependentUpon>201605301359047_UpdateStudentAndTeacherWithHubConnection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606111641308_AddThemeToScenarioContent.resx">
+      <DependentUpon>201606111641308_AddThemeToScenarioContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606111755375_ChangeQuoteToSlang.resx">
+      <DependentUpon>201606111755375_ChangeQuoteToSlang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606171948261_AddScenarioWord.resx">
+      <DependentUpon>201606171948261_AddScenarioWord.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

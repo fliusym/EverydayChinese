@@ -71,10 +71,25 @@
                 loginUserFactory.addWord(id);
             }]
         }
+    }).when('/addScenario', {
+        resolve: {
+            addWord: ['loginUserFactory', 'scenarioFactory', function (loginUserFactory, scenarioFactory) {
+                var id = scenarioFactory.getCurrentScenarioIdToAdd();
+                loginUserFactory.addScenario(id);
+            }]
+        }
     }).when('/addNewWord', {
         templateUrl: viewBase + 'addNewWord.html',
         controller: 'AddNewWordController',
         controllerAs: 'addNWCtrl'
+    }).when('/addNewScenario', {
+        templateUrl: viewBase + 'addNewScenario.html',
+        controller: 'AddNewScenarioController',
+        controllerAs: 'addNSCtrl'
+    }).when('/scenarioDetail', {
+        templateUrl: viewBase + 'scenarioDetail.html',
+        controller: 'ScenarioDetailController',
+        controllerAs: 'scenarioDetailCtrl'
     }).when('/default', {
         templateUrl: viewBase + 'default.html',
         controller: 'DefaultController',
@@ -99,6 +114,10 @@
                 if (next.$$route.originalPath === '/addWord') {
                     event.preventDefault();
                     authenticationFactory.setRedirectUrlAfterLogin('/addWord');
+                    $location.path('/login');
+                } else if (next.$$route.originalPath === '/addScenario') {
+                    event.preventDefault();
+                    authenticationFactory.setRedirectUrlAfterLogin('/addScenario');
                     $location.path('/login');
                 }
 

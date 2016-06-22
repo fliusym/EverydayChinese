@@ -1,0 +1,15 @@
+﻿<div class="row col-sm-10" ng-mouseleave="ctrl.canAdd=false" ng-mouseenter="ctrl.canAdd=true">
+    <div class="col-sm-offset-1 col-sm-4">
+        <edc-quote quotetitle="ctrl.scenario.scenariotitle" quotes="ctrl.scenario.scenarioquotes"></edc-quote>
+    </div>
+    <div class="col-sm-4" ng-show="ctrl.canAdd && !ctrl.scenario.notShowAdd">
+        <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="right" title="Add to your library" ng-click="ctrl.onAdd()">
+            <i class="glyphicon glyphicon-plus"></i>
+
+        </button>
+    </div>
+</div>
+<br />
+<div class="row col-sm-offset-1">
+    <edc-image-list images="ctrl.scenario.imagelist"></edc-image-list>
+</div>

@@ -1,52 +1,52 @@
 ﻿angular.module('learnChineseApp.controller').controller('DefaultController',
-    ['wordFactory', '$location', 'errorFactory','timeFactory',
-        function (wordFactory, $location, errorFactory, timeFactory) {
+    ['wordFactory', '$location', 'errorFactory','timeFactory','scenarioFactory',
+        function (wordFactory, $location, errorFactory, timeFactory, scenarioFactory) {
             'use strict';
             var vm = this;
             var getCurrentDayWord = function (date) {
+                
                 wordFactory.getWord(date).$promise.then(function (word) {
+                    vm.error = null;
                     vm.info = {};
                     vm.info['svgname'] = word.Character;
                     vm.info['id'] = word.Id;
-                //    vm.svgname = word.Character;
                     vm.wordEnglish = word.BasicMeanings;
-                  //  vm.pinyin = "/" + word.Pinyin;
-                    //   vm.audioSrc = "/" + word.Audio;
                     vm.pinyin = word.Pinyin;
                     vm.audioSrc =  word.Audio;
-                    vm.phraselist = [];
-                    for (var i = 0; i < word.Phrases.length; i++) {
-                        var examples = [];
-                        if (word.Phrases[i].Examples) {
-                            for (var j = 0; j < word.Phrases[i].Examples.length; j++) {
-                                examples.push({
-                                    chinese: word.Phrases[i].Examples[j].Chinese,
-                                    english: word.Phrases[i].Examples[j].English
-                                });
-                            }
-                        }
-
-                        vm.phraselist.push({
-                            chinese: word.Phrases[i].Chinese,
-                            english: word.Phrases[i].English,
-                            audioid: word.Phrases[i].Pinyin,
-                           // audioid: "/" + word.Phrases[i].Pinyin,
-                            examples: examples
-
+                    if (word.Phrases) {
+                        vm.phraselist = word.Phrases.map(function (val) {
+                            return {
+                                chinese: val.Chinese,
+                                english: val.English,
+                                audioid: val.Pinyin,
+                                examples: val.Examples ? val.Examples.map(function(e){
+                                    return {
+                                        chinese: e.Chinese,
+                                        english: e.English
+                                    }
+                                }) : []
+                            };
                         });
                     }
-                    vm.quotes = word.quotes.map(function (value) {
-                        return {
-                            chinese: value.What,
-                            hasfooter: true,
-                            who: value.Who,
-                            where: value.where
+                    if (word.Slangs) {
+                        vm.slang = {
+                            titleChinese: '俚语',
+                            titleEnglish: 'Slang Words',
+                            slangs:  word.Slangs.map(function (value) {
+                                return {
+                                    english: value.SlangEnglish,
+                                    chinese: value.SlangChinese,
+                                    exampleEnglish: value.SlangExampleEnglish,
+                                    exampleChinese: value.SlangExampleChinese
+                                };
+                            })
                         };
-                    })
+                    }
+
                 }, function (error) {
                     errorFactory.setErrorFromException(error);
-                    var test = errorFactory.getErrorMsg();
-                    vm.error = test;
+                    vm.error = errorFactory.getErrorMsg();
+                    vm.error.persistent = true;
                 });
             };
             vm.currentDate = new Date();
@@ -57,56 +57,52 @@
                 chinese: '俚语',
                 english: 'Slang Words'
             };
-            //vm.quotes = [
-            //    {
-            //        chinese: '人民群众是一切知识的力量和源泉，中国人民解放军,人民群众是一切知识的力量和源泉，中国人民解放军',
-            //        hasfooter: true,
-            //        who: '毛泽东',
-            //        where: '为人民服务'
-            //    },
-            //    {
-            //        chinese: '人民群众是一切知识的力量和源泉，中国人民解放军',
-            //        hasfooter: true,
-            //        who: '毛泽东',
-            //        where: '为人民服务'
-            //    }
-            //];
+            var getCurrentDayScenario = function (date) {
+                scenarioFactory.getScenario(vm.currentDate).$promise.then(function (data) {
+                    vm.scenarioError = null;
+                    vm.scenario = {
+                        id: data.Id,
+                        scenariotitle: {
+                            chinese: '生活场景介绍',
+                            english: 'Everyday life scenario'
+                        },
+                        scenarioquotes: [
+                            {
+                                chinese: data.ThemeChinese,
+                                hasfooter: true,
+                                who: data.ThemeEnglish
+                            }
+                        ],
+                        imagelist: data.Images.map(function (val) {
+                            return {
+                                src: val.Image,
+                                words: val.Words.map(function (word) {
+                                    return{
+                                        chinese: word.Word,
+                                        pinyin: word.Pinyin,
+                                        audiosrc: word.Audio
+                                    }
+                                })
+                            }
+                        })
+                    };
+                }, function (error) {
+                    errorFactory.setErrorFromException(error);
+                    vm.scenarioError = errorFactory.getErrorMsg();
+                    vm.scenarioError.persistent = true;
+                });
+            }
 
-            vm.scenariotitle = {
-                chinese: '生活场景介绍',
-                english: 'Everyday life scenario'
-            };
-            vm.scenarioquotes = [
-                {
-                    chinese: '如果你的家人或者朋友生病了，你想要表达一下你的关心',
-                    hasfooter: true,
-                    where: 'If your family or friend gets sick, you wants to offer your sympathy'
-                }
-            ];
-
-            vm.imagelist = [
-                {
-                    src: 'Content/Scenario/scenariofirst.png'
-                },
-                {
-                    src: 'Content/Scenario/scenariofirst.png'
-                },
-                {
-                    src: 'Content/Scenario/scenariofirst.png'
-                },
-
-                {
-                    src: 'Content/Scenario/scenariofirst.png'
-                }
-            ];
-
+            getCurrentDayScenario(vm.currentDate);
             vm.datechange = function (date) {
                 vm.currentDate = date;
                 getCurrentDayWord(date);
+                getCurrentDayScenario(date);
             }
-            vm.add = function (id) {
+            vm.addScenario = function (id) {
                 timeFactory.setCurrentDate(vm.currentDate);
-                wordFactory.setCurrentWordIdToAdd(id);
-                $location.path('/addWord');
+                scenarioFactory.setCurrentScenarioIdToAdd(id);
+                $location.path('/addScenario');
             }
+
         }]);

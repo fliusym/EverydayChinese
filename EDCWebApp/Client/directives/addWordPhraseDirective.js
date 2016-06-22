@@ -1,5 +1,5 @@
 ﻿angular.module('learnChineseApp.directive')
-.directive('edcAddWordPhrase', ['$compile', function ($compile) {
+.directive('edcAddWordPhrase', [function () {
     'use strict';
 
     return {

@@ -1,6 +1,5 @@
 ﻿
 <edc-header></edc-header>
-<!--svgname="{{defaultCtrl.svgname}}"-->
 <div class="container" role="main">
     <div class="row">
         <edc-everyday title="Everyday Chinese" chinese="每日一词"></edc-everyday>
@@ -40,7 +39,7 @@
 
         <div class="row top_buffer">
             <div class="col-sm-offset-1 col-sm-6">
-                <edc-quote quotetitle="defaultCtrl.quotetitle" quotes="defaultCtrl.quotes"></edc-quote>
+                <edc-slang slang="defaultCtrl.slang"></edc-slang>
             </div>
         </div>
     </div>
@@ -50,14 +49,9 @@
         <edc-everyday title="Everyday Scenario" chinese="每日一景"></edc-everyday>
     </div>
     <br />
+    <edc-scenario ng-if="!defaultCtrl.scenarioError" scenario="defaultCtrl.scenario" add="defaultCtrl.addScenario"></edc-scenario>
     <div class="row">
-        <div class="col-sm-offset-1 col-sm-6">
-            <edc-quote quotetitle="defaultCtrl.scenariotitle" quotes="defaultCtrl.scenarioquotes"></edc-quote>
-        </div>
-    </div>
-    <br />
-    <div class="row col-sm-offset-1">
-        <edc-image-list images="defaultCtrl.imagelist"></edc-image-list>
+        <edc-dismissible-error error="defaultCtrl.scenarioError"></edc-dismissible-error>
     </div>
 </div>
 

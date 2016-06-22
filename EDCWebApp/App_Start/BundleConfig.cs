@@ -52,6 +52,8 @@ namespace EDCWebApp
                  "~/Client/controllers/learnRequestController.js",
                  "~/Client/controllers/teacherController.js",
                  "~/Client/controllers/addNewWordController.js",
+                 "~/Client/controllers/addNewScenarioController.js",
+                 "~/Client/controllers/scenarioDetailController.js",
                  /*factories*/
                   "~/Client/services/serviceBase.js",
                   "~/Client/services/basicFactory.js",
@@ -62,6 +64,7 @@ namespace EDCWebApp
                   "~/Client/services/loginUserFactory.js",
                   "~/Client/services/signalRFactory.js",
                   "~/Client/services/canvasDrawFactory.js",
+                  "~/Client/services/scenarioFactory.js",
                   /*filters*/
                   "~/Client/filters/filterBase.js",
                   "~/Client/filters/trustedFilter.js",
@@ -89,8 +92,14 @@ namespace EDCWebApp
                   "~/Client/directives/studentCanvasDirective.js",
                   "~/Client/directives/addWordDirective.js",
                   "~/Client/directives/addWordPhraseDirective.js",
-                  "~/Client/directives/addWordQuoteDirective.js",
-                  "~/Client/directives/addWordPhraseExampleDirective.js"
+                  "~/Client/directives/addWordSlangDirective.js",
+                  "~/Client/directives/addWordPhraseExampleDirective.js",
+                  "~/Client/directives/scenarioDirective.js",
+                  "~/Client/directives/slangDirective.js",
+                  "~/Client/directives/addScenarioDirective.js",
+                  "~/Client/directives/addScenarioImageDirective.js",
+                  "~/Client/directives/addScenarioWordDirective.js",
+                  "~/Client/directives/userScenarioDirective.js"
                 ));
 
         }

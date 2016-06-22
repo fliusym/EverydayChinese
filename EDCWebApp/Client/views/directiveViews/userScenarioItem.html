@@ -1,0 +1,19 @@
+﻿<div id="clitem-scenario" >
+    <div class="row" ng-if="!ctrl.isTeacher">
+        <div class="col-sm-1 hoverrow">
+            <button type="button" class="btn btn-default btn-circle " data-toggle="tooltip" data-placement="left" title="Remove" ng-click="ctrl.removeItem($event)">
+                <i class="glyphicon glyphicon-remove"></i>
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <button class="btn btn-lg btn-block" ng-click="ctrl.getItemDetail()">
+            <h5 style="text-align:center;padding-top:6px;">{{ctrl.item.themeEnglish}}</h5>
+            <h4 style="text-align:center">{{ctrl.item.themeChinese}}</h4>
+        </button>
+    </div>
+    <edc-dismissible-error error="ctrl.item.error"></edc-dismissible-error>
+</div>
+
+
+

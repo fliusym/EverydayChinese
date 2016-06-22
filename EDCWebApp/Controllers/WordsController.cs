@@ -51,7 +51,7 @@ namespace EDCWebApp.Controllers
 
             var word = await db.Words
                     .Include(p => p.Phrases.Select(x => x.Examples))
-                    .Include(p => p.Quotes)
+                    .Include(p => p.Slangs)
                     .Where(p => p.Date == d).SingleOrDefaultAsync();
             if (word != null)
             {
@@ -70,7 +70,7 @@ namespace EDCWebApp.Controllers
         [Authorize(Roles="Teacher")]
         [HttpPost]
         [Route("~/api/Words/Add")]
-        [ResponseType(typeof(EDCWordDTO))]
+   //     [ResponseType(typeof(EDCWordDTO))]
         public async Task<IHttpActionResult> PostWord(AddWordBindingModel word)
         {
             if (!ModelState.IsValid)
@@ -143,28 +143,30 @@ namespace EDCWebApp.Controllers
                     db.Phrases.Add(p);
                 }
             }
-            if (word.Quotes != null && word.Quotes.Count() > 0)
+            if (word.Slangs != null && word.Slangs.Count() > 0)
             {
-                var quotes = new List<EDCQuote>();
-                foreach (var q in word.Quotes)
+                var slangs = new List<EDCSlang>();
+                foreach (var q in word.Slangs)
                 {
-                    if(q.What == null || q.What.Length == 0
-                        ||q.Where == null || q.Where.Length ==0
-                        || q.Who == null || q.Who.Length == 0)
+                    if(q.SlangChinese == null || q.SlangChinese.Length == 0
+                        ||q.SlangEnglish == null || q.SlangEnglish.Length ==0
+                        || q.SlangExampleChinese == null || q.SlangExampleChinese.Length == 0
+                        || q.SlangExampleEnglish == null || q.SlangExampleEnglish.Length == 0)
                     {
                         continue;
                     }
-                    quotes.Add(new EDCQuote
+                    slangs.Add(new EDCSlang
                     {
-                        What = q.What,
-                        Where = q.Where,
-                        Who = q.Who
+                        SlangChinese = q.SlangChinese,
+                        SlangEnglish = q.SlangEnglish,
+                        SlangExampleEnglish = q.SlangExampleEnglish,
+                        SlangExampleChinese = q.SlangExampleChinese
                     });
                 }
-                edcWord.Quotes = quotes;
-                foreach (var q in quotes)
+                edcWord.Slangs = slangs;
+                foreach (var q in slangs)
                 {
-                    db.Quotes.Add(q);
+                    db.Slangs.Add(q);
                 }
             }
             
@@ -172,6 +174,7 @@ namespace EDCWebApp.Controllers
             try
             {
                 await db.SaveChangesToDbAsync();
+                return Ok();
             }
             catch (Exception)
             {
@@ -180,8 +183,8 @@ namespace EDCWebApp.Controllers
                 var response = Request.CreateErrorResponse(HttpStatusCode.InternalServerError, modelError);
                 throw new HttpResponseException(response);
             }
-            var wordDto = db.GenerateDTO(edcWord);
-            return CreatedAtRoute("DefaultApi", new { id = edcWord.ID }, wordDto);
+            //var wordDto = db.GenerateDTO(edcWord);
+            //return CreatedAtRoute("DefaultApi", new { id = edcWord.ID }, wordDto);
         }
     }
 }

@@ -9,6 +9,7 @@
         'use strict';
         var factory = {};
         var cachedStudentLearnRequests;
+        var cachedScenarios;
         factory.getUserResources = function (id) {
             var token = sessionStorage.getItem(tokenKey);
             //since the username is email address, has to add trailing slash
@@ -121,6 +122,21 @@
             return resource.postWord(object);
         }
 
+        factory.addNewScenario = function (object) {
+            var token = sessionStorage.getItem(tokenKey);
+            //since the username is email address, has to add trailing slash
+            var resource = $resource('/api/Scenes/Add', null, {
+                postScene: {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': ('Bearer ' + token),
+                        'Content-Type': 'application/json'
+                    },
+                }
+            });
+            return resource.postScene(object);
+        }
+
         factory.addWord = function (id) {
             var token = sessionStorage.getItem(tokenKey);
             var resource = $resource('/api/Students/Words', null, {
@@ -143,6 +159,28 @@
             });
         }
 
+        factory.addScenario = function (id) {
+            var token = sessionStorage.getItem(tokenKey);
+            var resource = $resource('/api/Students/Scenarios', null, {
+                addScenario: {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': ('Bearer ' + token),
+                        'Content-Type': 'application/json'
+                        // 'Content-Type': 'application/x-www-form-urlencoded',
+
+                    }
+                }
+            });
+            resource.addScenario(id).$promise.then(function () {
+                var mydata = authenticationFactory.getLoginInfo();
+                $location.path('/user').search({ user: mydata.user });
+            }, function () {
+                $location.path('/default');
+                //     if (!$rootScope.$$phase) $rootScope.$apply();
+            });
+        }
+
         factory.removeWord = function (name, id) {
             var token = sessionStorage.getItem(tokenKey);
             var resource = $resource('/api/Students/:name/Words/:id', null, {
@@ -159,11 +197,36 @@
             });
             return resource.deleteWord({ name:name, id: id });
         }
+
+        factory.removeScenario = function (name, id) {
+            var token = sessionStorage.getItem(tokenKey);
+            var resource = $resource('/api/Students/:name/Scenarios/:id', null, {
+                deleteScenario: {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': ('Bearer ' + token),
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    transformRequest: function (data, headerGetter) {
+                        return TransformHeaderService.transform(data, headerGetter);
+                    }
+                }
+            });
+            return resource.deleteScenario({ name: name, id: id });
+        }
+
         factory.setCachedStudentLearnRequests = function (learnRequests) {
             cachedStudentLearnRequests = learnRequests;
         }
         factory.getCachedStudentLearnRequests = function () {
             return cachedStudentLearnRequests;
+        }
+
+        factory.setCachedScenarios = function (scenarios) {
+            cachedScenarios = scenarios;
+        }
+        factory.getCachedScenarios = function () {
+            return cachedScenarios;
         }
         return factory;
     }]);

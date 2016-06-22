@@ -16,7 +16,7 @@ namespace EDCWebApp.Models
         public string Explanation { get; set; }
         public string BasicMeanings { get; set; }
         public ICollection<EDCPhrase> Phrases { get; set; }
-        public ICollection<EDCQuote> Quotes { get; set; }
+        public ICollection<EDCSlang> Slangs { get; set; }
         public string Date { get; set; }
 
         [ForeignKey("Student")]

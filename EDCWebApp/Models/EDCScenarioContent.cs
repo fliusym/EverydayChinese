@@ -12,6 +12,8 @@ namespace EDCWebApp.Models
 
         public ICollection<EDCScenarioImage> Images { get; set; }
         public string Date { get; set; }
+        public string ThemeEnglish { get; set; }
+        public string ThemeChinese { get; set; }
 
         //public int LoginUserId { get; set; }
         //public LoginUser LoginUser { get; set; }

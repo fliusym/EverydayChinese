@@ -11,15 +11,15 @@
         },
         controller: ['$scope',function($scope){
             var phrases = $scope.word['phrases'] = [];
-            var quotes = $scope.word['quotes'] = [];
+            var slangs = $scope.word['slangs'] = [];
             $scope.phraseIndex = 1;
             this.addPhrase = function (phrase) {
                 phrase.index = $scope.phraseIndex++;
                 phrases.push(phrase);
 
             }
-            this.addQuote = function (quote) {
-                quotes.push(quote);
+            this.addSlang = function (slang) {
+                slangs.push(slang);
             }
         }],
         link: function (scope, element, attrs) {

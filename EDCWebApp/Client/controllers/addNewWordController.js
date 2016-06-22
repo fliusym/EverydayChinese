@@ -3,15 +3,16 @@
     function (loginUserFactory, $location, errorFactory) {
     'use strict';
     var vm = this;
-    vm.word = {
-        'svgPath': '',
-        'pinyinPath': '',
-        'audioPath': '',
-        'basicMeanings': '',
-        'date': '',
-        'explanation': ''
+    vm.word = {};
+    //vm.word = {
+    //    'svgPath': '',
+    //    'pinyinPath': '',
+    //    'audioPath': '',
+    //    'basicMeanings': '',
+    //    'date': '',
+    //    'explanation': ''
 
-    };
+    //};
     vm.onAdd = function () {
 
         var addObj = {};
@@ -32,18 +33,20 @@
             });
         }
 
-        if (vm.word.quotes) {
-            addObj['quotes'] = vm.word.quotes.map(function (obj) {
-                return obj.quote;
+        if (vm.word.slangs) {
+            addObj['slangs'] = vm.word.slangs.map(function (obj) {
+                return obj.slang;
             }).filter(function (p) { return p !== undefined });
         }
 
 
         loginUserFactory.addNewWord(addObj).$promise.then(function (data) {
+            vm.error = null;
             $location.path('/addNewWord');
         }, function (error) {
             errorFactory.setErrorFromException(error);
             vm.error = errorFactory.getErrorMsg();
+            vm.error.persistent = true;
         });
     }
 }]);

@@ -2,10 +2,42 @@
     <br ng-if="$index > 0 && $index %2 == 0" />
     <div ng-if="$index % 2 == 0" class="row">
         <div class="col-sm-4">
-            <img src="{{ctrl.images[$index].src}}" class="img-responsive img-border" />
+            <img src="{{ctrl.images[$index].src | contentDirectory : 'Scenario'}}" class="img-responsive img-border" />
+            <br />
+            <div class="row" ng-repeat="word in ctrl.images[$index].words">
+
+                <div class="col-sm-4">
+                    <p class="scenario-word-font">{{word.chinese}}</p>
+                </div>
+                <div class="col-sm-2">
+                    <edc-audio audioid="{{word.audiosrc | contentDirectory : 'Scenario/Word/Audio'}}"></edc-audio>
+                </div>
+                <div class="col-sm-5">
+                    <img src="{{word.pinyin | contentDirectory : 'Scenario/Word/Pinyin/'}}">
+                </div>
+
+
+
+            </div>
         </div>
         <div class="col-sm-4" ng-if="($index + 1) < ctrl.images.length">
-            <img src="{{ctrl.images[$index + 1].src}}" class="img-responsive img-border" />
+            <img src="{{ctrl.images[$index + 1].src | contentDirectory : 'Scenario'}}" class="img-responsive img-border" />
+            <br />
+            <div class="row" ng-repeat="word in ctrl.images[$index + 1].words">
+
+                <div class="col-sm-4">
+                    <p class="scenario-word-font">{{word.chinese}}</p>
+                </div>
+                <div class="col-sm-2">
+                    <edc-audio audioid="{{word.audiosrc | contentDirectory : 'Scenario/Word/Audio'}}"></edc-audio>
+                </div>
+                <div class="col-sm-5">
+                    <img src="{{word.pinyin | contentDirectory : 'Scenario/Word/Pinyin/'}}">
+                </div>
+
+
+
+            </div>
         </div>
     </div>
 </div>

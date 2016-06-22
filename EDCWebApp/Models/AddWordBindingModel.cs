@@ -25,14 +25,16 @@ namespace EDCWebApp.Models
         [JsonProperty("examples")]
         public IEnumerable<PhraseExampleBindingModel> Examples { get; set; }
     }
-    public class QuoteBindingModel
+    public class SlangBindingModel
     {
-        [JsonProperty("where")]
-        public string Where { get; set; }
-        [JsonProperty("who")]
-        public string Who { get; set; }
-        [JsonProperty("what")]
-        public string What { get; set; }
+        [JsonProperty("slangEnglish")]
+        public string SlangEnglish { get; set; }
+        [JsonProperty("slangChinese")]
+        public string SlangChinese { get; set; }
+        [JsonProperty("slangExampleEnglish")]
+        public string SlangExampleEnglish { get; set; }
+        [JsonProperty("slangExampleChinese")]
+        public string SlangExampleChinese { get; set; }
     }
     [ModelBinder(typeof(EDCLearnRequestBinderProvider))]
     public class AddWordBindingModel
@@ -56,8 +58,8 @@ namespace EDCWebApp.Models
         public string Date { get; set; }
         [JsonProperty("phrases")]
         public IEnumerable<PhraseBindingModel> Phrases { get; set; }
-        [JsonProperty("quotes")]
-        public IEnumerable<QuoteBindingModel> Quotes { get; set; }
+        [JsonProperty("slangs")]
+        public IEnumerable<SlangBindingModel> Slangs { get; set; }
 
     }
 }

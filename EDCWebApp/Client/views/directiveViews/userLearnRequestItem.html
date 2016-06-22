@@ -22,10 +22,6 @@
         <a class="btn btn-default" href="/#/teacherLearnRequest?index={{ctrl.item.id}}" ng-if="ctrl.isTeacher">Join Class</a>
         <a class="btn btn-default" href="/#/studentLearnRequest?index={{ctrl.item.id}}" ng-if="!ctrl.isTeacher">Join Class</a>
     </div>
-    <!--<div ng-if="ctrl.item.error.message.length > 0" class="row alert alert-warning alert-dismissable" >
-        <button type="button" class="close" ng-click="ctrl.item.error.message = null" aria-hidden="true">&times;</button>
-        <strong>{{ctrl.item.error.message}}</strong>
-    </div>-->
     <edc-dismissible-error error="ctrl.item.error"></edc-dismissible-error>
 </div>
 

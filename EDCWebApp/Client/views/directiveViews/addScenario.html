@@ -1,0 +1,70 @@
+﻿
+
+
+<div class="col-sm-10">
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <button data-toggle="collapse" data-target="#sceneTitle">Scenario Title</button>
+
+                </h4>
+            </div>
+            <div id="sceneTitle" class="panel-collapse collapse">
+                <div class="row">
+                    <label for="chinese" class="col-sm-2 control-label">Title Chinese</label>
+                    <div class="col-sm-10">
+                        <input type="text" id="chinese" ng-model="scenario.titleChinese" />
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="english" class="col-sm-2 control-label">Title English</label>
+                    <div class="col-sm-10">
+                        <input type="text" id="english" ng-model="scenario.titleEnglish" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <button data-toggle="collapse" data-target="#scenarioDate">Scenario Date</button>
+
+                </h4>
+            </div>
+            <div id="scenarioDate" class="panel-collapse collapse">
+                <div class="row">
+                    <label for="scenarioDate" class="col-sm-2 control-label">Scenario Date</label>
+                    <div class="col-sm-10">
+                        <input type="text" id="scenarioDate" ng-model="scenario.scenarioDate" />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <br />
+    <!--<div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <button data-toggle="collapse" data-target="#scenarioImages">Scenario Images</button>
+
+                </h4>
+            </div>
+            <div id="scenarioImages" class="panel-collapse collapse" ng-transclude>
+            </div>
+        </div>
+    </div>-->
+    <div ng-transclude></div>
+    <br id="finalBreak" />
+    <div class="row col-sm-4">
+        <button type="button" class="btn btn-default" ng-click="onAddMoreImage()">Add More Images</button>
+    </div>
+</div>
+
+
+

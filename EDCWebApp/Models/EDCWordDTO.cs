@@ -17,11 +17,12 @@ namespace EDCWebApp.Models
         public string Pinyin { get; set; }
         public IEnumerable<PhraseExample> Examples { get; set; }
     }
-    public class Quote
+    public class Slang
     {
-        public string Where { get; set; }
-        public string What { get; set; }
-        public string Who { get; set; }
+        public string SlangEnglish { get; set; }
+        public string SlangChinese { get; set; }
+        public string SlangExampleEnglish { get; set; }
+        public string SlangExampleChinese { get; set; }
     }
     public class EDCWordDTO
     {
@@ -34,6 +35,6 @@ namespace EDCWebApp.Models
         public string Date { get; set; }
 
         public IEnumerable<Phrase> Phrases { get; set; }
-        public IEnumerable<Quote> Quotes { get; set; }
+        public IEnumerable<Slang> Slangs { get; set; }
     }
 }

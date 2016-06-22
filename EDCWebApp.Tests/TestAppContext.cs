@@ -23,9 +23,9 @@ namespace EDCWebApp.Tests
         public DbSet<EDCLearnRequest> LearnRequests { get; set; }
         public DbSet<EDCPhrase> Phrases { get; set; }
         public DbSet<EDCPhraseExample> PhraseExamples { get; set; }
-        public DbSet<EDCQuote> Quotes { get; set; }
-
-
+        public DbSet<EDCSlang> Slangs { get; set; }
+        public DbSet<EDCScenarioImage> ScenarioImages { get; set; }
+        public DbSet<EDCScenarioWord> ScenarioWords { get; set; }
 
         public void SaveChangesToDb()
         {

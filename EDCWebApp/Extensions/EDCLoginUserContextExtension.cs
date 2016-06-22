@@ -44,16 +44,17 @@ namespace EDCWebApp.Extensions
                 }
             }
 
-            var quotes = new List<Quote>();
-            if (word.Quotes != null)
+            var slangs = new List<Slang>();
+            if (word.Slangs != null)
             {
-                foreach (var q in word.Quotes)
+                foreach (var q in word.Slangs)
                 {
-                    quotes.Add(new Quote
+                    slangs.Add(new Slang
                     {
-                        Who = q.Who,
-                        What = q.What,
-                        Where = q.Where
+                        SlangChinese = q.SlangChinese,
+                        SlangEnglish = q.SlangEnglish,
+                        SlangExampleChinese = q.SlangExampleChinese,
+                        SlangExampleEnglish = q.SlangExampleEnglish
                     });
                 }
             }
@@ -67,7 +68,7 @@ namespace EDCWebApp.Extensions
                 Explanation = word.Explanation,
                 Date = word.Date,
                 Phrases = phrases,
-                Quotes = quotes
+                Slangs = slangs
             };
         }
 
@@ -105,14 +106,27 @@ namespace EDCWebApp.Extensions
             var images = new List<ScenarioImage>();
             foreach (var i in content.Images)
             {
+                var words = new List<ScenarioWord>();
+                foreach (var w in i.Words)
+                {
+                    words.Add(new ScenarioWord
+                    {
+                        Word = w.ChineseWord,
+                        Pinyin = w.ChineseWordPinyin,
+                        Audio = w.ChineseWordAudio
+                    });
+                }
                 images.Add(new ScenarioImage()
                 {
-                    Image = i.Image
+                    Image = i.Image,
+                    Words = words
                 });
             }
             return new EDCScenarioContentDTO()
             {
                 Id = content.ID,
+                ThemeChinese = content.ThemeChinese,
+                ThemeEnglish = content.ThemeEnglish,
                 Images = images
             };
         }

@@ -112,10 +112,10 @@
             phraseCharacters.Add("人品");
             phraseEnglishWords.Add("Personality");
             var phraseAudios = new List<string>();
-            phraseAudios.Add("Content/Audios/PhraseAudio/别人.m4a");
-            phraseAudios.Add("Content/Audios/PhraseAudio/女人.m4a");
-            phraseAudios.Add("Content/Audios/PhraseAudio/故人.m4a");
-            phraseAudios.Add("Content/Audios/PhraseAudio/人品.m4a");
+            phraseAudios.Add("别人.m4a");
+            phraseAudios.Add("女人.m4a");
+            phraseAudios.Add("故人.m4a");
+            phraseAudios.Add("人品.m4a");
             var phrases = new List<EDCPhrase>
             {
                 new EDCPhrase{ ID = 1, WordID = 1, Pinyin = phraseAudios[0], Chinese = phraseCharacters[0], English = phraseEnglishWords[0]},
@@ -132,8 +132,8 @@
             phraseCharactersTwo.Add("多余");
             phraseEnglishTwo.Add("Surplus/Excess");
             var phraseAudiosTwo = new List<string>();
-            phraseAudiosTwo.Add("Content/Audios/PhraseAudio/许多.m4a");
-            phraseAudiosTwo.Add("Content/Audios/PhraseAudio/多余.m4a");
+            phraseAudiosTwo.Add("许多.m4a");
+            phraseAudiosTwo.Add("多余.m4a");
             var phrasesTwo = new List<EDCPhrase>
             {
                 new EDCPhrase{ ID = 5, WordID = 2, Pinyin = phraseAudiosTwo[0], Chinese = phraseCharactersTwo[0],English = phraseEnglishTwo[0]},
@@ -141,6 +141,16 @@
             };
             context.Phrases.AddOrUpdate(x => x.ID, phrasesTwo[0], phrasesTwo[1]);
 
+            var slangs = new List<EDCSlang>
+            {
+                new EDCSlang{ID = 1, SlangChinese = "人迹罕至", SlangEnglish = "Remote place/A place few people can reach", SlangExampleChinese = "在这个人迹罕至的地方，很难看到绿色植物", SlangExampleEnglish = "In this extreme remote place, it is hard to find any green plant",WordID = 1},
+                new EDCSlang{ID = 2, SlangChinese = "骇人听闻", SlangEnglish = "Appalling", SlangExampleChinese = "当听到这个骇人听闻的消息，所有人都惊呆了", SlangExampleEnglish = "Everybody is stunned by this appalling news",WordID = 1}
+            };
+            var slangsTwo = new List<EDCSlang>
+            {
+                new EDCSlang{ID = 3, SlangChinese = "多愁善感",SlangEnglish = "Melancholy", SlangExampleChinese = "自从珍妮母亲去世以来，她变得有些多愁善感",SlangExampleEnglish = "Jenny becomes a little melancholy since her mother passed away",WordID = 2}
+            };
+            context.Slangs.AddOrUpdate(p => p.ID, slangs[0],slangs[1], slangsTwo[0]);
             var words = new List<EDCWord>();
             var wordCharacters = new List<string>();
             wordCharacters.Add("人");
@@ -149,11 +159,11 @@
             wordMeanings.Add("Human/Person");
             wordMeanings.Add("Many/Not Small");
             var wordPinyins = new List<string>();
-            wordPinyins.Add("Content/Pinyin/WordPinyin/人.png");
-            wordPinyins.Add("Content/Pinyin/WordPinyin/多.png");
+            wordPinyins.Add("人.png");
+            wordPinyins.Add("多.png");
             var wordAudios = new List<string>();
-            wordAudios.Add("Content/Audios/WordAudio/人.m4a");
-            wordAudios.Add("Content/Audios/WordAudio/多.m4a");
+            wordAudios.Add("人.m4a");
+            wordAudios.Add("多.m4a");
 
             words.Add(new EDCWord()
             {
@@ -162,7 +172,8 @@
                 Pinyin = wordPinyins[0],
                 Phrases = phrases,
                 Audio = wordAudios[0],
-                Date = DateTime.Parse("2016-05-22").ToShortDateString(),
+                Date = DateTime.Parse("2016-06-10").ToShortDateString(),
+                Slangs = slangs,
                 StudentName = "yov.max@gmail.com"
             });
 
@@ -173,7 +184,8 @@
                 Pinyin = wordPinyins[1],
                 Phrases = phrasesTwo,
                 Audio = wordAudios[1],
-                Date = DateTime.Parse("2016-05-21").ToShortDateString(),
+                Date = DateTime.Parse("2016-06-11").ToShortDateString(),
+                Slangs = slangsTwo,
                 StudentName = "yov.max@gmail.com"
             });
             context.Words.AddOrUpdate(x => x.ID, words[0], words[1]);
@@ -204,6 +216,36 @@
                 LearnRequests = learnRequests
             };
             context.Teachers.AddOrUpdate(x => x.TeacherName, teacher);
+            #endregion
+
+            #region scenario
+            var scenarioWords = new List<EDCScenarioWord>
+            {
+                new EDCScenarioWord{ID = 1, ImageId = 1, ChineseWord = "我是",ChineseWordPinyin="我是.png",ChineseWordAudio="我是.m4a"},
+                new EDCScenarioWord{ID = 2, ImageId = 1, ChineseWord = "会面",ChineseWordPinyin="会面.png",ChineseWordAudio="会面.m4a"},
+                new EDCScenarioWord{ID = 3, ImageId = 2, ChineseWord = "到达",ChineseWordPinyin="到达.png",ChineseWordAudio="到达.m4a"},
+                new EDCScenarioWord{ID = 4, ImageId = 3, ChineseWord = "国家",ChineseWordPinyin="国家.png",ChineseWordAudio="国家.m4a"}
+            };
+            context.ScenarioWords.AddOrUpdate(p => p.ID, scenarioWords[0], scenarioWords[1], scenarioWords[2], scenarioWords[3]);
+            var images = new List<EDCScenarioImage>
+            {
+                new EDCScenarioImage{ID = 1, Image = "scenariofirst.png"},
+                new EDCScenarioImage{ID = 2, Image = "scenariofirst.png"},
+                new EDCScenarioImage{ID = 3, Image = "scenariofirst.png"},
+                new EDCScenarioImage{ID = 4, Image = "scenariofirst.png"}
+            };
+
+            context.ScenarioImages.AddOrUpdate(p => p.ID, images[0], images[1], images[2], images[3]);
+
+            var scene = new EDCScenarioContent
+            {
+                ID = 1,
+                Date = DateTime.Parse("2016-06-11").ToShortDateString(),
+                ThemeChinese = "如果你的家人或者朋友生病了，你想要表达一下你的关心",
+                ThemeEnglish = "If your family or friend gets sick, you wants to offer your sympathy",
+                Images = images
+            };
+            context.Scenarios.AddOrUpdate(p => p.ID, scene);
             #endregion
         }
     }

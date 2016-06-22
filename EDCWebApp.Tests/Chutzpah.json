@@ -1,0 +1,30 @@
+﻿{
+    "RootReferencePathMode": "SettingsFileDirectory",
+    "Framework": "jasmine",
+    "References": [
+        { "Path": "./Scripts/angular.js" },
+        { "Path": "./Scripts/angular-mocks.js" },
+        { "Path": "./Scripts/angular-route.js" },
+        { "Path": "./Scripts/angular-sanitize.js" },
+        { "Path": "./Scripts/angular-messages.js" },
+        { "Path": "./Scripts/angular-resource.js" },
+        { "Path": "./Scripts/angular-animate.js" },
+        { "Path": "../EDCWebApp/Scripts/angular-ui/ui-bootstrap.js" },
+        { "Path": "../EDCWebApp/Client/services/serviceBase.js" },
+        { "Path": "../EDCWebApp/Client/services/basicFactory.js" },
+        { "Path": "../EDCWebApp/Client/services/wordFactory.js" },
+        { "Path": "../EDCWebApp/Client/services/errorFactory.js" },
+        { "Path": "../EDCWebApp/Client/services/scenarioFactory.js" },
+        { "Path": "../EDCWebApp/Client/services/authenticationFactory.js" },
+        { "Path": "../EDCWebApp/Client/services/loginUserFactory.js" },
+        { "Path": "../EDCWebApp/Client/services/learnRequestFactory.js" },
+        { "Path": "../EDCWebApp/Client/controllers/controllerBase.js" },
+        { "Path": "../EDCWebApp/Client/controllers/defaultController.js" },
+        { "Path": "../EDCWebApp/Client/directives/directiveBase.js" },
+        { "Path": "../EDCWebApp/Client/filters/filterBase.js" },
+        { "Path": "../EDCWebApp/Client/app.js" }
+    ],
+    "Tests": [ 
+        {"Path": "ClientTests"}
+    ]
+}

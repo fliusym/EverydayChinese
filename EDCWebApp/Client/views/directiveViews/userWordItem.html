@@ -14,10 +14,10 @@
     <div ng-show="ctrl.basic">
         <div class="row item-center">
             <div class="col-sm-2">
-                <img src="{{ctrl.item.pinyin}}" />
+                <img src="{{ctrl.item.pinyin | contentDirectory : 'Pinyin/WordPinyin'}}" />
             </div>
             <div class="col-sm-2 col-sm-offset-2">
-                <edc-audio audioid="{{ctrl.item.audiosrc}}"></edc-audio>
+                <edc-audio audioid="{{ctrl.item.audiosrc | contentDirectory : 'Audios/WordAudio'}}"></edc-audio>
             </div>
         </div>
         <div class="row item-center">
@@ -34,7 +34,7 @@
                     <div class="row">
                         <em>{{phrase.chinese}}&nbsp;</em>
                         <em><small>{{phrase.english}}</small></em>
-                        <edc-audio audioid="{{phrase.audioid}}">&nbsp;&nbsp;&nbsp;</edc-audio>
+                        <edc-audio audioid="{{phrase.audioid | contentDirectory :'Audios/PhraseAudio/'}}">&nbsp;&nbsp;&nbsp;</edc-audio>
                     </div>
                     <div class="row word-basic-row">
                         <p ng-repeat="example in phrase.examples">
@@ -45,23 +45,18 @@
             </dl>
         </div>
         
-        <div class="row item-center">
-            <button ng-if="ctrl.item.quotes && ctrl.item.quotes.length > 0" type="button" class="btn btn-default btn-lg">语录&nbsp;<small class="english-small" ng-click="ctrl.basic = false;ctrl.example = false;ctrl.quote = true;">Quotes</small></button>
+        <div class="row item-center" ng-click="ctrl.basic = false;ctrl.example = false;ctrl.quote = true;">
+            <button ng-if="ctrl.item.quotes && ctrl.item.quotes.slangs.length > 0" type="button" class="btn btn-default btn-lg">更多例子&nbsp;<small class="english-small">More Examples</small></button>
         </div>
+        <br />
         <div class="row item-center" ng-click="ctrl.basicClick()">
             <button type="button" class="btn btn-default btn-lg">汉字&nbsp;<small class="english-small">Character</small></button>
         </div>
     </div>
     <div ng-show="ctrl.quote">
-        <div>
-            <blockquote ng-repeat="quote in ctrl.item.quotes">
-                <p>{{quote.Chinese}}</p>
-                <footer>{{quote.Who}}&nbsp;&nbsp; <cite>{{quote.Where}}</cite></footer>
-            </blockquote>
-        </div>
-
-        <div class="row item-center">
-            <button  type="button" class="btn btn-default btn-lg">例子&nbsp;<small class="english-small" ng-click="ctrl.basic = false;ctrl.example = true;ctrl.quote = false;">Examples</small></button>
+        <edc-slang slang="ctrl.item.quotes"></edc-slang>
+        <div class="row item-center" ng-click="ctrl.basic = false;ctrl.example = true;ctrl.quote = false;">
+            <button type="button" class="btn btn-default btn-lg">例子&nbsp;<small class="english-small">Examples</small></button>
         </div>
     </div>
     <cl-dismissible-error error="ctrl.item.error"></cl-dismissible-error>

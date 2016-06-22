@@ -10,6 +10,7 @@ namespace EDCWebApp.Models
         public int ID { get; set; }
 
         public string Image { get; set; }
+        public ICollection<EDCScenarioWord> Words { get; set; }
 
         public int ContentID { get; set; }
         public EDCScenarioContent Content { get; set; }

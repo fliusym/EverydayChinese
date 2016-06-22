@@ -1,0 +1,20 @@
+﻿<edc-header></edc-header>
+
+<div class="container">
+    <div class="row">
+        <edc-dismissible-error error="addNSCtrl.error"></edc-dismissible-error>
+    </div>
+    <form>
+        <br />
+        <div class="row col-sm-8 col-sm-offset-4 ">
+            <button type="submit" class="btn btn-default alert-info" ng-click="addNSCtrl.onAdd()">Submit</button>
+        </div>
+        <br />
+        <br />
+        <edc-add-scenario scenario="addNSCtrl.scenario">
+            <edc-add-scenario-image id="scenarioImageList">
+                <edc-add-scenario-word></edc-add-scenario-word>
+            </edc-add-scenario-image>
+        </edc-add-scenario>
+    </form>
+</div>

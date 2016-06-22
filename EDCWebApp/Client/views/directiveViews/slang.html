@@ -1,0 +1,10 @@
+﻿<div>
+    <h4>{{ctrl.slang.titleChinese}}<small>&nbsp;{{ctrl.slang.titleEnglish}}</small></h4>
+    <blockquote ng-repeat="slang in ctrl.slang.slangs">
+        <p>
+            {{slang.chinese}}<small>&nbsp;{{slang.english}}</small>
+        </p>
+        <footer>{{slang.exampleChinese}}&nbsp;&nbsp; <cite>{{slang.exampleEnglish}}</cite></footer>
+    </blockquote>
+</div>
+
