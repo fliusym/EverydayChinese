@@ -311,29 +311,29 @@ namespace EDCWebApp.Controllers
             }
             if (learnRequestObjs.Count > 0)
             {
-                try
+                string teacherName = "xyov.max@gmail.com";
+                var tasks = new List<Task>();
+                foreach (var l in learnRequestObjs)
                 {
-                    string teacherName = "xyov.max@gmail.com";
-                    var tasks = new List<Task>();
-                    foreach (var l in learnRequestObjs)
-                    {
-                        db.AssignTeacherToLearnRequest(l, teacherName);
-                    }
-
-                    foreach (var l in learnRequestObjs)
-                    {
-                        db.LearnRequests.Add(l);
-                    }
-                    await db.SaveChangesToDbAsync();
+                    db.AssignTeacherToLearnRequest(l, teacherName);
                 }
-                catch (Exception)
+
+                foreach (var l in learnRequestObjs)
                 {
-
-                    var msg = "There are some internal errors happened.";
-                    var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
-                    var response = Request.CreateErrorResponse(HttpStatusCode.InternalServerError, modelError);
-                    throw new HttpResponseException(response);
+                    db.LearnRequests.Add(l);
                 }
+            }
+            try
+            {
+                await db.SaveChangesToDbAsync();
+            }
+            catch (Exception)
+            {
+
+                var msg = "There are some internal errors happened.";
+                var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
+                var response = Request.CreateErrorResponse(HttpStatusCode.InternalServerError, modelError);
+                throw new HttpResponseException(response);
             }
             return Ok();
         }
@@ -381,7 +381,6 @@ namespace EDCWebApp.Controllers
             //need to remove the student from the current request
             var student = await db.Students.FindAsync(User.Identity.Name);
             learnRequest.RegisteredStudents.Remove(student);
-            var sql = @"UPDATE dbo.EDCLearnRequest SET StartTime = '8:00am' WHERE ID = @Id";
             if (newRequest == null)
             {
                 newRequest = new EDCLearnRequest

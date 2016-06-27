@@ -14,7 +14,7 @@
     <div ng-show="ctrl.basic">
         <div class="row item-center">
             <div class="col-sm-2">
-                <img src="{{ctrl.item.pinyin | contentDirectory : 'Pinyin/WordPinyin'}}" />
+                <img ng-src="{{ctrl.item.pinyin | contentDirectory : 'Pinyin/WordPinyin'}}" />
             </div>
             <div class="col-sm-2 col-sm-offset-2">
                 <edc-audio audioid="{{ctrl.item.audiosrc | contentDirectory : 'Audios/WordAudio'}}"></edc-audio>
