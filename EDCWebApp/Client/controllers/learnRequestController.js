@@ -1,7 +1,14 @@
-﻿angular.module('learnChineseApp.controller').controller('StudentLearnRequestController', [
+﻿'use strict';
+/**
+@name StudentLearnRequestController & TeacherLearnRequestController
+*@description
+*student join the learn request
+*teacher join the learn request
+*/
+angular.module('learnChineseApp.controller').controller('StudentLearnRequestController', [
     'signalRFactory', '$scope', 'broadcastFactory', '$location', '$rootScope',
     function (signalRFactory, $scope, broadcastFactory, $location, $rootScope) {
-        'use strict';
+        
         var vm = this;
         signalRFactory.init();
         vm.isTeacherLoggedOn = false;
@@ -157,6 +164,7 @@
             vm.cancelControl = function () {
                 var user = vm.selectedStudent;
                 signalRFactory.cancelControlFromTeacher(user);
+                vm.selectedStudent = null;
             }
             vm.endSession = function () {
                 signalRFactory.stopConnection();

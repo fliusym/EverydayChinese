@@ -131,7 +131,7 @@ namespace EDCWebApp.Tests
                 Phrases = phrases,
                 Audio = wordAudios[0],
                 Date = DateTime.Parse("2016-05-22").ToShortDateString(),
-                StudentName = "yov.max@gmail.com"
+             //   StudentName = "yov.max@gmail.com"
             });
 
             words.Add(new EDCWord()
@@ -142,7 +142,7 @@ namespace EDCWebApp.Tests
                 Phrases = phrasesTwo,
                 Audio = wordAudios[1],
                 Date = DateTime.Parse("2016-05-21").ToShortDateString(),
-                StudentName = "yov.max@gmail.com"
+           //     StudentName = "yov.max@gmail.com"
             });
             return words;
 

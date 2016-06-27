@@ -31,6 +31,16 @@ namespace EDCWebApp.DAL
                 .Map(m => m.MapLeftKey("StudentName")
                 .MapRightKey("LearnRequestID")
                 .ToTable("StudentLearnRequest"));
+            modelBuilder.Entity<EDCStudent>()
+                .HasMany(c => c.Words).WithMany(w => w.Students)
+                .Map(m => m.MapLeftKey("StudentName")
+                    .MapRightKey("WordID")
+                    .ToTable("StudentWord"));
+            modelBuilder.Entity<EDCStudent>()
+                .HasMany(c => c.Scenarios).WithMany(w => w.Students)
+                .Map(m => m.MapLeftKey("StudentName")
+                    .MapRightKey("ScenarioID")
+                    .ToTable("StudentScenario"));
                 
                 
             base.OnModelCreating(modelBuilder);
@@ -51,6 +61,11 @@ namespace EDCWebApp.DAL
         public void SetEntityModified<T>(T entity) where T : class
         {
             this.Entry<T>(entity).State = EntityState.Modified;
+        }
+
+        public void RunCommand(string command,params object[] parameters)
+        {
+            Database.ExecuteSqlCommand(command, parameters);
         }
     }
 }

@@ -174,7 +174,8 @@
                 Audio = wordAudios[0],
                 Date = DateTime.Parse("2016-06-10").ToShortDateString(),
                 Slangs = slangs,
-                StudentName = "yov.max@gmail.com"
+               // StudentName = "yov.max@gmail.com"
+               Students = new List<EDCStudent>()
             });
 
             words.Add(new EDCWord()
@@ -186,7 +187,8 @@
                 Audio = wordAudios[1],
                 Date = DateTime.Parse("2016-06-11").ToShortDateString(),
                 Slangs = slangsTwo,
-                StudentName = "yov.max@gmail.com"
+              //  StudentName = "yov.max@gmail.com"
+              Students = new List<EDCStudent>()
             });
             context.Words.AddOrUpdate(x => x.ID, words[0], words[1]);
             #endregion
@@ -201,11 +203,15 @@
             context.Students.AddOrUpdate(x => x.StudentName, user);
             #endregion
 
-            #region update learn request students
+            #region update learn request students and word student
             foreach (var l in learnRequests)
             {
                 l.RegisteredStudents.Add(user);
             }
+            //foreach (var w in words)
+            //{
+            //    w.Students.Add(user);
+            //}
             context.SaveChanges();
             #endregion
 

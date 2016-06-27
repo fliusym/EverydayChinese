@@ -41,7 +41,10 @@ namespace EDCWebApp.Tests
         {
             
         }
-
+        public void RunCommand(string command, params object[] parameters)
+        {
+            
+        }
         public void Dispose()
         {
             

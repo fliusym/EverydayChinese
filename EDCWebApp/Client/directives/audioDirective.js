@@ -1,4 +1,10 @@
-﻿angular.module('learnChineseApp.directive')
+﻿/**
+*@name edcAudio
+*@description
+* this directive is used for audio
+*@param {string@} audioid the source of the audio 
+*/
+angular.module('learnChineseApp.directive')
 .directive('edcAudio', ['$sce', function ($sce) {
     'use strict';
 

@@ -1,8 +1,14 @@
-﻿angular.module('learnChineseApp.controller')
+﻿'use strict';
+/**
+*@name StudentController
+*@description
+* when student log in, it will show saved words, scenarios and learn requests
+*/
+angular.module('learnChineseApp.controller')
 .controller('StudentController', ['$routeParams', 'loginUserFactory', '$location',
     '$filter', 'errorFactory', 'timeFactory','$scope',
     function ($routeParams, loginUserFactory, $location, $filter, errorFactory, timeFactory,$scope) {
-        'use strict';
+        
         var vm = this;
         var userName = $routeParams.user;
         vm.authorized = false;
@@ -90,7 +96,7 @@
         }, function (error) {
             vm.authorized = false;
             errorFactory.setErrorFromException(error);
-            vm.error = errorFactory.getErrorMsg();
+            vm.error = angular.copy(errorFactory.getErrorMsg());
         });
 
         vm.removeLearnRequest = function (index) {
@@ -121,9 +127,10 @@
                         vm.userLearnRequests[index].date = newTime.selectedDate;
                         vm.userLearnRequests[index].startTime = timeFactory.getStartTime(newTime.selectedTime);
                         vm.userLearnRequests[index].endTime = timeFactory.getEndTime(newTime.selectedTime);
+
                     }, function (error) {
                         errorFactory.setErrorFromException(error);
-                        vm.userLearnRequests[index].error = errorFactory.getErrorMsg();
+                        vm.userLearnRequests[index].error = angular.copy(errorFactory.getErrorMsg());
                     });
                 }
             }

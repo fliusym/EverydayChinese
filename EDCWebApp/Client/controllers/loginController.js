@@ -1,6 +1,12 @@
-﻿angular.module('learnChineseApp.controller')
+﻿'use strict';
+/**
+*@name RegisterController
+*@description
+* when register
+*/
+angular.module('learnChineseApp.controller')
 .controller('RegisterController', ['$location', 'authenticationFactory', 'errorFactory', function ($location, authenticationFactory,errorFactory) {
-    'use strict';
+ 
     var vm = this;
     vm.onRegister = function () {
         var valid = vm.registerForm.$valid;
@@ -10,8 +16,15 @@
                 password: vm.password,
                 confirmPassword: vm.confirmpassword
             };
-            authenticationFactory.register(data);
-            vm.error = errorFactory.getErrorMsg();
+            authenticationFactory.register(data).$promise.then(function (data) {
+                vm.registerError = null;
+                $location.path('/confirmEmail').search({ userEmail: data.email });
+            }, function (error) {
+                errorFactory.setErrorFromException(error);
+                vm.registerError = angular.copy(errorFactory.getErrorMsg());
+                vm.registerError.persistent = true;
+            });
+            
         }
 
     };
@@ -21,41 +34,53 @@
     };
     
 
-}]).controller('LoginController', ['$scope', '$location', 'authenticationFactory', function ($scope, $location, authenticationFactory) {
-    'use strict';
+}]);
+/**
+*@name LoginController
+*@description
+* when user log in
+*/
+angular.module('learnChineseApp.controller').controller('LoginController',
+    ['$scope', '$location', 'authenticationFactory', function ($scope, $location, authenticationFactory) {
+        var vm = this;
 
-    var vm = this;
-
-    vm.hasErrorFlag = false;
-
-    vm.onLogin = function () {
-        var valid = vm.loginForm.$valid;
-        if (valid) {
-            var data = {
-                email: vm.emailaddress,
-                password: vm.password
-            };
-            authenticationFactory.login(data);
-        }
-
-    };
-    vm.onCancelLogin = function () {
-        $location.path('/default');
-    };
-    $scope.$on('loginFail', function (event, args) {
-        vm.emailaddress = '';
-        vm.password = '';
-        vm.hasErrorFlag = true;
-        vm.loginfailmsg = args.data.error_description;
-    });
-
-    $scope.$on('loginSuccess', function (event, data) {
         vm.hasErrorFlag = false;
-        //$location.path('/default');
-    });
 
-}]).controller('ConfirmEmailController', ['$routeParams', function ($routeParams) {
-    'use strict';
+        vm.onLogin = function () {
+            var valid = vm.loginForm.$valid;
+            if (valid) {
+                var data = {
+                    email: vm.emailaddress,
+                    password: vm.password
+                };
+                authenticationFactory.login(data);
+            }
+
+        };
+        vm.onCancelLogin = function () {
+            $location.path('/default');
+        };
+        $scope.$on('loginFail', function (event, args) {
+            vm.emailaddress = '';
+            vm.password = '';
+            vm.hasErrorFlag = true;
+            vm.loginfailmsg = args.data.error_description;
+        });
+
+        $scope.$on('loginSuccess', function (event, data) {
+            vm.hasErrorFlag = false;
+            //$location.path('/default');
+        });
+
+    }]);
+
+/**
+*@name ConfirmEmailController & ResetPasswordController & ForgotPasswordController
+*@description
+*when user forget password
+*/
+angular.module('learnChineseApp.controller').controller('ConfirmEmailController',
+    ['$routeParams', function ($routeParams) {
     var vm = this;
     this.emailAddress = $routeParams.userEmail;
 }]).controller('ResetPasswordController', ['authenticationFactory', '$routeParams', function (authenticationFactory, $routeParams) {

@@ -17,8 +17,9 @@ namespace EDCWebApp.Models
 
         //public int LoginUserId { get; set; }
         //public LoginUser LoginUser { get; set; }
-        [ForeignKey("Student")]
-        public string StudentName { get; set; }
-        public EDCStudent Student { get; set; }
+        //[ForeignKey("Student")]
+        //public string StudentName { get; set; }
+        //public EDCStudent Student { get; set; }
+        public ICollection<EDCStudent> Students { get; set; }
     }
 }

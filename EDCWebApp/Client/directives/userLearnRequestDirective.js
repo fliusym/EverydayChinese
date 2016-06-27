@@ -12,6 +12,16 @@
         //}
         return true;
     }
+    var needToDelete = function (item) {
+        var date = new Date();
+        var requestDate = new Date(item.date);
+        //if the learn request is one day old, then it is fine to remove it from teacher
+        var diff = (date - requestDate) / (24 * 3600 * 1000);
+        if (diff > 1) {
+            return true;
+        }
+        return false;
+    }
     return {
         require: '^edcItemContainer',
         restrict: 'E',
@@ -23,18 +33,31 @@
             isTeacher: '=',
             index: '=',
             remove: '&',
-            edit: '&'
+            edit: '&',
+            deleteLearnRequest: '&'
         },
         controller: ['loginUserFactory', 'learnRequestFactory',
             'authenticationFactory', '$uibModal',
             function (loginUserFactory, learnRequestFactory, authenticationFactory, $uibModal) {
                 var ctrl = this;
+                if (needToDelete(this.item)) {
+                    this.item.canDelete = true;
+                } else {
+                    this.item.canDelete = false;
+                }
                 if (checkIfNeedToJoin(this.item)) {
                     this.item.showLearnRequestLink = true;
                 } else {
                     this.item.showLearnRequestLink = false;
                 }
 
+                //this function will delete item from the teacher and it will 
+                //be removed permanently
+                ctrl.deleteItem = function () {
+                    this.deleteLearnRequest()(this.index);
+                }
+                //this function will remove item from the student and 
+                //it is not removed permanently
                 ctrl.removeItem = function () {
                     this.remove()(this.index);
                 }

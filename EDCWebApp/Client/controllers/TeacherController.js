@@ -1,8 +1,14 @@
-﻿angular.module('learnChineseApp.controller')
+﻿'use strict';
+/**
+*@name TeacherController
+*@description
+* when teacher log in, it will show all learn requests
+*/
+angular.module('learnChineseApp.controller')
 .controller('TeacherController', ['$routeParams', 'loginUserFactory', '$location',
     '$filter', 'errorFactory', 'timeFactory',
     function ($routeParams, loginUserFactory, $location, $filter, errorFactory, timeFactory) {
-        'use strict';
+        
         var vm = this;
         var teacherName = $routeParams.user;
         vm.authorized = false;
@@ -12,22 +18,16 @@
             if (result) {
                 vm.authorized = true;
                 var data = result.LearnRequests;
-                var learnRequests = [];
-                for (var i = 0; i < data.length; i++) {
-                    var cur = data[i];
-                    if (cur) {
-                        var item = {
-                            id: cur.Id,
-                            date: cur.Date,
-                            startTime: cur.StartTime,
-                            endTime: cur.EndTime,
-                            students: cur.StudentNames
-                        };
-                        item.startToEndTime = item.startTime + ' - ' + item.endTime;
-                        learnRequests.push(item);
-                    }
-                }
-                vm.teacherLearnRequests = learnRequests;
+                vm.teacherLearnRequests = data.map(function (val) {
+                    return {
+                        id: val.Id,
+                        date: val.Date,
+                        startTime: val.StartTime,
+                        endTime: val.EndTime,
+                        students: val.StudentNames,
+                        startToEndTime: val.StartTime + ' - ' + val.EndTime
+                    };
+                });
             }
         }, function (error) {
             vm.authorized = false;
@@ -38,4 +38,18 @@
             };
         });
         
+        vm.deleteLR = function (index) {
+            var learnRequest = vm.teacherLearnRequests[index];
+            if (learnRequest) {
+                var id = learnRequest.id;
+                loginUserFactory.deleteLearnRequest(id)
+                    .$promise.then(function () {
+                        vm.teacherLearnRequests.splice(index, 1);
+                    }, function (error) {
+                        vm.teacherLearnRequests[index].error = {};
+                        vm.teacherLearnRequests[index].error['message'] = "There is something wrong.";
+                    });
+            }
+
+        }
     }]);

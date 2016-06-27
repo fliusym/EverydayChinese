@@ -1,4 +1,11 @@
-﻿angular.module('learnChineseApp.controller')
+﻿'use strict';
+/**
+*@name AddLearnRequestController
+
+*@description
+*AddLearnRequestController is used for adding new free learn request from student
+*/
+angular.module('learnChineseApp.controller')
 .controller('AddLearnRequestController', ['loginUserFactory', 'authenticationFactory',
     'learnRequestFactory', '$location', 'errorFactory',
     function (
@@ -7,7 +14,7 @@
     learnRequestFactory,
     $location,
     errorFactory) {
-        'use strict';
+        
         var vm = this;
 
         var userinfo = authenticationFactory.getLoginInfo();
@@ -45,7 +52,7 @@
                     $location.path('/user').search({ user: userinfo.user });
                 }, function (error) {
                     errorFactory.setErrorFromException(error);
-                    vm.error = errorFactory.getErrorMsg();
+                    vm.error = angular.copy(errorFactory.getErrorMsg());
                 });
             }
         }

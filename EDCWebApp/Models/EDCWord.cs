@@ -19,9 +19,10 @@ namespace EDCWebApp.Models
         public ICollection<EDCSlang> Slangs { get; set; }
         public string Date { get; set; }
 
-        [ForeignKey("Student")]
-        public string StudentName { get; set; }
-        public EDCStudent Student { get; set; }
+        //[ForeignKey("Student")]
+        //public string StudentName { get; set; }
+        //public EDCStudent Student { get; set; }
+        public ICollection<EDCStudent> Students { get; set; }
 
     }
 }

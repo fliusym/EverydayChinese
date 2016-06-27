@@ -12,8 +12,17 @@
             </button>
         </div>
     </div>
+
+    <div class="row" ng-show="ctrl.isTeacher && ctrl.item.canDelete">
+
+        <div class="col-sm-1 col-sm-offset-9 hoverrow">
+            <button type="button" class="btn btn-default btn-circle " data-toggle="tooltip" data-placement="left" title="Remove" ng-click="ctrl.deleteItem()">
+                <i class="glyphicon glyphicon-remove"></i>
+            </button>
+        </div>
+    </div>
     <div class="row item-center">
-        <h5 style="text-align:center">{{ctrl.item.startToEndTime}}</h5>
+        <h5 style="text-align:center">{{ctrl.item.startTime}} - {{ctrl.item.endTime}}</h5>
     </div>
     <div class="row item-center">
         <h2 style="text-align:center">{{ctrl.item.date}}</h2>

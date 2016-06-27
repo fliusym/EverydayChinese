@@ -1,4 +1,9 @@
-﻿angular.module('learnChineseApp.directive')
+﻿/**
+*@name edcAddScenarioWord
+*@description
+*this directive is used for add scenario word, it should be the child element of the edcAddScenarioImage directive
+*/
+angular.module('learnChineseApp.directive')
 .directive('edcAddScenarioWord', [function () {
     'use strict';
 

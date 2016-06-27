@@ -1,4 +1,9 @@
-﻿angular.module('learnChineseApp.directive')
+﻿/**
+*@name edcAddWordSlang
+*@description
+* this directive is used for adding slang to word. use edcAddWord as parent
+*/
+angular.module('learnChineseApp.directive')
 .directive('edcAddWordSlang', [function () {
     'use strict';
 

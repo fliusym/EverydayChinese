@@ -1,4 +1,11 @@
-﻿angular.module('learnChineseApp.directive')
+﻿/**
+*@name edcAddScenarioImage 
+*description
+* this directive is used for adding scenario image, it should be used as child element of edcAddScenario
+*example
+*see addNewScenario.html
+*/
+angular.module('learnChineseApp.directive')
 .directive('edcAddScenarioImage', [ '$compile', function ($compile) {
     'use strict';
 

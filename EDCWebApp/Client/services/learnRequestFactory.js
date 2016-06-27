@@ -11,7 +11,7 @@
         if (value && learnRequest) {
             var startToEndTime = learnRequest.startTime + ' - ' + learnRequest.endTime;
             if (value.indexOf(startToEndTime) > -1) {
-                value.splice(value.indexOf(startToEndTime));
+                value.splice(value.indexOf(startToEndTime),1);
             }
         }
     }

@@ -1,7 +1,13 @@
-﻿angular.module('learnChineseApp.controller').controller('ScenarioDetailController',
+﻿'use strict';
+/**
+*@name ScenarioDetailController
+*@description
+* show the detail of selected scenario
+*/
+angular.module('learnChineseApp.controller').controller('ScenarioDetailController',
     ['$routeParams','loginUserFactory',
         function ($routeParams, loginUserFactory) {
-            'use strict';
+            
             var vm = this;
             var index = $routeParams.index;
             var scenarios = loginUserFactory.getCachedScenarios();

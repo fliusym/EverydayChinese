@@ -4,7 +4,7 @@
         <dd class="word-basic-dd">
             <div class="word-basic-row">
                 <div class="col-sm-2 col-md-1">
-                    <img src="{{ctrl.pinyin | contentDirectory : 'Pinyin/WordPinyin'}} " />
+                    <img ng-if="ctrl.pinyin" ng-src="{{ctrl.pinyin | contentDirectory : 'Pinyin/WordPinyin'}} " />
                 </div>
                 <div class="col-sm-2 col-md-1">
                     <edc-audio audioid="{{ctrl.audiosrc | contentDirectory : 'Audios/WordAudio'}}" ></edc-audio>

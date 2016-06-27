@@ -19,6 +19,7 @@ using EDCWebApp.Results;
 using EDCWebApp.Extensions;
 using EDCWebApp.Exceptions;
 using System.Net;
+using EDCWebApp.DAL;
 
 namespace EDCWebApp.Controllers
 {
@@ -28,6 +29,7 @@ namespace EDCWebApp.Controllers
     {
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
+        private IEDCLoginUserContext db = new EDCLoginUserContext();
 
         public AccountController()
         {
@@ -394,6 +396,11 @@ namespace EDCWebApp.Controllers
             if (result.Succeeded)
             {
                 //add role student
+                db.Students.Add(new EDCStudent
+                {
+                    StudentName = UserManager.GetEmail(userId)
+                });
+                await db.SaveChangesToDbAsync();
                 HttpContext.Current.GetOwinContext().AddUserRole(userId, "Student");
                 var baseUrl = Request.RequestUri.GetLeftPart(UriPartial.Authority);
                 var loginUrl = baseUrl + "/#/login";
@@ -543,7 +550,7 @@ namespace EDCWebApp.Controllers
                 {
                     foreach (string error in result.Errors)
                     {
-                        ModelState.AddModelError("", error);
+                        ModelState.AddModelError("Message", error);
                     }
                 }
 

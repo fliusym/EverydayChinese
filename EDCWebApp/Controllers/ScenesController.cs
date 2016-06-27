@@ -134,7 +134,7 @@ namespace EDCWebApp.Controllers
             var finalImage = new List<SceneImageBindingModel>();
             foreach (var i in model.Images)
             {
-                if (i.ImageSrc.Length > 0)
+                if (i.ImageSrc != null && i.ImageSrc.Length > 0)
                 {
                     var validWords = new List<SceneImageWordBindingModel>();
                     foreach (var w in i.SceneWords)
@@ -143,7 +143,7 @@ namespace EDCWebApp.Controllers
                         {
                             if (w.WordAudio == null || w.WordAudio.Length == 0)
                             {
-                                w.WordAudio = w.WordChinese + ".w4a";
+                                w.WordAudio = w.WordChinese + ".m4a";
                             }
                             if (w.WordPinyin == null || w.WordPinyin.Length == 0)
                             {

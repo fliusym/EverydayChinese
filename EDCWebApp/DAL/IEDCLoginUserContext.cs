@@ -25,5 +25,6 @@ namespace EDCWebApp.DAL
         void SaveChangesToDb();
         Task<int> SaveChangesToDbAsync();
         void SetEntityModified<T>(T entity) where T : class;
+        void RunCommand(string command,params object[] parameters);
     }
 }

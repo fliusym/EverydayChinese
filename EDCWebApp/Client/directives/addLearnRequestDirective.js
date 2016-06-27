@@ -1,6 +1,14 @@
-﻿angular.module('learnChineseApp.directive')
+﻿'use strict';
+/**
+*@name edcAddLearnRequest
+*description
+* used for adding new learn request
+@example
+* see addLearnRequest.html
+*/
+angular.module('learnChineseApp.directive')
 .directive('edcAddLearnRequest', [function () {
-    'use strict';
+    
     var morningOptionClick = function ($event) {
         var temp = 1;
 

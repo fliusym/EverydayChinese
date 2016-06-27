@@ -1,7 +1,13 @@
-﻿angular.module('learnChineseApp.controller').controller('AddNewScenarioController', [
+﻿'use strict';
+/**
+*@name AddNewScenarioController
+*@description:
+*AddNewScenarioController is used for adding new scenario from teacher
+*/
+angular.module('learnChineseApp.controller').controller('AddNewScenarioController', [
     'loginUserFactory', 'errorFactory','$location',
     function (loginUserFactory, errorFactory, $location) {
-        'use strict';
+        
         var vm = this;
         vm.scenario = {};
         vm.onAdd = function () {
@@ -27,7 +33,7 @@
                 $location.path('/addNewScenario');
             }, function (error) {
                 errorFactory.setErrorFromException(error);
-                vm.error = errorFactory.getErrorMsg();
+                vm.error = angular.copy(errorFactory.getErrorMsg());
                 vm.error.persistent = true;
             });
         }

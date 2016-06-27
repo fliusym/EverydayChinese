@@ -1,4 +1,11 @@
-﻿angular.module('learnChineseApp.directive')
+﻿/**
+*@name edcEveryday
+*@description
+* show every day topics
+*@param {string@} title  every day topic in english
+*@param {string@} chinese every day topic in chinese
+*/
+angular.module('learnChineseApp.directive')
 .directive('edcEveryday', [function () {
     'use strict';
     return {

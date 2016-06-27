@@ -12,6 +12,8 @@ using System.Data.Entity;
 using EDCWebApp.Exceptions;
 using EDCWebApp.Extensions;
 using EDCWebApp.Utilities;
+using System.Data.Entity.Infrastructure;
+using System.Data.SqlClient;
 
 namespace EDCWebApp.Controllers
 {
@@ -100,7 +102,8 @@ namespace EDCWebApp.Controllers
         [HttpPut]
         public async Task<IHttpActionResult> PutWord([FromBody]int id)
         {
-            var word = await db.Words.FindAsync(id);
+            var word = await db.Words.Include(w => w.Students)
+                .Where(p => p.ID == id).SingleOrDefaultAsync();
             if (word == null)
             {
                 var msg = String.Format("The word can't be find.");
@@ -108,14 +111,16 @@ namespace EDCWebApp.Controllers
                 var response = Request.CreateErrorResponse(HttpStatusCode.NotFound, modelError);
                 throw new HttpResponseException(response);
             }
-            if (word.StudentName == User.Identity.Name)
+            var student = await db.Students.FindAsync(User.Identity.Name);
+            var wordStudent = word.Students.Where(s => s.StudentName == User.Identity.Name).SingleOrDefault();
+            if (wordStudent != null)
             {
                 return Ok();
             }
-            word.StudentName = User.Identity.Name;
-            db.SetEntityModified<EDCWord>(word);
+           
             try
             {
+                word.Students.Add(student);
                 await db.SaveChangesToDbAsync();
             }
             catch (Exception e)
@@ -132,7 +137,7 @@ namespace EDCWebApp.Controllers
         [HttpPut]
         public async Task<IHttpActionResult> PutScenario([FromBody]int id)
         {
-            var scenario = await db.Scenarios.FindAsync(id);
+            var scenario = await db.Scenarios.Include(s => s.Students).Where(p => p.ID == id).SingleOrDefaultAsync();
             if (scenario == null)
             {
                 var msg = String.Format("The scenario can't be find.");
@@ -140,14 +145,15 @@ namespace EDCWebApp.Controllers
                 var response = Request.CreateErrorResponse(HttpStatusCode.NotFound, modelError);
                 throw new HttpResponseException(response);
             }
-            if (scenario.StudentName == User.Identity.Name)
+            var student = await db.Students.FindAsync(User.Identity.Name);
+            var scenarioStudent = scenario.Students.Where(s => s.StudentName == User.Identity.Name).SingleOrDefault();
+            if (scenarioStudent != null)
             {
                 return Ok();
             }
-            scenario.StudentName = User.Identity.Name;
-            db.SetEntityModified<EDCScenarioContent>(scenario);
             try
             {
+                scenario.Students.Add(student);
                 await db.SaveChangesToDbAsync();
             }
             catch (Exception)
@@ -344,7 +350,8 @@ namespace EDCWebApp.Controllers
                 var response = Request.CreateErrorResponse(HttpStatusCode.BadRequest, modelError);
                 throw new HttpResponseException(response);
             }
-            var learnRequest = await db.LearnRequests.FindAsync(id);
+            var learnRequest = await db.LearnRequests.Include(p => p.RegisteredStudents)
+                .Where(p => p.ID == id).SingleOrDefaultAsync();
             if (learnRequest == null)
             {
                 var msg = "Can't find the learn request.";
@@ -356,30 +363,66 @@ namespace EDCWebApp.Controllers
             var times = TimeConversionUtils.GetStartAndEndTime(model.Time);
             var startTime = times[0];
             var endTime = times[1];
-            var newRequest = await db.LearnRequests.Where(p => p.Date == model.Date
+            var newRequest = await db.LearnRequests.Include(p=>p.RegisteredStudents).Where(p => p.Date == model.Date
                 && p.StartTime == startTime
                 && p.EndTime == endTime).SingleOrDefaultAsync();
-            if (newRequest != null)
+            if (newRequest != null )
             {
-                var msg = "Your requested new date and time are already existed.";
-                var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Warning, true);
-                var response = Request.CreateErrorResponse(HttpStatusCode.BadRequest, modelError);
-                throw new HttpResponseException(response);
+                var already = newRequest.RegisteredStudents.Where(p => p.StudentName == User.Identity.Name).SingleOrDefault();
+                if (already != null)
+                {
+                    var msg = "Your requested new date and time are already existed.";
+                    var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Warning, true);
+                    var response = Request.CreateErrorResponse(HttpStatusCode.BadRequest, modelError);
+                    throw new HttpResponseException(response);
+                }
+
             }
-            learnRequest.Date = model.Date;
-            learnRequest.StartTime = times[0];
-            learnRequest.EndTime = times[1];
-            db.SetEntityModified<EDCLearnRequest>(learnRequest);
-            try
+            //need to remove the student from the current request
+            var student = await db.Students.FindAsync(User.Identity.Name);
+            learnRequest.RegisteredStudents.Remove(student);
+            var sql = @"UPDATE dbo.EDCLearnRequest SET StartTime = '8:00am' WHERE ID = @Id";
+            if (newRequest == null)
             {
-                await db.SaveChangesToDbAsync();
+                newRequest = new EDCLearnRequest
+                {
+                    Date = model.Date,
+                    StartTime = times[0],
+                    EndTime = times[1],
+                    RegisteredStudents = new List<EDCStudent>()
+                };
+                newRequest.RegisteredStudents.Add(student);
+                string teacherName = "xyov.max@gmail.com";
+                db.AssignTeacherToLearnRequest(newRequest, teacherName);
+                db.LearnRequests.Add(newRequest);
+                
+                //db.RunCommand(sql, new SqlParameter("@Id",id));
+                try
+                {
+                  //  await db.SaveChangesToDbAsync();
+                    db.SaveChangesToDb();
+                }
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    var entry = ex.Entries.Single();
+                    var values = entry.CurrentValues;
+                }
             }
-            catch (Exception e)
+            else
             {
-                var msg = e.Message;
-                var modelError = EDCExceptionFactory.GenerateHttpError(msg, EDCWebServiceErrorType.Error, true);
-                var response = Request.CreateErrorResponse(HttpStatusCode.InternalServerError, modelError);
-                throw new HttpResponseException(response);
+                newRequest.RegisteredStudents.Add(student);
+                db.SetEntityModified<EDCLearnRequest>(newRequest);
+              //  db.RunCommand(sql, new SqlParameter("@Id", id));
+                try
+                {
+                  //  await db.SaveChangesToDbAsync();
+                    db.SaveChangesToDb();
+                }
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    var entry = ex.Entries.Single();
+                    var values = entry.CurrentValues;
+                }
             }
             return StatusCode(HttpStatusCode.NoContent);
         }

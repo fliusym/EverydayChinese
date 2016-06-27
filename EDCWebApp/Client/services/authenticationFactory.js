@@ -11,32 +11,14 @@ function ($resource, $rootScope, $location, broadcastFactory, transformHeaderFac
     'use strict';
     var factory = {};
 
-    //confirm email data
-    var confirmEmailData = {
-        userEmail: '',
-        code: ''
-    };
-    var loggedInInfo = {
-        flag: false,
-        user: '',
-        reason: {}
-    };
-
     var redirectUrlAfterLogin = '';
     //register
     factory.register = function (account) {
         var resource = $resource('/api/Account/Register', null, null);
-        resource.save({
+        return resource.save({
             Email: account.email,
             Password: account.password,
             ConfirmPassword: account.confirmPassword
-        }).$promise.then(function (data) {
-            confirmEmailData.userEmail = data.email;
-            confirmEmailData.code = data.code;
-            $location.path('/confirmEmail').search({ userEmail: data.email });
-        }, function (error) {
-            //need to work later for error
-            errorFactory.setErrorFromException(error);
         });
     };
 

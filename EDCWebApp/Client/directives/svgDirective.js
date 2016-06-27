@@ -11,7 +11,10 @@
         },
         controller: function ($scope) {
             $scope.getTemplateUrl = function () {
-                return '/Content/SVG/' + $scope.svgname + '.svg';
+                if ($scope.svgname) {
+                    return '/Content/SVG/' + $scope.svgname + '.svg';
+                }
+                
             }
         },
         link: function (scope, element, attr) {

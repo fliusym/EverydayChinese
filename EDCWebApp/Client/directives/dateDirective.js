@@ -1,4 +1,10 @@
-﻿angular.module('learnChineseApp.directive')
+﻿/**
+*@name edcDate
+*@description
+* used to show date 
+*@param {expression} datechange  callback when user changes the current date
+*/
+angular.module('learnChineseApp.directive')
 .directive('edcDate', [function () {
     'use strict';
     return {

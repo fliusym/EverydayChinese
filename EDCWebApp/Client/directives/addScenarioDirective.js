@@ -1,6 +1,14 @@
-﻿angular.module('learnChineseApp.directive')
+﻿'use strict';
+/**
+*@name edcAddScenario
+*@description:
+* used for add new scenario
+*@examples
+* see addNewScenario.html
+*/
+angular.module('learnChineseApp.directive')
 .directive('edcAddScenario', ['$compile', function ($compile) {
-    'use strict';
+    
 
     return {
         restrict: 'E',

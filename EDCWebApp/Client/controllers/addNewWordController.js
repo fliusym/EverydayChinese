@@ -1,18 +1,15 @@
-﻿angular.module('learnChineseApp.controller').controller('AddNewWordController', ['loginUserFactory',
+﻿'use strict';
+/**
+*@name AddNewWordController
+*@description
+*AddNewWordController is used for adding word from teacher
+*/
+angular.module('learnChineseApp.controller').controller('AddNewWordController', ['loginUserFactory',
     '$location','errorFactory',
     function (loginUserFactory, $location, errorFactory) {
-    'use strict';
+   
     var vm = this;
     vm.word = {};
-    //vm.word = {
-    //    'svgPath': '',
-    //    'pinyinPath': '',
-    //    'audioPath': '',
-    //    'basicMeanings': '',
-    //    'date': '',
-    //    'explanation': ''
-
-    //};
     vm.onAdd = function () {
 
         var addObj = {};
@@ -45,7 +42,7 @@
             $location.path('/addNewWord');
         }, function (error) {
             errorFactory.setErrorFromException(error);
-            vm.error = errorFactory.getErrorMsg();
+            vm.error = angular.copy(errorFactory.getErrorMsg());
             vm.error.persistent = true;
         });
     }

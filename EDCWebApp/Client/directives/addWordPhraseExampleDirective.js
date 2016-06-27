@@ -1,4 +1,11 @@
-﻿angular.module('learnChineseApp.directive')
+﻿/**
+*@name edcAddWordPhraseExample
+*@description
+* this directive is used for adding phrase examples to word, it should use edcAddWordPhrase as parent
+*@example
+* see addWordPhrase.html
+*/
+angular.module('learnChineseApp.directive')
 .directive('edcAddWordPhraseExample', [function () {
     'use strict';
 

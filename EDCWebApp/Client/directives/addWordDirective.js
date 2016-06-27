@@ -1,4 +1,9 @@
-﻿angular.module('learnChineseApp.directive')
+﻿/**
+*@name edcAddWord
+*@description
+* this directive is used for adding word from teacher
+*/
+angular.module('learnChineseApp.directive')
 .directive('edcAddWord', ['$compile', function ($compile) {
     'use strict';
 
